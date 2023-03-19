@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Inconsolata:wght@200;300;400;500;600;700&family=Oswald:wght@300;400&family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Inconsolata:wght@200;300;400;500;600;700&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300;1,400;1,600;1,700&family=Oswald:wght@300;400&family=Pacifico&display=swap');
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Oswald', sans-serif;
+}
+
+html {
+    font-family: 'Oswald', sans-serif !important;
+}
+
+html, body {
+    /* font-size: 62.5%; */
+    line-height: 1.6rem;
+    scroll-behavior: smooth;
+}
+
+
+
+:root {
+    --text: white;
+    --primary: ;
+}
+
+.wrap__page-student {
+    width: 1200px;
+    max-width: 100%;
+    height: 100%;
+    margin: 52px 0 0 102px;
+}
+
+.header__page-student {
+    
+}
+
+.header__text {
+    font-size: 48px;
+    margin-bottom: 120px;
+    color: red;
+}
+
+.content__page-student {
+    display: flex;
+    flex-direction: row;
+}
+
+.content__left {
+    
+}
+
+.content__item {
+    width: 180px;
+    height: 120px;
+    background-color: aqua;
+    margin: 24px 24px 24px 0;
+}
+
+.content__icon {
+
+}
+
+.content__item-text {
+
+}
+
+.content__right {
+
+}
+

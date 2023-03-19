@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Quan li sinh vien</h1>
+    
+    <div>
+        <h2>Them sinh vien</h2>
+        <form action="/create-new-student" method="POST">
+            <div>
+                <label>Ten sinh vien</label>
+                <input type="text" name="name" />
+            </div>
+            <div>
+                <label>email</label>
+                <input type="email" name="email" />
+            </div>
+            <div>
+                <label>mat khau</label>
+                <input type="password" name="password" />
+            </div>
+            <div>
+                <label>lop</label>
+                <input type="text" name="lop" />
+            </div>
+            <div>
+                <label>MSSV</label>
+                <input type="text" name="mssv" />
+            </div>
+            <div>
+                <label>gioi  tinh</label>
+                <input type="text" name="gender" />
+            </div>
+            <button type="submit">Save</button>
+        </form>
+        <button class="btn-edit">Sua sinh vien</button>
+
+        
+        <% for(let i=0; i < data.length; i++) { %>
+            <tr>
+                <td>
+                    <%= data[i].name %>
+                </td>
+                <td>
+                    <%= data[i].mssv %>
+                </td>
+                <td>
+                    <%= data[i].email %>
+                </td>
+                <td>
+                    <%= data[i].password %>
+                </td>   
+                <td style="display: flex; gap: 15px;">
+                    <form action="/edit-student/<%= data[i].id %>" method="GET">
+                        <button type="submit">Edit</button>
+                    </form>
+                    <form action="/delete-student/<%= data[i].id %>r" method="POST">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            <% } %>
+    </div>
+   
+    <% if(student){ %>
+        <h4><%= student %></h4>
+        <h5><%= student.name %></h5>
+        <form action="/post-edit-student" method="POST">
+            <div>
+                <label>Ten sinh vien</label>
+                <input value="<%= student.name %>" type="text" name="name" />
+            </div>
+            <div>
+                <label>email</label>
+                <input value="<%= student.email %>" type="email" name="email" />
+            </div>
+            <div>
+                <label>mat khau</label>
+                <input value="<%= student.password%>" type="password" name="password" />
+            </div>  
+            <div>
+                <input type="text" hidden value="<%= student.id %>" name="id" />
+            </div>
+            <button type="submit">Save</button>
+        </form>
+     <% } %>
+     
+    
+</body>
+</html>
