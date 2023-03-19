@@ -20,6 +20,15 @@ const initAdminPage = (app) => {
     app.post('/post-edit-student', postEditStudent)
     app.post('/delete-student/:id', deleteStudent)
 
+    //CRUD Phong TH
+
+    //app.get('/get-allroomTH', adminController.getAllRoomTH)
+    app.post('/create-newroomTH', adminController.createNewRoomTH)
+    app.post('/delete-roomTH/:id', adminController.deleteRoomTH)
+    app.get('/edit-roomTH/:id', adminController.editRoomTH)
+    app.post('/post-edit-roomTH', adminController.postEditRoom)
+    
+
     return app.use('/', router)
 }
 

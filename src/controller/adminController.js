@@ -1,11 +1,17 @@
 import { getAllStudent } from "../service/adminService"
+import { getAllRoomTH } from "../service/adminTHService"
+import { createNewRoomTHService } from "../service/adminTHService"
+import { deleteRoomTHService } from "../service/adminTHService"
+import { editRoomTHService } from "../service/adminTHService"
+import { postEditRoomService } from "../service/adminTHService"
 
 const adminPage = (req, res) => {
     return res.render('admin/admin.ejs')
 }
 
-const roomTHPage = (req, res) => {
-    return res.render('admin/roomTH.ejs')
+const roomTHPage = async (req, res) => {
+    let data = await getAllRoomTH()
+    return res.render('admin/roomTH.ejs', {data: data, roomTH: false})
 }
 
 const roomTNPage = (req, res) => {
@@ -25,8 +31,23 @@ const manageStudentPage = async (req, res) => {
     return res.render('admin/manageStudent.ejs', {data: data, student: false})
 }
 
+const createNewRoomTH = async(req, res) => {
+    //console.log('check data', req.body)
+    createNewRoomTHService(req, res);
+}
 
+const deleteRoomTH = async(req, res) => {
+   
+    deleteRoomTHService(req, res)
+}
 
+const editRoomTH = async(req, res) => {
+    editRoomTHService(req, res)
+}
+
+const postEditRoom = async(req, res) => {
+    postEditRoomService(req, res)
+}
 
 const adminController = {
     adminPage: adminPage,
@@ -35,6 +56,10 @@ const adminController = {
     calendarPage:calendarPage,
     historyPage: historyPage,
     manageStudentPage:manageStudentPage,
+    createNewRoomTH:createNewRoomTH,
+    deleteRoomTH:deleteRoomTH,
+    editRoomTH:editRoomTH,
+    postEditRoom:postEditRoom,
 }
 
 export default adminController

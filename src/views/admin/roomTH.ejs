@@ -8,5 +8,90 @@
 </head>
 <body>
     <h1>PHong thuc hanh</h1>
+    <h3><%= data %></h3>
+    <div>
+        <h2>Them Phong Th</h2>
+        <form action="/create-newroomTH" method="POST">
+            <div>
+                <label>Ten Phong TH</label>
+                <input type="text" name="name" />
+            </div>
+            <div>
+                <label>Ma phong</label>
+                <input type="text" name="maphong" />
+            </div>
+            <div>
+                <label>mota</label>
+                <input type="text" name="mota" />
+            </div>
+            <div>
+                <label>Chuyen khoa</label>
+                <input type="text" name="chuyenkhoa" />
+            </div>
+            <div>
+                <label>So luong sinh vien</label>
+                <input type="text" name="soluongsinhvien" />
+            </div>
+            <button type="submit">Save</button>
+        </form>
+
+        <% for(let i=0; i < data.length; i++) { %>
+            <tr>
+                <td>
+                    <%= data[i].maphong %>
+                </td>
+                <td>
+                    <%= data[i].mota%>
+                </td>
+                <td>
+                    <%= data[i].chuyenkhoa %>
+                </td>
+                <td>
+                    <%= data[i].soluongsinhvien%>
+                </td>   
+                <td style="display: flex; gap: 15px;">
+                    <form action="/edit-roomTH/<%= data[i].id %>" method="GET">
+                        <button type="submit">Edit</button>
+                    </form>
+                    <form action="/delete-roomTH/<%= data[i].id %>" method="POST">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            <% } %>
+
+
+            <% if(roomTH){ %>
+                <h4><%= roomTH %></h4>
+                <h5><%= roomTH.maphong %></h5>
+                <form action="/post-edit-roomTH" method="POST">
+                    <div>
+                        <label>Ma phong</label>
+                        <input value="<%= roomTH.maphong %>" type="text" name="maphong" />
+                    </div>
+                    <div>
+                        <label>Mo ta</label>
+                        <input value="<%= roomTH.mota%>" type="text" name="mota" />
+                    </div>
+                    <div>
+                        <label>Chuyen khoa</label>
+                        <input value="<%= roomTH.chuyenkhoa%>" type="password" name="chuyenkhoa" />
+                    </div>  
+                    
+                    <div>
+                        <label>So luong sinh vien</label>
+                        <input value="<%= roomTH.soluongsinhvien%>" type="password" name="soluongsinhvien" />
+                    </div>  
+
+                    <div>
+                        <input type="text" hidden value="<%= roomTH.id %>" name="id" />
+                    </div>
+                    <button type="submit">Save</button>
+                </form>
+             <% } %>
+             
+            
+    </div>
+   
 </body>
 </html>
