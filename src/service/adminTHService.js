@@ -7,11 +7,11 @@ export const getAllRoomTH = async() => {
 }
 
 export const createNewRoomTHService = async(req, res) => {
-    let { maphong, mota, chuyenkhoa, soluongsinhvien} = req.body;
+    let {tenphong, maphong, mota, chuyenkhoa, soluongsinhvien} = req.body;
    console.log('check data', req.body)
     
-    await pool.execute('insert into phongthuchanh(roleid, maphong, mota, chuyenkhoa, soluongsinhvien) values (?, ?, ?, ?, ?)',
-        ['TH', maphong, mota, chuyenkhoa, soluongsinhvien]);
+    await pool.execute('insert into phongthuchanh(roleid,tenphong, maphong, mota, chuyenkhoa, soluongsinhvien) values (?, ?, ?, ?, ?, ?)',
+        ['TH',tenphong, maphong, mota, chuyenkhoa, soluongsinhvien]);
 
     return res.redirect('/roomTH')
 }
@@ -35,11 +35,11 @@ export const editRoomTHService = async(req, res) => {
 }
 
 export const postEditRoomService = async(req, res) => {
-    let { maphong, mota, chuyenkhoa, soluongsinhvien, id} = req.body;
+    let {tenphong, maphong, mota, chuyenkhoa, soluongsinhvien, id} = req.body;
    
     
-    await pool.execute('update phongthuchanh set roleId = ?, maphong=? , mota = ?, chuyenkhoa= ?, soluongsinhvien=? where id = ?',
-        ['TH', maphong, mota, chuyenkhoa, soluongsinhvien, id]);
+    await pool.execute('update phongthuchanh set roleId = ?,tenphong=?, maphong=? , mota = ?, chuyenkhoa= ?, soluongsinhvien=? where id = ?',
+        ['TH',tenphong, maphong, mota, chuyenkhoa, soluongsinhvien, id]);
 
     return res.redirect('/roomTH')
 }

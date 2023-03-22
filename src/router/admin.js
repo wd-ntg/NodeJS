@@ -29,6 +29,9 @@ const initAdminPage = (app) => {
     app.post('/post-edit-roomTH', adminController.postEditRoom)
     
 
+    //CRUD thiet bi
+    //app.post('/create-newTB, ')
+
     return app.use('/', router)
 }
 
