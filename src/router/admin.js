@@ -1,38 +1,84 @@
-import express from 'express'
-//import { adminPage } from '../controller/adminController'
-import adminController from '../controller/adminController'
-import { createNewStudent, editStudent, deleteStudent, postEditStudent } from '../service/adminService'
+import express from 'express';
+import multer from 'multer';
+import path from 'path';
+import adminController from '../controller/admin/adminController';
+import roomController from '../controller/admin/roomController';
+import manageStudentController from '../controller/admin/manageStudentController';
+import adminService from '../service/admin/manageStudentService';
+import pool from '../config/connectDB';
 
-const router = express.Router()
+const router = express.Router();
+
+const imageFilter = function (req, file, cb) {
+    if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)) {
+        req.fileValidationError = 'Only image files are allowed!';
+        return cb(new Error('Only image files are allowed!'), false);
+    }
+    cb(null, true);
+};
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './src/public/img/');
+    },
+
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    },
+});
+
+let upload = multer({ storage: storage, fileFilter: imageFilter });
 
 const initAdminPage = (app) => {
-    app.get('/admin', adminController.adminPage)
-    app.get('/roomTH', adminController.roomTHPage)
-    app.get('/roomTN', adminController.roomTNPage)
-    app.get('/calendar', adminController.calendarPage)
-    app.get('/history', adminController.historyPage)
-    app.get('/manage-student', adminController.manageStudentPage)
-   
+    app.post('/profile-room', upload.single('room-img'), async (req, res) => {
+        let id = req.body.roomId;
+
+        let upload = multer({ storage: storage, fileFilter: imageFilter }).single('room-img');
+
+        upload(req, res, async function (err) {
+            if (req.fileValidationError) {
+                return res.send(req.fileValidationError);
+            } else if (!req.file) {
+                return res.send('Please select an image to upload');
+            } else if (err instanceof multer.MulterError) {
+                return res.send(err);
+            }
+
+            await pool.execute('update room_prac set img = ? where id = ?', [req.file.filename, id]);
+            // res.send(
+            //     `You have uploaded this image: <hr/><img src="/img/${req.file.filename}" width="500"><hr /><a href="./">Upload another image</a>`,
+            // );
+            return res.redirect(`/detail-roomPrac/${id}`);
+        });
+    });
+
+    app.get('/admin', adminController.adminPage);
+    app.get('/roomPrac', adminController.roomPracPage);
+    app.get('/roomTN', adminController.roomTNPage);
+    app.get('/calendar', adminController.calendarPage);
+    app.get('/history', adminController.historyPage);
+    app.get('/manage-student', adminController.manageStudentPage);
+    app.get('/detail-roomPrac/:id', adminController.detailroomPracPage);
 
     //CRUD student
-    app.post('/create-new-student', createNewStudent)
-    app.get('/edit-student/:id', editStudent)
-    app.post('/post-edit-student', postEditStudent)
-    app.post('/delete-student/:id', deleteStudent)
+    app.post('/create-new-student', manageStudentController.createNewStudent);
+    app.get('/edit-student/:id', manageStudentController.editStudent);
+    app.post('/post-edit-student', manageStudentController.postEditStudent);
+    app.post('/delete-student/:id', manageStudentController.deleteStudent);
 
     //CRUD Phong TH
+    app.post('/create-newroomPrac', roomController.createNewroomPrac);
+    app.post('/delete-roomPrac/:id', roomController.deleteroomPrac);
+    app.get('/edit-roomPrac/:id', roomController.editroomPrac);
+    app.post('/post-edit-roomPrac', roomController.postEditRoom);
 
-    //app.get('/get-allroomTH', adminController.getAllRoomTH)
-    app.post('/create-newroomTH', adminController.createNewRoomTH)
-    app.post('/delete-roomTH/:id', adminController.deleteRoomTH)
-    app.get('/edit-roomTH/:id', adminController.editRoomTH)
-    app.post('/post-edit-roomTH', adminController.postEditRoom)
-    
+    //CRUD device
+    app.post('/create-newTB', roomController.createNewDevice);
+    app.post('/delete-device', roomController.deleteDevice);
+    app.post('/edit-device', roomController.editDevice);
+    app.post('/post-edit-device', roomController.postEditDevice);
 
-    //CRUD thiet bi
-    //app.post('/create-newTB, ')
+    return app.use('/', router);
+};
 
-    return app.use('/', router)
-}
-
-export default initAdminPage
+export default initAdminPage;

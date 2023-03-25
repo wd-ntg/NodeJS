@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/detailRoom.css">
+    <title>Document</title>
+    <style>
+        h2 {
+            margin: 10px;
+            text-align: center;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-container">
+        <div style="display: block;" id="myModal" class="modal">
+            <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="create-room">
+                <h2><%=error %></h2>
+                <form class="modal__form" action="/create-newroomPrac" method="POST">
+                    <div class="modal__item-wrap">
+                        <span class="modal__manager-name">
+                            Chỉnh sửa phòng thực hành
+                        </span>
+                    </div>
+                    <div class="modal__content-wrap">
+                        <div class="modal__item-wrap">
+                            <label class="modal__item-label">Tên phòng TH</label>
+                            <input value="<%= data.name %>" class="modal__item-input" type="text" name="name" valid="tên phòng thực hành" />
+                        </div>
+                        <div class="modal__item-wrap">
+                            <label class="modal__item-label">Mã phòng</label>
+                            <input value="<%= data.code %>" class="modal__item-input" type="text" name="code" valid="mã phòng" />
+                        </div>
+                        <div class="modal__item-wrap">
+                            <label class="modal__item-label">Chuyên khoa</label>
+                            <input value="<%= data.specialty %>" class="modal__item-input" type="text" name="specialty" valid="chuyên khoa" />
+                        </div>
+                        <div class="modal__item-wrap">
+                            <label class="modal__item-label">Số lượng sinh viên</label>
+                            <input value="<%= data.maxStudent %>" class="modal__item-input" type="text" name="maxStudent" valid="số lượng sinh viên" />
+                        </div>
+                        <div class="modal__item-wrap">
+                            <label class="modal__item-label">Mô tả</label>
+                            <input value="<%= data.description %>" class="modal__item-input" type="text" name="description" valid="mô tả" />
+                        </div>
+                        <div>
+                            <input type="text" hidden value="<%= data.id %>" name="id" />
+                        </div>
+                        <div class="modal__item-wrap">
+                            <button class="modal__item-button" type="submit">Lưu</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        let btnSave = document.querySelector('.modal__item-button');
+            let inputs = document.querySelectorAll('.modal__item-input');
+
+            btnSave.onclick = (e) => {
+                let isValid = true;
+                for (let i = 0; i < inputs.length; i++) {
+                    if (!inputs[i].value) {
+                        let valueError = inputs[i].getAttribute('valid');
+                        alert(`Vui lòng nhập ${valueError}`);
+                        isValid = false;
+                        break;
+                    }
+                    if (inputs[i].name === 'maxStudent') {
+                        let regexInt = /^[0-9]*$/;
+
+                        let checkNumber = regexInt.test(inputs[i].value);
+
+                        if (!checkNumber) {
+                            alert('Số lượng sinh viên phải là số nguyên');
+                            isValid = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (!isValid) {
+                    e.preventDefault();
+                }
+            };
+    </script>
+</body>
+</html>

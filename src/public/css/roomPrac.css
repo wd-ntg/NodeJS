@@ -1,0 +1,211 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.modal-container {
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal__item-wrap {
+}
+
+.modal__item-label {
+    display: block;
+    margin-top: 10px;
+    font-size: 16px;
+    text-align: left;
+}
+
+.modal__item-input {
+    width: 100%;
+    padding: 8px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.modal__manager-name {
+    color: #00c6d4;
+    display: block;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.modal__item-button {
+    width: 100%;
+    margin-top: 16px;
+    font-size: 18px;
+    text-transform: uppercase;
+    padding: 10px 0;
+    background-color: #00c6d4;
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 8px;
+}
+
+.room-container {
+}
+
+.room-header {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #00c6d4;
+}
+
+.room-body {
+}
+
+.room-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    flex-wrap: wrap;
+    margin: 0 100px;
+}
+
+.room-action {
+    padding: 6px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #04aa6d;
+    box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+    border-radius: 8px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+}
+
+.room-action:hover {
+    cursor: pointer;
+}
+
+.room-action.delete {
+    background-color: red;
+}
+
+.room-action.edit {
+    background-color: orange;
+}
+
+.room-title {
+    padding: 8px;
+    font-size: 18px;
+}
+
+.add-room {
+    margin: 20px 0;
+}
+
+.add-room-btn {
+    margin-left: 100px;
+    padding: 8px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #04aa6d;
+    outline: none;
+    border: none;
+    border-radius: 8px;
+}
+
+.add-room-btn:hover {
+    cursor: pointer;
+}
+
+#customers {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#customers td,
+#customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#customers tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#customers tr:hover {
+    background-color: #ddd;
+}
+
+#customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04aa6d;
+    color: white;
+}
+
+.myModalEdit.block {
+    display: block;
+}
+
+.myModalEdit {
+    display: none;
+}
+
+.gender-option {
+    margin: 16px 0;
+    display: flex;
+    align-items: center;
+}
+
+.gender-option .modal__item-label {
+    margin-top: 0;
+}
+
+.option-item {
+    margin-left: 40px;
+}

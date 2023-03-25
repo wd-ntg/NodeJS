@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/detailRoom.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="modal-container">
+        <div style="display: block;" id="myModal" class="modal">
+            <div class="modal-content">
+            <a href="/detail-roomPrac/<%= roomId %>" class="close">&times;</a>
+            <div class="create-room">
+                <form class="modal__form" action="/post-edit-device" method="POST">
+                    <div class="modal__item-wrap">
+                        <span class="modal__manager-name">
+                            Tạo mới thiết bị
+                        </span>
+                    </div>
+                    <div class="modal__content-wrap">
+                        <div class="modal__item-wrap">
+                            <label class="modal__item-label">Tên thiết bị</label>
+                            <input value="<%=data.deviceName %>" class="modal__item-input" type="text" name="deviceName" valid="tên thiết bị" />
+                        </div>
+                        <div class="modal__item-wrap">
+                            <label class="modal__item-label">Số lượng thiết bị</label>
+                            <input value="<%=data.quantity %>" class="modal__item-input" type="text" name="quantity" valid="số lượng thiết bị" />
+                        </div>
+                        <div class="modal__item-wrap">
+                            <label class="modal__item-label">Mô tả</label>
+                            <input value="<%=data.description %>" class="modal__item-input" type="text" name="description" valid="mô tả thiết bị" />
+                        </div>
+                        <div>
+                            <input type="text" hidden value="<%= data.id %>" name="deviceId" />
+                        </div>
+                        <div>
+                            <input type="text" hidden value="<%= roomId %>" name="roomId" />
+                        </div>
+                        
+                        <div class="modal__item-wrap">
+                            <button class="modal__item-button" type="submit">Lưu</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        let btnSave = document.querySelector('.modal__item-button');
+                let inputs = document.querySelectorAll('.modal__item-input');
+
+                btnSave.onclick = (e) => {
+                    let isValid = true;
+                    for (let i = 0; i < inputs.length; i++) {
+                        if (!inputs[i].value) {
+                            let valueError = inputs[i].getAttribute('valid');
+                            alert(`Vui lòng nhập ${valueError}`);
+                            isValid = false;
+                            break;
+                        }
+                        if (inputs[i].name === 'quantity') {
+                            let regexInt = /^[0-9]*$/;
+
+                            let checkNumber = regexInt.test(inputs[i].value);
+
+                            if (!checkNumber) {
+                                alert('Số lượng thiết bị phải là số nguyên');
+                                isValid = false;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!isValid) {
+                        e.preventDefault();
+                    }
+                };
+    </script>
+</body>
+</html>
