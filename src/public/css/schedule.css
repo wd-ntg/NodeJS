@@ -1,0 +1,129 @@
+.schedule-container {
+    margin: 0 80px;
+}
+
+.schedule-header {
+}
+
+.schedule-title {
+    text-align: center;
+    margin: 30px 0;
+    font-size: 24px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #00c6d4;
+}
+
+.schedule-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.top {
+    display: flex;
+    justify-content: space-around;
+    gap: 70px;
+}
+
+.list-room {
+    width: 45%;
+}
+
+.title-list-room {
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 16px;
+}
+
+select {
+    padding: 6px;
+    width: 100%;
+    border-radius: 8px;
+    font-size: 20px;
+}
+
+option {
+}
+
+.calendar-container {
+    width: 55%;
+    display: flex;
+    justify-content: center;
+    border-left: 1px solid #ccc;
+}
+
+.list-time {
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+    margin-top: 250px;
+    display: flex;
+    align-items: center;
+}
+
+.title {
+    font-size: 24px;
+}
+
+.time-item {
+    font-size: 20px;
+    /* background-color: #00c6d4;
+    color: #fff; */
+    border: 1px solid #ccc;
+    padding: 8px 16px;
+    border-radius: 6px;
+    margin-left: 70px;
+}
+
+.time-item.active {
+    background-color: #00c6d4;
+    color: #fff;
+}
+
+.time-item.active:hover {
+    background-color: #00c6d4;
+    color: #fff;
+}
+.time-item:hover {
+    cursor: pointer;
+    background-color: #ddd;
+}
+
+.quantity {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    font-size: 20px;
+}
+
+.quantity label {
+    font-weight: 600;
+}
+
+.quantity input {
+    width: 300px;
+    padding: 4px 10px;
+    font-size: 18px;
+    margin-left: 30px;
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.btn-save {
+    display: flex;
+    justify-content: center;
+}
+
+.modal__item-button {
+    width: 60%;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    font-size: 18px;
+    text-transform: uppercase;
+    padding: 10px 0;
+    background-color: #00c6d4;
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 8px;
+}

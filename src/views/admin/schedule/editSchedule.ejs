@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/css/schedule.css" />
+        <link rel="stylesheet" href="/css/calendar.css" />
+        <title>Document</title>
+    </head>
+    <body>
+        <div class="schedule-container">
+            <div class="schedule-header">
+                <h3 class="schedule-title">Quan ly them moi lich hoc</h3>
+            </div>
+            <form action="/post-edit-schedule" method="POST">
+                <div class="schedule-body">
+                    <div class="top">
+                        <div class="list-room">
+                            <h3 class="title-list-room">Chon phong thuc hanh hoac thi nghiem</h3>
+                            <select disabled>
+                                <% for (let i=0; i< room.length; i++) { %>
+                                    <option value="<%=room[i].code %>" 
+                                        <% if (data.roomCode === room[i].code) { %>
+                                            selected
+                                          <% } %>                                 
+                                    >
+                                        <%=room[i].name %> MP: <%=room[i].code %>
+                                    </option>
+                                <% } %>
+                                <input
+                                    type="text"
+                                    class="modal__item-input room"
+                                    hidden
+                                    name="roomCode"
+                                    value="<%=data.roomCode %>"
+                                />
+                            </select>
+                            <div class="list-time">
+                                <h3 class="title">Chon ca hoc:</h3>
+                                <% for (let i=0; i< timeType.length; i++) { %>
+                                <div
+                                    class="time-item <% if (data.timeType === timeType[i].code) { %> active <% } %>"
+                                    code="<%=timeType[i].code %>"
+                                >
+                                    <%=timeType[i].keyName %>
+                                </div>
+                                <% } %>
+                                <input
+                                    type="text"
+                                    class="modal__item-input timeType"
+                                    hidden
+                                    value="<%=data.timeType %>"
+                                    name="timeType"
+                                    valid="ca học"
+                                />
+                            </div>
+                            <div class="quantity">
+                                <label>Nhập số lượng sinh viên</label>
+                                <input
+                                
+                                    type="text"
+                                    class="modal__item-input"
+                                    name="max_student"
+                                    value="<%=data.max_student %>"
+                                    valid="số lượng sinh viên"
+                                    placeholder="Nhập số lượng sinh viên..."
+                                />
+                            </div>
+                        </div>
+                        <div class="calendar-container">
+                            <div class="calendar">
+                                <div class="calendar-header">
+                                    <span class="month-picker" id="month-picker">February</span>
+                                    <div class="year-picker">
+                                        <span class="year-change" id="prev-year">
+                                            <pre><</pre>
+                                        </span>
+                                        <span id="year">2021</span>
+                                        <span class="year-change" id="next-year">
+                                            <pre>></pre>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="calendar-body">
+                                    <div class="calendar-week-day">
+                                        <div>Sun</div>
+                                        <div>Mon</div>
+                                        <div>Tue</div>
+                                        <div>Wed</div>
+                                        <div>Thu</div>
+                                        <div>Fri</div>
+                                        <div>Sat</div>
+                                    </div>
+                                    <div class="calendar-days"></div>
+                                </div>
+
+                                <div class="month-list"></div>
+                                <input type="text" class="modal__item-input date" hidden name="time" value="<%= data.time%>"/>
+                                <input type="text" value="<%=data.id %>" hidden name="id" />
+                                
+                                <input type="text" class="get-data" hidden  value="<%= data.time%>" />
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-save">
+                    <button class="modal__item-button" type="submit">Lưu</button>
+                </div>
+            </form>
+        </div>
+        <script>
+            let btnSave = document.querySelector('.modal__item-button');
+            let inputs = document.querySelectorAll('.modal__item-input');
+            let inputTimeType = document.querySelector('.modal__item-input.timeType');
+
+            btnSave.onclick = (e) => {
+                let isValid = true;
+                for (let i = 0; i < inputs.length; i++) {
+                    if (!inputs[i].value) {
+                        let valueError = inputs[i].getAttribute('valid');
+                        alert(`Vui lòng nhập ${valueError}`);
+                        isValid = false;
+                        break;
+                    }
+                    if (inputs[i].name === 'max_student') {
+                        let regexInt = /^[0-9]*$/;
+
+                        let checkNumber = regexInt.test(inputs[i].value);
+
+                        if (!checkNumber) {
+                            alert('Số lượng sinh viên phải là số nguyên');
+                            isValid = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (!isValid) {
+                    e.preventDefault();
+                }
+            };
+
+            let timeType = document.querySelectorAll('.time-item');
+            timeType.forEach((item) => {
+                item.onclick = () => {
+                    timeType.forEach((input) => {
+                        if (input.classList.contains('active')) {
+                            input.classList.remove('active');
+                        }
+                    });
+                    if (item.classList.contains('active')) {
+                        item.classList.remove('active');
+                    } else {
+                        item.classList.add('active');
+                        inputTimeType.value = item.getAttribute('code');
+                    }
+                };
+            });
+            //selecr room
+            let select = document.querySelector('select');
+            //let options = document.querySelectorAll('option');
+            let roomOption = document.querySelector('.modal__item-input.room');
+
+            select.onchange = (e) => {
+                roomOption.value = e.target.value;
+            };
+
+            //calendar
+            
+            let valueDate = document.querySelector('.modal__item-input.date');
+            let calendar = document.querySelector('.calendar');
+            let getData = document.querySelector('.get-data')
+
+            const month_names = [
+                'January',
+                'February',
+                'March',
+                'April',
+                'May',
+                'June',
+                'July',
+                'August',
+                'September',
+                'October',
+                'November',
+                'December',
+            ];
+
+            isLeapYear = (year) => {
+                return (
+                    (year % 4 === 0 && year % 100 !== 0 && year % 400 !== 0) || (year % 100 === 0 && year % 400 === 0)
+                );
+            };
+
+            getFebDays = (year) => {
+                return isLeapYear(year) ? 29 : 28;
+            };
+
+            generateCalendar = (month, year, day = 0) => {
+                let calendar_days = calendar.querySelector('.calendar-days');
+                let calendar_header_year = calendar.querySelector('#year');
+
+                let days_of_month = [31, getFebDays(year), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+                calendar_days.innerHTML = '';
+
+                let currDate = new Date();
+                if (!month && month != 0) month = currDate.getMonth();
+                if (!year) year = currDate.getFullYear();
+
+                let curr_month = `${month_names[month]}`;
+                month_picker.innerHTML = curr_month;
+                calendar_header_year.innerHTML = year;
+
+                // get first day of month
+
+                let first_day = new Date(year, month, 1);
+
+                for (let i = 0; i <= days_of_month[month] + first_day.getDay() - 1; i++) {
+                    let day = document.createElement('div');
+                    if (i >= first_day.getDay()) {
+                        day.classList.add('calendar-day-hover');
+                        day.innerHTML = i - first_day.getDay() + 1;
+                        day.innerHTML += `<span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>`;
+                        
+                        if (
+                            i - first_day.getDay() + 1 === currDate.getDate() &&
+                            year === currDate.getFullYear() &&
+                            month === currDate.getMonth()
+                        ) {
+                            
+                            day.classList.add('curr-date');
+                            let dayDate = `${i - first_day.getDay() + 1}/${month + 1}/${year}`;
+                            valueDate.value = dayDate;
+                        }
+                    }
+                    if(getData.value) {
+                        console.log()
+                        let [days, month, year] = getData.value.split("/");
+                        if(+days === i - first_day.getDay() + 1) {
+                            //console.log(i)
+                            day.classList.add('selected');
+                            let dayCurrent = document.querySelector('.calendar-day-hover.curr-date');
+                            if( dayCurrent) {
+
+                                dayCurrent.style.backgroundColor = 'transparent';
+                                dayCurrent.style.color = 'black';
+                                dayCurrent.classList.add('o-hover');
+                            }
+                        }
+                    }
+                    calendar_days.appendChild(day);
+                    day.onclick = () => {
+                        let daySelected = document.querySelector('.calendar-day-hover.selected');
+                        let dayCurrent = document.querySelector('.calendar-day-hover.curr-date');
+                        let dayCurrentSelected = document.querySelector('.calendar-day-hover.curr-date.selected');
+                        if (day !== dayCurrent) {
+                            if (daySelected) {
+                                daySelected.classList.remove('selected');
+                            }
+                            if (dayCurrent) {
+                                dayCurrent.style.backgroundColor = 'transparent';
+                                dayCurrent.style.color = 'black';
+                                dayCurrent.classList.add('o-hover');
+                            }
+
+                            day.classList.add('selected');
+                        } else {
+                            if (daySelected) daySelected.classList.remove('selected');
+                            dayCurrent.style.backgroundColor = 'blue';
+                            dayCurrent.style.color = 'white';
+                            dayCurrent.classList.remove('o-hover');
+                        }
+                        let dayDate = `${i - first_day.getDay() + 1}/${month + 1}/${year}`;
+                        valueDate.value = dayDate;
+                    };
+                }
+            };
+
+            let month_list = calendar.querySelector('.month-list');
+
+            month_names.forEach((e, index) => {
+                let month = document.createElement('div');
+                month.innerHTML = `<div data-month="${index}">${e}</div>`;
+                month.querySelector('div').onclick = () => {
+                    month_list.classList.remove('show');
+                    curr_month.value = index;
+                    generateCalendar(index, curr_year.value);
+                };
+                month_list.appendChild(month);
+            });
+
+            let month_picker = calendar.querySelector('#month-picker');
+
+            month_picker.onclick = () => {
+                month_list.classList.add('show');
+            };
+
+            let currDate = new Date();
+
+            let curr_month = { value: currDate.getMonth() };
+            let curr_year = { value: currDate.getFullYear() };
+
+            if(getData.value) {
+                let [day, month, year] = getData.value.split("/");
+                curr_month = { value: +month - 1 }
+                curr_year = { value: +year };
+            }
+
+            //console.log(curr_year)
+            generateCalendar(curr_month.value, curr_year.value);
+
+            document.querySelector('#prev-year').onclick = () => {
+                --curr_year.value;
+                generateCalendar(curr_month.value, curr_year.value);
+            };
+
+            document.querySelector('#next-year').onclick = () => {
+                ++curr_year.value;
+                generateCalendar(curr_month.value, curr_year.value);
+            };
+
+            let days = document.querySelectorAll('.calendar-day-hover');
+        </script>
+    </body>
+</html>

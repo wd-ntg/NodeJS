@@ -7,65 +7,236 @@
     font-family: 'Oswald', sans-serif;
 }
 
-html {
-    font-family: 'Oswald', sans-serif !important;
+:root {
+    --text: white;
+    --primary: #ecf2ff;
+    --blue-neon: #0f6292;
 }
 
-html, body {
-    /* font-size: 62.5%; */
-    line-height: 1.6rem;
+html {
+    font-family: 'Oswald', sans-serif !important;
+
     scroll-behavior: smooth;
 }
 
-
-
-:root {
-    --text: white;
-    --primary: ;
-}
-
-.wrap__page-student {
+#wrap {
     width: 1200px;
     max-width: 100%;
-    height: 100%;
-    margin: 52px 0 0 102px;
+    margin: 0 auto;
 }
 
-.header__page-student {
-    
+.wrap__img {
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    background-size: cover;
+    filter: blur(4px);
+    display: none;
 }
 
-.header__text {
-    font-size: 48px;
-    margin-bottom: 120px;
-    color: red;
+/* Navigation */
+
+.nav__page-student {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 180px;
 }
 
-.content__page-student {
+.nav__page-student-left {
+    display: flex;
+}
+
+.nav__page-icon {
+    font-size: 24px;
+    color: var(--blue-neon);
+}
+
+.nav__page-text {
+    font-size: 1.4rem;
+    text-decoration: none;
+    color: var(--blue-neon);
+    text-align: center;
+    line-height: 26px;
+}
+
+.nav__page-student-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* .nav__page-text:hover {
+    color: #04466c;
+} */
+
+[class^='nav__page-']:hover,
+[class*=' nav__page-']:hover {
+    color: #04466c;
+}
+
+.nav__page-text:hover .nav__page-icon {
+    color: #04466c;
+}
+/* Wrap main content */
+
+.wrap__page-student {
+    display: flex;
+}
+
+/* Left */
+.wrap__page-student--left {
+    width: 400px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content__page-student--left {
     display: flex;
     flex-direction: row;
 }
 
+.content__img {
+    width: 180px;
+    height: 120px;
+    background-size: contain;
+}
+
 .content__left {
-    
 }
 
 .content__item {
     width: 180px;
     height: 120px;
-    background-color: aqua;
+    background-color: rgba(161, 161, 161, 0.3);
+    backdrop-filter: blur(10px);
     margin: 24px 24px 24px 0;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    transition: 0.4s;
+}
+
+.content__item:hover {
+    background-color: rgb(245, 222, 179, 0.6);
+}
+
+.content__item:hover .content__icon {
+    background-color: var(--primary);
+}
+
+.content__item:hover .content__item-text {
+    color: #0f6292;
+}
+
+.content__left .content__item:nth-child(1) {
+    border-radius: 4px 0 0 0;
+}
+.content__left .content__item:nth-child(2) {
+    border-radius: 0 0 0 4px;
+}
+.content__right .content__item:nth-child(1) {
+    border-radius: 0 4px 0 0;
+}
+.content__right .content__item:nth-child(2) {
+    border-radius: 0 0 4px 0;
+}
+
+.content__item-main {
+    display: flex;
+    align-items: center;
+    width: 180px;
+    color: var(--text);
 }
 
 .content__icon {
-
+    padding: 8px;
+    border-radius: 50%;
+    border: 1px solid wheat;
+    width: 72px;
+    height: 72px;
+    background-size: contain;
 }
 
 .content__item-text {
-
+    color: rgb(0, 0, 0, 0.9);
 }
 
 .content__right {
-
 }
 
+/* Right */
+
+.wrap__page-student--right {
+    width: 800px;
+    display: flex;
+    flex-direction: column;
+    float: right;
+}
+
+.content__page-student--right {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.content__item-img {
+    position: absolute;
+    right: 0;
+    width: 600px;
+    height: 400px;
+    background-size: cover;
+}
+
+.content__item--img {
+    width: 600px;
+    height: 400px;
+    background-size: cover;
+    display: none;
+}
+
+.content__item-main {
+    display: flex;
+    flex-direction: column;
+}
+
+.content__item-text {
+}
+
+/* Navigation right */
+
+.nav__number {
+    margin: 24px 0 0 222px;
+    position: absolute;
+    top: 400px;
+}
+
+.bm-number {
+    justify-content: center;
+    font-size: 2rem;
+    height: 24px;
+    width: 24px;
+    color: wheat;
+    cursor: pointer;
+    margin: 6px;
+}
+
+.number-active {
+    color: var(--blue-neon);
+    font-weight: 600;
+    font-size: 2.2em;
+}
+
+/* Active trans */
+
+.active {
+    display: block;
+}

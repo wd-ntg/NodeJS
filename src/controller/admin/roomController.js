@@ -4,7 +4,7 @@ import adminroomPracService from '../../service/admin/adminRoomPracService';
 const createNewroomPrac = async (req, res) => {
     let { name, code, description, specialty, maxStudent } = req.body;
 
-    let [room] = await pool.execute('select * from room_prac where code = ?', [code]);
+    let [room] = await pool.execute('select * from room where code = ?', [code]);
     let error = '';
     if (room[0]) {
         error = 'Mã phòng đã tồn tại, vui lòng tạo mã phòng mới';
@@ -25,8 +25,8 @@ const editroomPrac = async (req, res) => {
 
 const postEditRoom = async (req, res) => {
     let { name, code, description, specialty, maxStudent, id } = req.body;
-    let [currentRoom] = await pool.execute('select * from room_prac where id = ?', [id]);
-    let [room] = await pool.execute('select * from room_prac where code = ?', [code]);
+    let [currentRoom] = await pool.execute('select * from room where id = ?', [id]);
+    let [room] = await pool.execute('select * from room where code = ?', [code]);
     let error = '';
 
     if (room[0]) {

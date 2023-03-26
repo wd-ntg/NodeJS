@@ -4,7 +4,7 @@ import path from 'path';
 import adminController from '../controller/admin/adminController';
 import roomController from '../controller/admin/roomController';
 import manageStudentController from '../controller/admin/manageStudentController';
-import adminService from '../service/admin/manageStudentService';
+import scheduleController from '../controller/admin/scheduleController';
 import pool from '../config/connectDB';
 
 const router = express.Router();
@@ -44,7 +44,7 @@ const initAdminPage = (app) => {
                 return res.send(err);
             }
 
-            await pool.execute('update room_prac set img = ? where id = ?', [req.file.filename, id]);
+            await pool.execute('update room set img = ? where id = ?', [req.file.filename, id]);
             // res.send(
             //     `You have uploaded this image: <hr/><img src="/img/${req.file.filename}" width="500"><hr /><a href="./">Upload another image</a>`,
             // );
@@ -57,6 +57,7 @@ const initAdminPage = (app) => {
     app.get('/roomTN', adminController.roomTNPage);
     app.get('/calendar', adminController.calendarPage);
     app.get('/history', adminController.historyPage);
+    app.get('/schedule', adminController.schedulePage);
     app.get('/manage-student', adminController.manageStudentPage);
     app.get('/detail-roomPrac/:id', adminController.detailroomPracPage);
 
@@ -77,6 +78,13 @@ const initAdminPage = (app) => {
     app.post('/delete-device', roomController.deleteDevice);
     app.post('/edit-device', roomController.editDevice);
     app.post('/post-edit-device', roomController.postEditDevice);
+
+    //CRUD schedule
+    app.get('/views-add/schedule', scheduleController.viewAddSchedule);
+    app.post('/views-add/create-newSchedule', scheduleController.createNewSchedule);
+    app.post('/edit-schedule', scheduleController.editSchedule);
+    app.post('/post-edit-schedule', scheduleController.postEditSchedule);
+    app.post('/delete-schedule', scheduleController.deleteSchedule);
 
     return app.use('/', router);
 };
