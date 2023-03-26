@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>phong hoc</h1>
+    <p><%= data.id %></p>
+    <h2>Them thiet bi</h2>
+        <form action="/create-newDevice/<%= data.id %>" method="POST">
+            <div>
+                <label>Ma phong</label>
+                <input type="text" name="maphong" />
+            </div>
+            <div>
+                <label>so luong</label>
+                <input type="text" name="soluong" />
+            </div>
+            <div>
+                <label>ten phong</label>
+                <input type="text" name="tenphong" />
+            </div>
+            <div>
+                <label>ten thiet bi</label>
+                <input type="text" name="tenthietbi" />
+            </div>
+            <div>
+                <label>mo ta</label>
+                <input type="text" name="mota" />
+            </div>
+            <button type="submit">Save</button>
+        </form>
+</body>
+</html>

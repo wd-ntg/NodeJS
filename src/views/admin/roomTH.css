@@ -1,0 +1,32 @@
+.roomTH-container {
+    
+
+    
+}
+.roomTH-header {
+        
+    border: 1px solid red;
+}
+
+.roomTH-item {
+    width: 200px;
+    height: 200px;
+    background-color: #ccc;
+}
+.roomTH-list {
+    border: 1px solid red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+
+   
+}
+.roomTH-body {
+    margin-top: 20px 100px;
+    padding: 20px;
+    border: 1px solid green;
+
+    
+}
