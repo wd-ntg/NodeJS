@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Inconsolata:wght@200;300;400;500;600;700&family=Oswald:wght@300;400&family=Pacifico&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Inconsolata:wght@200;300;400;500;600;700&family=Oswald:wght@300;400&family=Pacifico&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Inconsolata:wght@200;300;400;500;600;700&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300;1,400;1,600;1,700&family=Oswald:wght@300;400&family=Pacifico&display=swap');
 
 :root {
@@ -340,4 +340,37 @@ html {
     align-items: center;
     border-radius: 4px;
     z-index: 10;
+}
+ /*-------------------------*/
+ .roomTH-container {
+    
+
+    
+}
+.roomTH-header {
+        
+    border: 1px solid red;
+}
+
+.roomTH-item {
+    width: 200px;
+    height: 200px;
+   background-color: #ccc;
+}
+.roomTH-list {
+    border: 1px solid red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+
+   
+}
+.roomTH-body {
+    margin-top: 20px 100px;
+    padding: 20px;
+    border: 1px solid green;
+
+    
 }

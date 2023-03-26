@@ -2,6 +2,7 @@ import express from 'express'
 //import { adminPage } from '../controller/adminController'
 import adminController from '../controller/adminController'
 import { createNewStudent, editStudent, deleteStudent, postEditStudent } from '../service/adminService'
+import deviceController from '../controller/deviceController'
 
 const router = express.Router()
 
@@ -12,6 +13,8 @@ const initAdminPage = (app) => {
     app.get('/calendar', adminController.calendarPage)
     app.get('/history', adminController.historyPage)
     app.get('/manage-student', adminController.manageStudentPage)
+    app.get('/detailRoomTH/:id', adminController.detailRoomTH)
+    
    
 
     //CRUD student
@@ -21,6 +24,7 @@ const initAdminPage = (app) => {
     app.post('/delete-student/:id', deleteStudent)
 
     //CRUD Phong TH
+    app.post('/create-newDevice/:id', deviceController.createNewDevice)
 
     //app.get('/get-allroomTH', adminController.getAllRoomTH)
     app.post('/create-newroomTH', adminController.createNewRoomTH)
@@ -31,6 +35,9 @@ const initAdminPage = (app) => {
 
     //CRUD thiet bi
     //app.post('/create-newTB, ')
+
+    //Detail room TH
+    
 
     return app.use('/', router)
 }

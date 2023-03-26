@@ -3,7 +3,8 @@ import { getAllRoomTH } from "../service/adminTHService"
 import { createNewRoomTHService } from "../service/adminTHService"
 import { deleteRoomTHService } from "../service/adminTHService"
 import { editRoomTHService } from "../service/adminTHService"
-import { postEditRoomService } from "../service/adminTHService"
+import { postEditRoomService, detailRoomTHService } from "../service/adminTHService"
+
 
 const adminPage = (req, res) => {
     return res.render('admin/admin.ejs')
@@ -31,6 +32,10 @@ const manageStudentPage = async (req, res) => {
     return res.render('admin/manageStudent.ejs', {data: data, student: false})
 }
 
+const detailRoomTH = async(req, res) => {
+    detailRoomTHService(req, res)
+}
+
 const createNewRoomTH = async(req, res) => {
     //console.log('check data', req.body)
     createNewRoomTHService(req, res);
@@ -49,6 +54,8 @@ const postEditRoom = async(req, res) => {
     postEditRoomService(req, res)
 }
 
+
+
 const adminController = {
     adminPage: adminPage,
     roomTHPage:roomTHPage,
@@ -60,6 +67,7 @@ const adminController = {
     deleteRoomTH:deleteRoomTH,
     editRoomTH:editRoomTH,
     postEditRoom:postEditRoom,
+    detailRoomTH:detailRoomTH
 }
 
 export default adminController

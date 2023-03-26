@@ -43,3 +43,12 @@ export const postEditRoomService = async(req, res) => {
 
     return res.redirect('/roomTH')
 }
+
+export const detailRoomTHService = async(req, res) => {
+    let id = req.params.id
+    
+    let [roomTH] = await pool.execute('select * from phongthuchanh where id = ?', [id])
+    //const [rows, fields] = await pool.execute('SELECT * FROM `phongthuchanh` ');
+   //roomTH: roomTH[0]
+    return res.render('admin/detailRoomTH.ejs', {data: roomTH[0]})
+}
