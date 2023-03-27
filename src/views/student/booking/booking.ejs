@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link rel="stylesheet" href="/css/roomPrac.css" />
+        <title>Document</title>
+        <style>
+            
+            .modal-content {
+                width: 30%;
+            }
+            .modal__item-wrap {
+                display: flex;
+                justify-content: space-between;
+                gap :30px;
+            }
+            .modal__item-button {
+                font-size: 14px;
+                width: 30%;
+                padding: 8px;
+            }
+            .modal__item-button.cancel{
+                background-color: orange;
+            }
+            .modal__item-button:hover {
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="room-container">
+            <div style="display: flex;  flex-direction: column; align-items: center;" class="room-header">
+                <h2>Đăng ký môn học</h2>
+                <h3 style="display: block; color: orange; margin-top: 20px;"><%=message %></h3>
+            </div>
+            <div class="room-body" style="margin-top: 40px">
+                <div class="room-list">
+                    <table id="customers">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên phòng</th>
+                                <th>Số lượng sinh viên tối đa</th>
+                                <th>Số lượng sinh viên còn lại</th>
+                                <th>Ca học</th>
+                                <th>Ngày học</th>
+                                <th>Các thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for (let i=0; i< data.length; i++) { %>
+
+                            <tr>
+                                <td><%= i + 1 %></td>
+                                <td><%=data[i].name %></td>
+                                <td><%=data[i].max_student %></td>
+                                <td><%=data[i].max_student - data[i].current_student %></td>
+                                <td><%=data[i].keyName %></td>
+                                <td><%=data[i].time %></td>
+
+                                <td style="display: flex; gap: 15px">
+                                    <form action="/view-student/detail-room/<%= data[i].roomID %>" method="GET">
+                                        <button
+                                            class="room-action editBtn"
+                                            style="background-color: #00c6d4"
+                                            type="submit"
+                                        >
+                                            Xem chi tiết phòng
+                                        </button>
+                                    </form>
+                                        
+                                        <button class="room-action myBtn" schedule="<%= data[i].id %>" style="background-color: orange" type="submit">
+                                            Đăng ký
+                                        </button>
+                                    
+                                    
+                                    
+                                </td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal-container">
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="create-room">
+                    <form action="/booking-confirm" method="POST">
+                        <div class="modal__item-wrap">
+                            <span class="modal__manager-name">
+                                Đăng ký môn học
+                            </span>
+                        </div>
+                        <h2>Bạn có xác nhận đăng ký môn học</h2>
+                        <input type="text" hidden class="req-data" name="id" />
+                        <div class="modal__content-wrap">
+                            <div class="modal__item-wrap">
+                                <button class="modal__item-button cancel">Hủy</button>
+                                <button class="modal__item-button submitBtn" type="submit">Xác nhận</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+    
+        </div>
+
+        <script>
+            // Get the modal
+            let modal = document.getElementById('myModal')
+            let btn = document.querySelectorAll('.myBtn');
+            let cancel = document.querySelectorAll('.cancel')
+            
+          
+            let span = document.getElementsByClassName('close')[0];
+           
+            // When the user clicks the button, open the modal
+            let submitBtn = document.querySelector('.submitBtn')
+            let req
+            
+
+            btn.forEach(item => {
+                item.onclick = async function (e) {
+                    let reqData = document.querySelector('.req-data')
+                    req = e.target.getAttribute('schedule')
+                    reqData.value = req
+                    modal.style.display = 'block';
+                }
+            })
+            
+            cancel.forEach(item => {
+                item.onclick = (e) => {
+                    e.preventDefault();
+                    modal.style.display = 'none';
+                }
+            })
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function () {
+                modal.style.display = 'none';
+            };
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            };
+        </script>
+    </body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/css/detailRoom.css" />
+        <title>Document</title>
+    </head>
+    <body>
+        <div class="detail-room-container">
+            <h1 class="title">Thông tin chi tiết phòng học</h1>
+            <div class="dr-body">
+                <div class="left-content">
+                    <div class="img" style="background-image: url('/img/<%= data.img %>')"></div>
+                </div>
+                <div class="right-content">
+                    <div class="dr-title"><span>Tên phòng:</span> <%= data.name %></div>
+                    <div class="dr-title"><span>Mã phòng:</span> <%= data.code %></div>
+                    <div class="dr-title"><span>Chuyên khoa:</span> <%= data.specialty %></div>
+                    <div class="dr-title"><span>Số lượng sinh viên tối đa:</span> <%= data.max_student %></div>
+                    <div class="dr-title"><span>Thông tin mô tả:</span> <%= data.description %></div>
+                </div>
+            </div>
+
+            <% if(device){ %>
+            <div class="device-container">
+                <div class="device-title">Danh sách thiết bị của phòng</div>
+
+                <div class="device-list">
+                    <!-- <% for (let i=0; i< device.length; i++) { %>           
+                        <div class="device-item">
+                            <div class="device-img"></div>
+                            <div class="device-content">
+                                <div class="device-title"><span>Tên thiết bị</span><%= device[i].tenthietbi %></div>
+                                <div class="device-quantity"><span>So luong</span><%= device[i].soluong %></div>
+                            </div>
+                        </div>
+                    <% } %> -->
+
+                    <table id="customers">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên thiết bị</th>
+                                <th>Số lượng</th>
+                                <th>Thông tin chi tiết</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for (let i=0; i< device.length; i++) { %>
+
+                            <tr>
+                                <td><%= i + 1 %></td>
+                                <td><%=device[i].deviceName %></td>
+                                <td><%=device[i].quantity %></td>
+                                <td><%=device[i].description %></td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    </body>
+</html>

@@ -1,6 +1,7 @@
 import pool from '../../config/connectDB';
-import adminService from '../../service/admin/manageStudentService';
+import manageStudentService from '../../service/admin/manageStudentService';
 import adminroomPracService from '../../service/admin/adminRoomPracService';
+import scheduleService from '../../service/admin/scheduleService';
 
 const adminPage = (req, res) => {
     return res.render('admin/admin.ejs');
@@ -24,9 +25,16 @@ const historyPage = (req, res) => {
     return res.render('admin/history.ejs');
 };
 
+const schedulePage = async (req, res) => {
+    let schedule = await scheduleService.getAllSchedule(req, res);
+    //console.log(schedule);
+    return res.render('admin/schedule/schedule.ejs', { data: schedule, error: '' });
+};
+
 const manageStudentPage = async (req, res) => {
-    let data = await adminService.getAllStudent();
+    let data = await manageStudentService.getAllStudent();
     //console.log('check data', data);
+
     return res.render('admin/student/manageStudent.ejs', { data: data });
 };
 
@@ -45,4 +53,5 @@ export default {
     historyPage,
     manageStudentPage,
     detailroomPracPage,
+    schedulePage,
 };
