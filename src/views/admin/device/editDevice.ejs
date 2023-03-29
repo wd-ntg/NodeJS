@@ -75,8 +75,13 @@
                     }
 
                     if (!isValid) {
+                    e.preventDefault();
+                } else {
+                    let isConfirm = confirm('Bạn có xác nhận thay đổi thông tin thiết bị học tập');
+                    if (!isConfirm) {
                         e.preventDefault();
                     }
+                }
                 };
     </script>
 </body>

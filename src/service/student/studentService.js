@@ -38,12 +38,16 @@ const getAllDevice = async (req, res) => {
 };
 
 const bookingConfirm = async (req, res) => {
-    let id = req.body.id;
-    let [schedule, fields] = await pool.execute('select * from schedule where id = ?', [id]);
+    let { scheduleID, studentID } = req.body;
+
+    let [student] = await pool.execute('select * from student where id = ?', [studentID]);
+
+    let [schedule, fields] = await pool.execute('select * from schedule where id = ?', [scheduleID]);
+
     let { roomCode, time, timeType, current_student, max_student } = schedule[0];
 
     let [similar] = await pool.execute('select * from booking where mssv = ? and time = ? and timeType = ?', [
-        'N21',
+        student[0].mssv,
         time,
         timeType,
     ]);
@@ -55,7 +59,7 @@ const bookingConfirm = async (req, res) => {
         message = 'Bạn đã đăng ký phòng học này';
     } else {
         await pool.execute('insert into booking(mssv, time, roomCode, timeType) values (?, ?, ?, ?)', [
-            'N21',
+            student[0].mssv,
             time,
             roomCode,
             timeType,
@@ -70,7 +74,7 @@ const bookingConfirm = async (req, res) => {
         message = 'Đăng ký phòng học thành công';
     }
 
-    return message;
+    return { message, studentID };
 };
 
 export default {

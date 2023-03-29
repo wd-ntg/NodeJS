@@ -31,13 +31,54 @@ const getAllSchedule = async () => {
 
 const createNewSchedule = async (req, res) => {
     const { roomCode, timeType, max_student, time } = req.body;
+    let error = '';
+    let [room] = await pool.execute('select * from room where code = ?', [roomCode]);
 
-    await pool.execute(
-        'insert into schedule(roomCode, max_student, current_student, time, timeType) values (?, ?, ?, ?, ?)',
-        [roomCode, +max_student, 0, time, timeType],
-    );
+    if (room[0].max_student < max_student) {
+        error = `Số lượng sinh viên của phòng ${room[0].name} không được phép quá ${room[0].max_student}, vui lòng chọn lại`;
+    } else {
+        await pool.execute(
+            'insert into schedule(roomCode, max_student, current_student, time, timeType) values (?, ?, ?, ?, ?)',
+            [roomCode, +max_student, 0, time, timeType],
+        );
+    }
 
-    return res.redirect('/schedule');
+    return error;
+};
+
+const checkDayDelete = async (req, res) => {
+    let id = req.body.id;
+    let error = '';
+    const [data, fieldsPrac] = await pool.execute('select * from schedule where id = ?', [id]);
+
+    let [day, month, year] = data[0].time.split('/');
+    let currentDate = new Date();
+    let isValid = true;
+    if (+year < currentDate.getFullYear()) {
+        isValid = false;
+    } else if (+year == currentDate.getFullYear() && +month < currentDate.getMonth() + 1) {
+        isValid = false;
+    } else if (
+        +year == currentDate.getFullYear() &&
+        +month == currentDate.getMonth() + 1 &&
+        +day < currentDate.getDate()
+    ) {
+        isValid = false;
+    }
+
+    if (isValid) {
+        if (data[0].current_student > 0) {
+            return {
+                errCode: 1,
+                errMessage: 'Đã có sinh viên đăng ký học, vui lòng liên hệ giáo viên giảng dạy để xem xét',
+            };
+        }
+    }
+
+    return {
+        errCode: 0,
+        data: data[0],
+    };
 };
 
 const deleteSchedule = async (req, res) => {
@@ -87,4 +128,5 @@ export default {
     deleteSchedule,
     editSchedule,
     postEditSchedule,
+    checkDayDelete,
 };

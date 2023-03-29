@@ -2,19 +2,40 @@ import pool from '../../config/connectDB';
 import manageStudentService from '../../service/admin/manageStudentService';
 import adminroomPracService from '../../service/admin/adminRoomPracService';
 import scheduleService from '../../service/admin/scheduleService';
+import { request } from 'express';
 
-const adminPage = (req, res) => {
-    return res.render('admin/admin.ejs');
+const loginPage = (req, res) => {
+    return res.render('admin/login.ejs');
+};
+
+const submitUser = async (req, res) => {
+    let { email, password } = req.body;
+
+    let [user] = await pool.execute('select * from student where email = ?', [email]);
+
+    if (!user[0]) {
+        return res.send('Dia chi email khong ton tai');
+    } else {
+        if (user[0].password !== password) {
+            return res.send('Mat khau khong chinh xac, vui long nhap lai');
+        } else {
+            if (user[0].roleId === 'R1') {
+                return res.render('admin/history.ejs');
+            } else {
+                res.render('student/student.ejs', { data: user[0] });
+            }
+        }
+    }
 };
 
 const roomPracPage = async (req, res) => {
     let data = await adminroomPracService.getAllroomPrac();
 
-    return res.render('admin/room/roomPrac.ejs', { data: data, roomPrac: false });
+    return res.render('admin/room/roomPrac.ejs', { data: data, roomPrac: false, error: '' });
 };
 
-const roomTNPage = (req, res) => {
-    return res.render('admin/room/roomPrac.ejs');
+const roomLabPage = (req, res) => {
+    return res.render('admin/room/roomLab.ejs');
 };
 
 const calendarPage = (req, res) => {
@@ -46,12 +67,13 @@ const detailroomPracPage = async (req, res) => {
 };
 
 export default {
-    adminPage,
+    loginPage,
     roomPracPage,
-    roomTNPage,
+    roomLabPage,
     calendarPage,
     historyPage,
     manageStudentPage,
     detailroomPracPage,
     schedulePage,
+    submitUser,
 };

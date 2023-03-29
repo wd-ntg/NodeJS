@@ -1,14 +1,19 @@
 import studentService from '../../service/student/studentService';
 
 const studentPage = (req, res) => {
-    return res.render('student/student.ejs');
+    return res.render('student/student.ejs', { data: {} });
 };
 
 const bookingPage = async (req, res) => {
     let schedule = await studentService.getAllSchedule(req, res);
     let timeType = await studentService.getTimeType(req, res);
     //console.log(schedule);
-    return res.render('student/booking/booking.ejs', { data: schedule, timeType: timeType, message: '' });
+    return res.render('student/booking/booking.ejs', {
+        data: schedule,
+        timeType: timeType,
+        message: '',
+        studentID: req.query.id,
+    });
 };
 
 const viewDetailRoomForStudent = async (req, res) => {
@@ -22,8 +27,13 @@ const bookingConfirm = async (req, res) => {
     let message = await studentService.bookingConfirm(req, res);
     let schedule = await studentService.getAllSchedule(req, res);
     let timeType = await studentService.getTimeType(req, res);
-    console.log(schedule);
-    return res.render('student/booking/booking.ejs', { data: schedule, timeType: timeType, message: message });
+    //console.log(schedule);
+    return res.render('student/booking/booking.ejs', {
+        data: schedule,
+        timeType: timeType,
+        message: message.message,
+        studentID: message.studentID,
+    });
 };
 
 export default { studentPage, bookingPage, viewDetailRoomForStudent, bookingConfirm };

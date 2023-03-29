@@ -16,7 +16,10 @@ const createNewroomPrac = async (req, res) => {
 };
 
 const deleteroomPrac = async (req, res) => {
-    adminroomPracService.deleteroomPracService(req, res);
+    let error = await adminroomPracService.deleteroomPracService(req, res);
+    let data = await adminroomPracService.getAllroomPrac();
+
+    return res.render('admin/room/roomPrac.ejs', { data: data, error: error });
 };
 
 const editroomPrac = async (req, res) => {

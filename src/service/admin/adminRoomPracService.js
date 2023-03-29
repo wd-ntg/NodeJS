@@ -27,9 +27,17 @@ const createNewroomPracService = async (req, res) => {
 
 const deleteroomPracService = async (req, res) => {
     let id = req.params.id;
-    await pool.execute('delete from room where id = ?', [id]);
 
-    return res.redirect('/roomPrac');
+    let [room] = await pool.execute('select * from room where id = ?', [id]);
+    let [schedule] = await pool.execute('select * from schedule where roomCode = ?', [room[0].code]);
+    let error = '';
+    if (schedule[0]) {
+        error = 'Hiện tại phòng đang có lịch học, không thể xóa phòng trong khoảng thời gian này!';
+    } else {
+        await pool.execute('delete from room where id = ?', [id]);
+    }
+
+    return error;
 };
 
 const editroomPracService = async (req, res) => {

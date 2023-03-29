@@ -7,13 +7,34 @@
         <title>Document</title>
         <link rel="stylesheet" href="/css/roomPrac.css" />
         <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css" />
-        <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" /> -->
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+        <style>
+            .w3-bar-item {
+                border-right: 1px solid #ccc !important;
+            }
+            .w3-bar-item.active {
+                background-color: #00b158;
+                color: #fff;
+            }
+        </style>
     </head>
     <body>
         <div class="room-container">
+            <div class="w3-bar w3-border-bottom w3-light-grey">
+                <a href="/roomPrac" class="w3-bar-item w3-button active">Phong thuc hanh</a>
+                <a href="/roomLab" class="w3-bar-item w3-button">Phong thi nghiem</a>
+                <a href="/history" class="w3-bar-item w3-button">Lich su</a>
+                <a href="/manage-student" class="w3-bar-item w3-button">Quan ly sinh vien</a>
+                <a href="/schedule" class="w3-bar-item w3-button">Quan li lich hoc</a>
+            </div>
             <div class="room-header">
                 <h2>Quan li phong thuc hanh</h2>
             </div>
+            <% if (error) { %>
+
+            <h2 style="color: red; text-align: center"><%=error %></h2>
+
+            <% } %>
             <div class="room-body">
                 <div class="add-room">
                     <button class="add-room-btn" id="myBtn">Thêm mới phòng thực hành</button>
@@ -46,7 +67,7 @@
                                         <button class="room-action edit editBtn" type="submit">Edit</button>
                                     </form>
                                     <form action="/delete-roomPrac/<%= data[i].id %>" method="POST">
-                                        <button class="room-action delete" type="submit">Delete</button>
+                                        <button class="room-action delete deleteBtn" type="submit">Delete</button>
                                     </form>
                                 </td>
                             </tr>
@@ -113,6 +134,17 @@
             </div>
         </div>
         <script>
+            let deleteBtn = document.querySelectorAll('.deleteBtn');
+
+            deleteBtn.forEach((item) => {
+                item.onclick = (e) => {
+                    let isConfirm = confirm('Bạn có xác nhận xóa phòng thực hành');
+                    if (!isConfirm) {
+                        e.preventDefault();
+                    }
+                };
+            });
+
             // Get the modal
             let modal = document.getElementById('myModal');
 
@@ -167,6 +199,11 @@
 
                 if (!isValid) {
                     e.preventDefault();
+                } else {
+                    let isConfirm = confirm('Bạn có xác nhận thêm mới phòng thực hành');
+                    if (!isConfirm) {
+                        e.preventDefault();
+                    }
                 }
             };
         </script>

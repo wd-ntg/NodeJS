@@ -5,7 +5,8 @@ let getAllStudent = async () => {
     // const [rows, fields] = await pool.execute('SELECT * FROM `student` ');
 
     let [gender] = await pool.execute(
-        'SELECT *, student.id, allcode.keyName FROM student inner join allcode on allcode.code=student.gender ',
+        'SELECT *, student.id, allcode.keyName FROM student inner join allcode on allcode.code=student.gender where roleId = ? ',
+        ['R2'],
     );
     //   console.log({data: rows})
 
@@ -44,7 +45,7 @@ const editStudent = async (req, res) => {
     let [gender] = await pool.execute('select * from allcode where type = ?', ['GENDER']);
     let [student] = await pool.execute('select * from student where id = ?', [id]);
     //const [rows, fields] = await pool.execute('SELECT * FROM `student` ');
-    console.log(gender);
+
     return res.render('admin/student/editStudent.ejs', { data: student[0], gender: gender, error: '' });
 };
 
