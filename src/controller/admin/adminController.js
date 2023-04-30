@@ -1,6 +1,7 @@
 import pool from '../../config/connectDB';
 import manageStudentService from '../../service/admin/manageStudentService';
 import adminroomPracService from '../../service/admin/adminRoomPracService';
+import adminRoomLabService from '../../service/admin/adminRoomLabService';
 import scheduleService from '../../service/admin/scheduleService';
 
 const adminPage = (req, res) => {
@@ -13,8 +14,9 @@ const roomPracPage = async (req, res) => {
     return res.render('admin/room/roomPrac.ejs', { data: data, roomPrac: false });
 };
 
-const roomTNPage = (req, res) => {
-    return res.render('admin/room/roomPrac.ejs');
+const roomLabPage = async (req, res) => {
+    let data = await adminRoomLabService.getAllroomLab();
+    return res.render('admin/room/roomLab.ejs', { data: data, roomLab: false });
 };
 
 const calendarPage = (req, res) => {
@@ -45,13 +47,26 @@ const detailroomPracPage = async (req, res) => {
     return res.render('admin/room/detailRoomPrac.ejs', { data: data[0], device: device });
 };
 
+const detailroomLabPage = async (req, res) => {
+    let data = await adminRoomLabService.getDetailroomLab(req, res);
+    let device = await adminRoomLabService.getAllDevice(req, res);
+
+    return res.render('admin/room/detailRoomLab.ejs', { data: data[0], device: device });
+};
+
+const formLogin = async (req, res) => {
+    return res.render('login.ejs');
+};
+
 export default {
     adminPage,
     roomPracPage,
-    roomTNPage,
+    roomLabPage,
     calendarPage,
     historyPage,
     manageStudentPage,
     detailroomPracPage,
+    detailroomLabPage,
     schedulePage,
+    formLogin,
 };

@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-import express from 'express'
-//import { adminPage } from '../controller/adminController'
-import adminController from '../controller/adminController'
-import { createNewStudent, editStudent, deleteStudent, postEditStudent } from '../service/adminService'
-import deviceController from '../controller/deviceController'
-=======
 import express from 'express';
 import multer from 'multer';
 import path from 'path';
@@ -13,7 +6,6 @@ import roomController from '../controller/admin/roomController';
 import manageStudentController from '../controller/admin/manageStudentController';
 import scheduleController from '../controller/admin/scheduleController';
 import pool from '../config/connectDB';
->>>>>>> 1420cef62bfa318df40d9d214a8fe67798c87f90
 
 const router = express.Router();
 
@@ -38,17 +30,6 @@ const storage = multer.diskStorage({
 let upload = multer({ storage: storage, fileFilter: imageFilter });
 
 const initAdminPage = (app) => {
-<<<<<<< HEAD
-    app.get('/admin', adminController.adminPage)
-    app.get('/roomTH', adminController.roomTHPage)
-    app.get('/roomTN', adminController.roomTNPage)
-    app.get('/calendar', adminController.calendarPage)
-    app.get('/history', adminController.historyPage)
-    app.get('/manage-student', adminController.manageStudentPage)
-    app.get('/detailRoomTH/:id', adminController.detailRoomTH)
-    
-   
-=======
     app.post('/profile-room', upload.single('room-img'), async (req, res) => {
         let id = req.body.roomId;
 
@@ -71,15 +52,25 @@ const initAdminPage = (app) => {
         });
     });
 
+    // Get Form Login
+
+    app.get('/form-login', adminController.formLogin);
+
     app.get('/admin', adminController.adminPage);
     app.get('/roomPrac', adminController.roomPracPage);
-    app.get('/roomTN', adminController.roomTNPage);
+    app.get('/roomLab', adminController.roomLabPage);
     app.get('/calendar', adminController.calendarPage);
     app.get('/history', adminController.historyPage);
     app.get('/schedule', adminController.schedulePage);
     app.get('/manage-student', adminController.manageStudentPage);
+
+    // Detail RoomPrac
+
     app.get('/detail-roomPrac/:id', adminController.detailroomPracPage);
->>>>>>> 1420cef62bfa318df40d9d214a8fe67798c87f90
+
+    // Detail RoomLab
+
+    app.get('/detail-roomLab/:id', adminController.detailroomLabPage);
 
     //CRUD student
     app.post('/create-new-student', manageStudentController.createNewStudent);
@@ -88,14 +79,16 @@ const initAdminPage = (app) => {
     app.post('/delete-student/:id', manageStudentController.deleteStudent);
 
     //CRUD Phong TH
-<<<<<<< HEAD
-    app.post('/create-newDevice/:id', deviceController.createNewDevice)
-=======
     app.post('/create-newroomPrac', roomController.createNewroomPrac);
     app.post('/delete-roomPrac/:id', roomController.deleteroomPrac);
     app.get('/edit-roomPrac/:id', roomController.editroomPrac);
-    app.post('/post-edit-roomPrac', roomController.postEditRoom);
->>>>>>> 1420cef62bfa318df40d9d214a8fe67798c87f90
+    app.post('/post-edit-roomPrac', roomController.postEditRoomPrac);
+
+    // CRUD Phong TN
+    app.post('/create-newroomLab', roomController.createNewroomLab);
+    app.post('/delete-roomLab/:id', roomController.deleteroomLab);
+    app.get('/edit-roomLab/:id', roomController.editroomLab);
+    app.post('/post-edit-roomLab', roomController.postEditRoomLab);
 
     //CRUD device
     app.post('/create-newTB', roomController.createNewDevice);
@@ -113,14 +106,4 @@ const initAdminPage = (app) => {
     return app.use('/', router);
 };
 
-<<<<<<< HEAD
-    //Detail room TH
-    
-
-    return app.use('/', router)
-}
-
-export default initAdminPage
-=======
 export default initAdminPage;
->>>>>>> 1420cef62bfa318df40d9d214a8fe67798c87f90

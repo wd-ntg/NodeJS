@@ -27,7 +27,7 @@ document.addEventListener(
                 e.preventDefault();
                 warning.innerHTML = 'Confirmation password is incorrect!';
             }
-            if (!okayToEmailSignup.checked) {
+            if (okayToEmailLogin.checked == false) {
                 e.preventDefault();
                 notify.innerHTML = 'You do not agree to the terms!';
             }

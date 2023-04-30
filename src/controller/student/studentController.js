@@ -26,4 +26,11 @@ const bookingConfirm = async (req, res) => {
     return res.render('student/booking/booking.ejs', { data: schedule, timeType: timeType, message: message });
 };
 
-export default { studentPage, bookingPage, viewDetailRoomForStudent, bookingConfirm };
+const contactStudent = async (req, res) => {
+    return res.render('student/contact/contact.ejs');
+};
+const newsStudent = async (req, res) => {
+    return res.render('student/news/news.ejs');
+};
+
+export default { studentPage, bookingPage, viewDetailRoomForStudent, bookingConfirm, contactStudent, newsStudent };

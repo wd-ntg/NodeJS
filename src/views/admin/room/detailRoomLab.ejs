@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/css/detailRoom.css" />
+        <title>Document</title>
+    </head>
+    <body>
+        <div class="detail-room-container">
+            <h1 class="title">Quản lí phòng thí nghiệm</h1>
+            <div class="dr-body">
+                <div class="left-content">
+                    <div class="img" style="background-image: url('/img/<%= data.img %>')"></div>
+                    <div class="change-img">
+                        <form action="/profile-room" class="form-save-img" method="POST" enctype="multipart/form-data">
+                            <input type="file" name="room-img" />
+                            <input type="text" hidden value="<%= data.id %>" name="roomId" />
+                            <button class="save-img" type="submit">Lưu ảnh</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="right-content">
+                    <div class="dr-title"><span>Tên phòng:</span> <%= data.name %></div>
+                    <div class="dr-title"><span>Mã phòng:</span> <%= data.code %></div>
+                    <div class="dr-title"><span>Chuyên khoa:</span> <%= data.specialty %></div>
+                    <div class="dr-title"><span>Số lượng sinh viên tối đa:</span> <%= data.max_student %></div>
+                    <div class="dr-title"><span>Thông tin mô tả:</span> <%= data.description %></div>
+                </div>
+            </div>
+
+            <% if(device){ %>
+            <div class="device-container">
+                <div class="device-title">Quản lý thiết bị của phòng thí nghiệm</div>
+                <div class="add-device">
+                    <button class="add-device-btn" id="myBtn">Thêm mới phòng thí nghiệm</button>
+                </div>
+                <div class="device-list">
+                    <!-- <% for (let i=0; i< device.length; i++) { %>           
+                        <div class="device-item">
+                            <div class="device-img"></div>
+                            <div class="device-content">
+                                <div class="device-title"><span>Tên thiết bị</span><%= device[i].tenthietbi %></div>
+                                <div class="device-quantity"><span>So luong</span><%= device[i].soluong %></div>
+                            </div>
+                        </div>
+                    <% } %> -->
+
+                    <table id="customers">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên thiết bị</th>
+                                <th>Số lượng</th>
+                                <th>Thông tin chi tiết</th>
+                                <th>Các thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for (let i=0; i< device.length; i++) { %>
+
+                            <tr>
+                                <td><%= i + 1 %></td>
+                                <td><%=device[i].deviceName %></td>
+                                <td><%=device[i].quantity %></td>
+                                <td><%=device[i].description %></td>
+                                <td style="display: flex; gap: 15px">
+                                    <form action="/edit-device" method="POST">
+                                        <input type="text" hidden value="<%= data.id %>" name="roomId" />
+                                        <input type="text" hidden value="<%= device[i].id %>" name="deviceId" />
+                                        <button class="room-action edit" type="submit">Edit</button>
+                                    </form>
+
+                                    <form action="/delete-device" method="POST">
+                                        <input type="text" hidden value="<%= data.id %>" name="roomId" />
+                                        <input type="text" hidden value="<%= device[i].id %>" name="deviceId" />
+                                        <button class="room-action delete" type="submit">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <% } %>
+
+            <div class="modal-container">
+                <div id="myModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <div class="create-room">
+                            <form class="modal__form" action="/create-newTB" method="POST">
+                                <div class="modal__item-wrap">
+                                    <span class="modal__manager-name"> Tạo mới thiết bị </span>
+                                </div>
+                                <div class="modal__content-wrap">
+                                    <div class="modal__item-wrap">
+                                        <label class="modal__item-label">Tên thiết bị</label>
+                                        <input
+                                            class="modal__item-input"
+                                            valid="tên thiết bị"
+                                            type="text"
+                                            name="deviceName"
+                                        />
+                                    </div>
+                                    <div class="modal__item-wrap">
+                                        <label class="modal__item-label">Số lượng thiết bị</label>
+                                        <input
+                                            class="modal__item-input"
+                                            valid="số lượng thiết bị"
+                                            type="text"
+                                            name="quantity"
+                                        />
+                                    </div>
+                                    <div class="modal__item-wrap">
+                                        <label class="modal__item-label">Mô tả</label>
+                                        <input class="modal__item-input" valid="mô tả" type="text" name="description" />
+                                    </div>
+                                    <div>
+                                        <input type="text" hidden value="<%= data.id %>" name="id" />
+                                    </div>
+
+                                    <div class="modal__item-wrap">
+                                        <button class="modal__item-button" type="submit">Lưu</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                // Get the modal
+                var modal = document.getElementById('myModal');
+
+                // Get the button that opens the modal
+                var btn = document.getElementById('myBtn');
+
+                // Get the <span> element that closes the modal
+                var span = document.getElementsByClassName('close')[0];
+
+                // When the user clicks the button, open the modal
+                btn.onclick = function () {
+                    modal.style.display = 'block';
+                };
+
+                // When the user clicks on <span> (x), close the modal
+                span.onclick = function () {
+                    modal.style.display = 'none';
+                };
+
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function (event) {
+                    if (event.target == modal) {
+                        modal.style.display = 'none';
+                    }
+                };
+
+                //Validate inputs
+                let btnSave = document.querySelector('.modal__item-button');
+                let inputs = document.querySelectorAll('.modal__item-input');
+
+                btnSave.onclick = (e) => {
+                    let isValid = true;
+                    for (let i = 0; i < inputs.length; i++) {
+                        if (!inputs[i].value) {
+                            let valueError = inputs[i].getAttribute('valid');
+                            alert(`Vui lòng nhập ${valueError}`);
+                            isValid = false;
+                            break;
+                        }
+                        if (inputs[i].name === 'quantity') {
+                            let regexInt = /^[0-9]*$/;
+
+                            let checkNumber = regexInt.test(inputs[i].value);
+
+                            if (!checkNumber) {
+                                alert('Số lượng thiết bị phải là số nguyên');
+                                isValid = false;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!isValid) {
+                        e.preventDefault();
+                    }
+                };
+            </script>
+        </div>
+    </body>
+</html>

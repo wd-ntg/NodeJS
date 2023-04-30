@@ -1,0 +1,390 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Inconsolata:wght@200;300;400;500;600;700&family=Oswald:wght@300;400&family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Inconsolata:wght@200;300;400;500;600;700&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300;1,400;1,600;1,700&family=Oswald:wght@300;400&family=Pacifico&display=swap');
+:root {
+    --black: black;
+    --white: white;
+    --primary: #ecf2ff;
+    /* --text: rgb(143, 98, 210); */
+    --blue-neon: #0f6292;
+    --text: rgb(153, 153, 153);
+    --background-phone: rgb(223, 228, 240);
+    --blue-new: #0f6292;
+    --blue-new-light: #05bfdb;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Oswald', sans-serif;
+}
+
+body,
+html {
+    scroll-behavior: smooth;
+    /* overflow-y: hidden; */
+    background-color: #e6fcff;
+}
+
+html {
+    font-size: 62.5%;
+    line-height: 1.6rem;
+    font-family: 'Pacifico', cursive;
+}
+
+#wrap {
+    width: 1200px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.wrap__background {
+    background-color: #b1d6db;
+    padding: 48px 0;
+}
+
+/* Header */
+
+.wrap__header {
+    width: 100%;
+    height: 120px;
+    display: flex;
+    align-items: center;
+}
+
+.header__link-back {
+    font-size: 2.2rem;
+    text-decoration: none;
+    color: var(--blue-new);
+}
+
+.header__link-back--icon {
+}
+
+.wrap__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrap__item-des {
+    display: flex;
+    flex-direction: column;
+    margin: 56px 0 0 0;
+}
+
+/* Phan item phia sau */
+
+.item__header {
+    width: 1200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.item__header-img {
+    width: 800px;
+    height: 400px;
+    object-fit: cover;
+}
+
+.item__header-text {
+    font-size: 2.4rem;
+    margin: 24px 0 12px 0;
+    color: var(--blue-new-light);
+}
+
+.item__main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 480px;
+    margin: 12px 0 24px 0;
+}
+
+.item__main-text {
+    font-size: 1.4rem;
+    color: rgb(103, 101, 101);
+}
+
+.item__footer {
+}
+
+.item__button {
+    padding: 4px 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.item__button:hover {
+    color: #0f6292;
+    background-color: aliceblue;
+}
+
+.bm__story-main {
+    width: 640px;
+}
+
+.bm__story-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    line-height: 1.2;
+    margin: 12px 0;
+}
+
+.bm__story-header--line {
+}
+
+.bm__story-header--title {
+    font-size: 2.4rem;
+}
+
+.bm__story-header--footer {
+    font-size: 1.4rem;
+}
+
+.bm__story-content {
+    width: 564px;
+    padding: 4px;
+    border: 2px solid;
+    border-radius: 12px;
+    transform: translateX(38px);
+}
+
+.bm__story-content--wrap {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    transform: translateX(6.5px);
+}
+
+.bm__story-content--wrap-2 {
+    margin: 12px 0 0 12px;
+    line-height: 1.4;
+}
+
+.bm__story-content--img {
+    width: 540px;
+    border-radius: 8px;
+}
+
+.bm__story-content--line {
+    display: flex;
+    align-items: center;
+}
+
+.bm__story-content--sale {
+    font-size: 1.2rem;
+    background-color: var(--black);
+    padding: 4px;
+    border-radius: 8px;
+    color: var(--white);
+}
+
+.bm__story-content--title {
+    font-size: 1.8rem;
+}
+
+.bm__story-content--footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.bm__story-content--icon {
+    background-image: url(./image/pexels-irina-iriser-1435567.jpg);
+    width: 32px;
+    height: 32px;
+    background-size: contain;
+    border-radius: 50%;
+}
+
+.bm__story-content--text {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.2rem;
+    margin-left: 12px;
+    color: var(--text);
+}
+
+.bm__story-content--text1 {
+    color: var(--black);
+}
+
+.bm__story-content--text2 {
+}
+
+.bm__story-content-right {
+    width: 380px;
+    height: 540px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transform: translateY(43px);
+}
+
+.bm__story-content--wrap-right {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    margin: 12px;
+    cursor: pointer;
+}
+
+.bm__story-content--img-right {
+    min-width: 204px;
+    border-radius: 8px 0 0 8px;
+    max-height: 136px;
+    background-image: contain;
+}
+
+.bm__story-content--wrap-2-right {
+    line-height: 1.6;
+    margin-left: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.bm__story-content--line-right {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.bm__story-content--sale-right {
+    font-size: 1rem;
+    color: var(--white);
+    background-color: var(--black);
+    /* backdrop-filter: blur(10px); */
+    padding: 3px;
+    border-radius: 6px;
+}
+
+.bm__story-content--title-right {
+    font-size: 1.4rem;
+}
+
+.bm__story-content--footer-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.bm__story-content--icon-right {
+    background-image: url(./image/pexels-irina-iriser-1435567.jpg);
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    border-radius: 50%;
+}
+
+.bm__story-content--text-right {
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+    margin-left: 8px;
+    color: var(--text);
+}
+
+/* Phan trang 04 home */
+.blog__main-center--4 {
+    margin: 36px 0 12px 0;
+}
+
+.bm__end-main {
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    flex-direction: column;
+    transform: translateX(38px);
+}
+
+.bm__end-img {
+    min-width: 764px;
+    max-height: 320px;
+    object-fit: cover;
+}
+
+.bm__end-content {
+    max-width: 382px;
+    min-height: 320px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.6;
+    padding: 12px 0 0 24px;
+    background-color: rgba(0, 0, 0, 0.01);
+    backdrop-filter: blur(2px);
+}
+
+.bm__end-content--line {
+    font-size: 1.8rem;
+}
+
+.bm__end-content--title {
+    font-size: 3.2rem;
+    margin: 12px 0;
+}
+
+.bm__end-content--des {
+    font-size: 1.4rem;
+    margin-bottom: 36px;
+}
+
+.bm__end-content--footer {
+    font-size: 1.4rem;
+}
+
+/* Phan cot ben phai */
+.blog__main-right--wrap {
+    height: 540px;
+}
+
+.blog__main-right {
+    max-width: 380px;
+    display: none;
+    position: absolute;
+}
+
+.blog__main-right--3 {
+    height: 540px;
+}
+
+.blog__main-right--active {
+    display: block;
+    margin: auto;
+}
+
+.bm-point {
+    width: 12px;
+    height: 12px;
+    background-color: var(--blue-neon);
+    border-radius: 100%;
+    margin-top: 56px;
+}
+
+.bm-text--content {
+    display: flex;
+    flex-direction: column;
+    margin: 56px 0 0 0;
+}
+
+.bm-text--content-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+.bm-text--content-in {
+    font-size: 1.4rem;
+}
+
+.bm-text--content-footer {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-top: 178px;
+}
