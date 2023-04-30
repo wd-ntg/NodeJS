@@ -90,9 +90,11 @@ option {
 }
 
 .quantity {
+    display: flex;
     margin-top: 50px;
     margin-bottom: 50px;
-    font-size: 20px;
+    font-size: 17px;
+    align-items: center;
 }
 
 .quantity label {

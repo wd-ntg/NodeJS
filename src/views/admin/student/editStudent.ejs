@@ -123,6 +123,11 @@
 
                 if (!isValid) {
                     e.preventDefault();
+                } else {
+                    let isConfirm = confirm('Bạn có xác nhận thay đổi thông tin sinh viên');
+                    if (!isConfirm) {
+                        e.preventDefault();
+                    }
                 }}
     </script>
 </body>

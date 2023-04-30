@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="/css/login.css" />
+    </head>
+    <body>
+        <div class="form__wrap">
+            <!-- <form class="form form-singup">
+                <span class="signup">Sign Up</span>
+                <input type="text" placeholder="Enter your full name" class="form--input" required />
+                <input
+                    type="email"
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                    placeholder="Email address"
+                    class="form--input"
+                    required
+                    oninvalid="this.setCustomValidity('Bạn chưa nhập email hoặc định dạng email chưa đúng xin vui lòng nhập lại!')"
+                    oninput="this.setCustomValidity('')"
+                />
+                <input type="password" placeholder="Password" class="form--input form--password" required />
+                <input
+                    type="password"
+                    placeholder="Confirm password"
+                    class="form--input form--password-confirm"
+                    required
+                />
+                <span class="warning"></span>
+
+                <div class="form--marketing">
+                    <input id="okayToEmail-signup" type="checkbox" />
+                    <label for="okayToEmail-signup" class="checkbox"> I agree to all terms </label>
+                    <span class="notify"></span>
+                </div>
+                <button class="form--submit">Sign up</button>
+                <div class="form--login">
+                    <label for="" class="text--login">You are have account?</label>
+                    <button class="form--submit form--submit-login">Log in</button>
+                </div>
+            </form> -->
+            <form class="form form-login" action="/submit-user" method="POST">
+                <span class="signup">Log in</span>
+                <input
+                    type="email"
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                    placeholder="Email address"
+                    class="form--input"
+                    required
+                    oninvalid="this.setCustomValidity('Bạn chưa nhập email hoặc định dạng email chưa đúng xin vui lòng nhập lại!')"
+                    oninput="this.setCustomValidity('')"
+                    name="email"
+                />
+                <input type="password" placeholder="Password" class="form--input" required name="password" />
+
+                <button class="form--submit" type="submit">Log in</button>
+                <!-- <div class="form--login">
+                    <label for="" class="text--login">Do not have an account?</label>
+                    <button class="form--submit form--submit-singup">Sign up</button>
+                </div> -->
+            </form>
+        </div>
+
+        <!-- <script src="/js/login.js"></script> -->
+    </body>
+</html>

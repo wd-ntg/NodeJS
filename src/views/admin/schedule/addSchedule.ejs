@@ -4,15 +4,38 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
         <link rel="stylesheet" href="/css/schedule.css" />
         <link rel="stylesheet" href="/css/calendar.css" />
         <title>Document</title>
+        <style>
+            .w3-bar-item {
+                border-right: 1px solid #ccc !important;
+            }
+            .w3-bar-item.active {
+                background-color: #00b158;
+                color: #fff;
+            }
+        </style>
     </head>
     <body>
+        <div class="w3-bar w3-border-bottom w3-light-grey">
+            <a href="/roomPrac" class="w3-bar-item w3-button">Phong thuc hanh</a>
+            <a href="/roomLab" class="w3-bar-item w3-button">Phong thi nghiem</a>
+            <a href="/history" class="w3-bar-item w3-button">Lich su</a>
+            <a href="/manage-student" class="w3-bar-item w3-button">Quan ly sinh vien</a>
+            <a href="/schedule" class="w3-bar-item w3-button active">Quan li lich hoc</a>
+        </div>
         <div class="schedule-container">
             <div class="schedule-header">
                 <h3 class="schedule-title">Quan ly them moi lich hoc</h3>
             </div>
+            <% if (error) { %>
+
+            <h2 style="color: red; text-align: center"><%=error %></h2>
+
+            <% } %>
             <form action="/views-add/create-newSchedule" method="POST">
                 <div class="schedule-body">
                     <div class="top">
@@ -96,6 +119,7 @@
             let btnSave = document.querySelector('.modal__item-button');
             let inputs = document.querySelectorAll('.modal__item-input');
             let inputTimeType = document.querySelector('.modal__item-input.timeType');
+            let valueDate = document.querySelector('.modal__item-input.date');
 
             btnSave.onclick = (e) => {
                 let isValid = true;
@@ -118,9 +142,37 @@
                         }
                     }
                 }
+                if (isValid) {
+                    if (valueDate.value) {
+                        let [day, month, year] = valueDate.value.split('/');
+                        let currentDate = new Date();
+
+                        if (+year < currentDate.getFullYear()) {
+                            alert('Vui lòng chọn khoảng thời gian lịch học 3 ngày tiếp theo trở đi');
+
+                            isValid = false;
+                        } else if (+year == currentDate.getFullYear() && +month < currentDate.getMonth() + 1) {
+                            alert('Vui lòng chọn khoảng thời gian lịch học 3 ngày tiếp theo trở đi');
+                            isValid = false;
+                        } else if (
+                            +year == currentDate.getFullYear() &&
+                            +month == currentDate.getMonth() + 1 &&
+                            +day < currentDate.getDate() + 3
+                        ) {
+                            alert('Vui lòng chọn khoảng thời gian lịch học 3 ngày tiếp theo trở đi');
+
+                            isValid = false;
+                        }
+                    }
+                }
 
                 if (!isValid) {
                     e.preventDefault();
+                } else {
+                    let isConfirm = confirm('Bạn có xác nhận thêm mới lịch học');
+                    if (!isConfirm) {
+                        e.preventDefault();
+                    }
                 }
             };
 
@@ -150,7 +202,7 @@
             };
 
             //calendar
-            let valueDate = document.querySelector('.modal__item-input.date');
+
             let calendar = document.querySelector('.calendar');
 
             const month_names = [

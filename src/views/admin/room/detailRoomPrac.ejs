@@ -6,8 +6,25 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="/css/detailRoom.css" />
         <title>Document</title>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+        <style>
+            .w3-bar-item {
+                border-right: 1px solid #ccc !important;
+            }
+            .w3-bar-item.active {
+                background-color: #00b158;
+                color: #fff;
+            }
+        </style>
     </head>
     <body>
+        <div class="w3-bar w3-border-bottom w3-light-grey">
+            <a href="/roomPrac" class="w3-bar-item w3-button active">Phong thuc hanh</a>
+            <a href="/roomLab" class="w3-bar-item w3-button">Phong thi nghiem</a>
+            <a href="/history" class="w3-bar-item w3-button">Lich su</a>
+            <a href="/manage-student" class="w3-bar-item w3-button">Quan ly sinh vien</a>
+            <a href="/schedule" class="w3-bar-item w3-button">Quan li lich hoc</a>
+        </div>
         <div class="detail-room-container">
             <h1 class="title">Quản lí phòng thực hành</h1>
             <div class="dr-body">
@@ -75,7 +92,7 @@
                                     <form action="/delete-device" method="POST">
                                         <input type="text" hidden value="<%= data.id %>" name="roomId" />
                                         <input type="text" hidden value="<%= device[i].id %>" name="deviceId" />
-                                        <button class="room-action delete" type="submit">Delete</button>
+                                        <button class="room-action delete deleteBtn" type="submit">Delete</button>
                                     </form>
                                 </td>
                             </tr>
@@ -132,6 +149,24 @@
                 </div>
             </div>
             <script>
+                let saveImg = document.querySelector('.save-img');
+                let deleteBtn = document.querySelectorAll('.deleteBtn');
+
+                saveImg.onclick = (e) => {
+                    let isConfirm = confirm('Bạn có xác nhận thay đổi ảnh của phòng học');
+                    if (!isConfirm) {
+                        e.preventDefault();
+                    }
+                };
+
+                deleteBtn.forEach((item) => {
+                    item.onclick = (e) => {
+                        let isConfirm = confirm('Bạn có xác nhận xóa thiết bị học tập');
+                        if (!isConfirm) {
+                            e.preventDefault();
+                        }
+                    };
+                });
                 // Get the modal
                 var modal = document.getElementById('myModal');
 
@@ -186,6 +221,11 @@
 
                     if (!isValid) {
                         e.preventDefault();
+                    } else {
+                        let isConfirm = confirm('Bạn có xác nhận thêm mới thiết bị học tập');
+                        if (!isConfirm) {
+                            e.preventDefault();
+                        }
                     }
                 };
             </script>

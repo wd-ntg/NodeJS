@@ -18,7 +18,7 @@
     <div class="modal-container">
         <div style="display: block;" id="myModal" class="modal">
             <div class="modal-content">
-            <span class="close">&times;</span>
+            <a href="/roomPrac" class="close">&times;</a>
             <div class="create-room">
                 <h2><%=error %></h2>
                 <form class="modal__form" action="/post-edit-roomPrac" method="POST">
@@ -88,6 +88,11 @@
 
                 if (!isValid) {
                     e.preventDefault();
+                } else {
+                    let isConfirm = confirm('Bạn có xác nhận thay đổi phòng thực hành');
+                    if (!isConfirm) {
+                        e.preventDefault();
+                    }
                 }
             };
     </script>

@@ -5,9 +5,29 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="/css/roomPrac.css" />
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
         <title>Document</title>
+        <style>
+            * {
+                margin: 0;
+            }
+            .w3-bar-item {
+                border-right: 1px solid #ccc !important;
+            }
+            .w3-bar-item.active {
+                background-color: #00b158;
+                color: #fff;
+            }
+        </style>
     </head>
     <body>
+        <div class="w3-bar w3-border-bottom w3-light-grey">
+            <a href="/roomPrac" class="w3-bar-item w3-button">Phong thuc hanh</a>
+            <a href="/roomLab" class="w3-bar-item w3-button">Phong thi nghiem</a>
+            <a href="/history" class="w3-bar-item w3-button">Lich su</a>
+            <a href="/manage-student" class="w3-bar-item w3-button active">Quan ly sinh vien</a>
+            <a href="/schedule" class="w3-bar-item w3-button">Them moi lich hoc</a>
+        </div>
         <div class="room-container">
             <div class="room-header">
                 <h2>Quản lí sinh viên</h2>
@@ -45,7 +65,7 @@
                                         <button class="room-action edit editBtn" type="submit">Edit</button>
                                     </form>
                                     <form action="/delete-student/<%= data[i].id %>" method="POST">
-                                        <button class="room-action delete" type="submit">Delete</button>
+                                        <button class="room-action delete deleteBtn" type="submit">Delete</button>
                                     </form>
                                 </td>
                             </tr>
@@ -115,6 +135,16 @@
         </div>
 
         <script>
+            let deleteBtn = document.querySelectorAll('.deleteBtn');
+            deleteBtn.forEach((item) => {
+                item.onclick = (e) => {
+                    let isConfirm = confirm('Bạn có xác nhận xóa thông tin sinh viên');
+                    if (!isConfirm) {
+                        e.preventDefault();
+                    }
+                };
+            });
+
             // Get the modal
             let modal = document.getElementById('myModal');
 
@@ -189,6 +219,11 @@
 
                 if (!isValid) {
                     e.preventDefault();
+                } else {
+                    let isConfirm = confirm('Bạn có xác nhận thêm mới thông tin sinh viên');
+                    if (!isConfirm) {
+                        e.preventDefault();
+                    }
                 }
             };
         </script>

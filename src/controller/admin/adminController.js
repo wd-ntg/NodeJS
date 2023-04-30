@@ -3,20 +3,46 @@ import manageStudentService from '../../service/admin/manageStudentService';
 import adminroomPracService from '../../service/admin/adminRoomPracService';
 import adminRoomLabService from '../../service/admin/adminRoomLabService';
 import scheduleService from '../../service/admin/scheduleService';
+import { request } from 'express';
 
-const adminPage = (req, res) => {
-    return res.render('admin/admin.ejs');
+const loginPage = (req, res) => {
+    return res.render('admin/login.ejs');
+};
+
+const submitUser = async (req, res) => {
+    let { email, password } = req.body;
+
+    let [user] = await pool.execute('select * from student where email = ?', [email]);
+
+    if (!user[0]) {
+        return res.send('Dia chi email khong ton tai');
+    } else {
+        if (user[0].password !== password) {
+            return res.send('Mat khau khong chinh xac, vui long nhap lai');
+        } else {
+            if (user[0].roleId === 'R1') {
+                return res.render('admin/history.ejs');
+            } else {
+                res.render('student/student.ejs', { data: user[0] });
+            }
+        }
+    }
 };
 
 const roomPracPage = async (req, res) => {
     let data = await adminroomPracService.getAllroomPrac();
 
-    return res.render('admin/room/roomPrac.ejs', { data: data, roomPrac: false });
+    return res.render('admin/room/roomPrac.ejs', { data: data, roomPrac: false, error: '' });
 };
 
+<<<<<<< HEAD
 const roomLabPage = async (req, res) => {
     let data = await adminRoomLabService.getAllroomLab();
     return res.render('admin/room/roomLab.ejs', { data: data, roomLab: false });
+=======
+const roomLabPage = (req, res) => {
+    return res.render('admin/room/roomLab.ejs');
+>>>>>>> 3d3576591fab2a3d09bfcf2ef8300d1c248c22e7
 };
 
 const calendarPage = (req, res) => {
@@ -59,7 +85,7 @@ const formLogin = async (req, res) => {
 };
 
 export default {
-    adminPage,
+    loginPage,
     roomPracPage,
     roomLabPage,
     calendarPage,
@@ -68,5 +94,9 @@ export default {
     detailroomPracPage,
     detailroomLabPage,
     schedulePage,
+<<<<<<< HEAD
     formLogin,
+=======
+    submitUser,
+>>>>>>> 3d3576591fab2a3d09bfcf2ef8300d1c248c22e7
 };

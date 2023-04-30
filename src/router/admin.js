@@ -1,4 +1,7 @@
 import express from 'express';
+//import { adminPage } from '../controller/adminController'
+import deviceController from '../controller/deviceController';
+
 import multer from 'multer';
 import path from 'path';
 import adminController from '../controller/admin/adminController';
@@ -52,11 +55,15 @@ const initAdminPage = (app) => {
         });
     });
 
+<<<<<<< HEAD
     // Get Form Login
 
     app.get('/form-login', adminController.formLogin);
 
     app.get('/admin', adminController.adminPage);
+=======
+    app.get('/login', adminController.loginPage);
+>>>>>>> 3d3576591fab2a3d09bfcf2ef8300d1c248c22e7
     app.get('/roomPrac', adminController.roomPracPage);
     app.get('/roomLab', adminController.roomLabPage);
     app.get('/calendar', adminController.calendarPage);
@@ -68,9 +75,14 @@ const initAdminPage = (app) => {
 
     app.get('/detail-roomPrac/:id', adminController.detailroomPracPage);
 
+<<<<<<< HEAD
     // Detail RoomLab
 
     app.get('/detail-roomLab/:id', adminController.detailroomLabPage);
+=======
+    //submit
+    app.post('/submit-user', adminController.submitUser);
+>>>>>>> 3d3576591fab2a3d09bfcf2ef8300d1c248c22e7
 
     //CRUD student
     app.post('/create-new-student', manageStudentController.createNewStudent);
@@ -79,6 +91,7 @@ const initAdminPage = (app) => {
     app.post('/delete-student/:id', manageStudentController.deleteStudent);
 
     //CRUD Phong TH
+<<<<<<< HEAD
     app.post('/create-newroomPrac', roomController.createNewroomPrac);
     app.post('/delete-roomPrac/:id', roomController.deleteroomPrac);
     app.get('/edit-roomPrac/:id', roomController.editroomPrac);
@@ -89,6 +102,15 @@ const initAdminPage = (app) => {
     app.post('/delete-roomLab/:id', roomController.deleteroomLab);
     app.get('/edit-roomLab/:id', roomController.editroomLab);
     app.post('/post-edit-roomLab', roomController.postEditRoomLab);
+=======
+
+    app.post('/create-newDevice/:id', deviceController.createNewDevice);
+
+    app.post('/create-newroomPrac', roomController.createNewroomPrac);
+    app.post('/delete-roomPrac/:id', roomController.deleteroomPrac);
+    app.get('/edit-roomPrac/:id', roomController.editroomPrac);
+    app.post('/post-edit-roomPrac', roomController.postEditRoom);
+>>>>>>> 3d3576591fab2a3d09bfcf2ef8300d1c248c22e7
 
     //CRUD device
     app.post('/create-newTB', roomController.createNewDevice);
