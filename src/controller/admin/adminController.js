@@ -35,14 +35,9 @@ const roomPracPage = async (req, res) => {
     return res.render('admin/room/roomPrac.ejs', { data: data, roomPrac: false, error: '' });
 };
 
-<<<<<<< HEAD
 const roomLabPage = async (req, res) => {
     let data = await adminRoomLabService.getAllroomLab();
-    return res.render('admin/room/roomLab.ejs', { data: data, roomLab: false });
-=======
-const roomLabPage = (req, res) => {
-    return res.render('admin/room/roomLab.ejs');
->>>>>>> 3d3576591fab2a3d09bfcf2ef8300d1c248c22e7
+    return res.render('admin/room/roomLab.ejs', { data: data, roomLab: false, error: '' });
 };
 
 const calendarPage = (req, res) => {
@@ -84,6 +79,10 @@ const formLogin = async (req, res) => {
     return res.render('login.ejs');
 };
 
+const adminPage = async (req, res) => {
+    return res.render('admin/admin.ejs');
+};
+
 export default {
     loginPage,
     roomPracPage,
@@ -94,9 +93,7 @@ export default {
     detailroomPracPage,
     detailroomLabPage,
     schedulePage,
-<<<<<<< HEAD
     formLogin,
-=======
     submitUser,
->>>>>>> 3d3576591fab2a3d09bfcf2ef8300d1c248c22e7
+    adminPage,
 };
