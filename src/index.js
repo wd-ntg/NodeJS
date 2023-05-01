@@ -2,6 +2,7 @@ import express from 'express';
 import configViewEngine from './config/viewEngine';
 import initAdminPage from './router/admin';
 import initStudentPage from './router/student';
+import adminController from './controller/admin/adminController';
 
 const app = express();
 const port = 2080;

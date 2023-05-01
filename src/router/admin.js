@@ -59,6 +59,10 @@ const initAdminPage = (app) => {
 
     app.get('/form-login', adminController.formLogin);
 
+    // Dieu huong trang
+
+    app.post('/', adminController.submitUser);
+
     app.get('/admin', adminController.adminPage);
     app.get('/roomPrac', adminController.roomPracPage);
     app.get('/roomLab', adminController.roomLabPage);

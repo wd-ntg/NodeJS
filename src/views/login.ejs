@@ -9,7 +9,7 @@
     </head>
     <body>
         <div class="form__wrap">
-            <form class="form form-login" action="" method="GET">
+            <form class="form form-login" action="/" method="POST">
                 <span class="signup">Log in</span>
                 <input
                     type="email"
@@ -19,13 +19,14 @@
                     required
                     oninvalid="this.setCustomValidity('Bạn chưa nhập email hoặc định dạng email chưa đúng xin vui lòng nhập lại!')"
                     oninput="this.setCustomValidity('')"
+                    name="email"
                 />
-                <input type="password" placeholder="Password" class="form--input" required />
-                <div class="form--marketing">
+                <input type="password" name="password" placeholder="Password" class="form--input" required />
+                <!-- <div class="form--marketing">
                     <input id="okayToEmail-signup" type="checkbox" />
                     <label for="okayToEmail-signup" class="checkbox"> I agree to all terms </label>
                     <span class="notify"></span>
-                </div>
+                </div> -->
                 <button class="form--submit" type="submit">Log in</button>
             </form>
         </div>
