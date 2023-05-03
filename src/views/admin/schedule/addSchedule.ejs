@@ -29,7 +29,7 @@
         </div>
         <div class="schedule-container">
             <div class="schedule-header">
-                <h3 class="schedule-title">Quan ly them moi lich hoc</h3>
+                <h3 class="schedule-title">Quản lý thêm mới lịch học</h3>
             </div>
             <% if (error) { %>
 
@@ -40,7 +40,7 @@
                 <div class="schedule-body">
                     <div class="top">
                         <div class="list-room">
-                            <h3 class="title-list-room">Chon phong thuc hanh hoac thi nghiem</h3>
+                            <h3 class="title-list-room">Chọn phòng có nhu cầu thao tác</h3>
                             <select>
                                 <% for (let i=0; i< room.length; i++) { %>
                                 <option value="<%=room[i].code %>"><%=room[i].name %> MP: <%=room[i].code %></option>
@@ -54,7 +54,7 @@
                                 />
                             </select>
                             <div class="list-time">
-                                <h3 class="title">Chon ca hoc:</h3>
+                                <h3 class="title">Chọn ca học:</h3>
                                 <% for (let i=0; i< timeType.length; i++) { %>
                                 <div class="time-item" code="<%=timeType[i].code %>"><%=timeType[i].keyName %></div>
                                 <% } %>

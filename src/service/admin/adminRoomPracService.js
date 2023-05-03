@@ -1,8 +1,7 @@
 import pool from '../../config/connectDB';
 
-const getAllroomPrac = async () => {
-    let data = [];
-    const [rows, fields] = await pool.execute('SELECT * FROM `room_prac`');
+const getAllroomPrac = async (req, res) => {
+    const [rows, fields] = await pool.execute('SELECT * FROM `room` WHERE roleId = ?', ['TH']);
     return rows;
 };
 
@@ -17,7 +16,7 @@ const createNewroomPracService = async (req, res) => {
     //     return res.render('admin/room/errorRoom.ejs', { data: data, error: error });
     // } else {
     await pool.execute(
-        'insert into room_prac(roleid,name, code, description, 	specialty, 	max_student, img) values (?, ?, ?, ?, ?, ?, ?)',
+        'insert into room(roleid,name, code, description, 	specialty, 	max_student, img) values (?, ?, ?, ?, ?, ?, ?)',
         ['TH', name, code, description, specialty, maxStudent, 'no-img.jpg'],
     );
     //}
@@ -27,7 +26,7 @@ const createNewroomPracService = async (req, res) => {
 
 const deleteroomPracService = async (req, res) => {
     let id = req.params.id;
-    await pool.execute('delete from room_prac where id = ?', [id]);
+    await pool.execute('delete from room where id = ?', [id]);
 
     let [room] = await pool.execute('select * from room where id = ?', [id]);
     let [schedule] = await pool.execute('select * from schedule where roomCode = ?', [room[0].code]);
@@ -44,17 +43,17 @@ const deleteroomPracService = async (req, res) => {
 const editroomPracService = async (req, res) => {
     let id = req.params.id;
 
-    let [roomPrac] = await pool.execute('select * from room_prac where id = ?', [id]);
+    let [roomPrac] = await pool.execute('select * from room where id = ?', [id]);
     //const [rows, fields] = await pool.execute('SELECT * FROM `phongthuchanh` ');
 
-    return res.render('admin/room/editRoom.ejs', { data: roomPrac[0], error: '' });
+    return res.render('admin/room/editRoomPrac.ejs', { data: roomPrac[0], error: '' });
 };
 
 const postEditRoomService = async (req, res) => {
     let { name, code, description, specialty, maxStudent, id } = req.body;
 
     await pool.execute(
-        'update room_prac set roleId = ?,name=?, code=? , description = ?, specialty= ?, max_student=? where id = ?',
+        'update room set roleId = ?,name=?, code=? , description = ?, specialty= ?, max_student=? where id = ?',
         ['TH', name, code, description, specialty, maxStudent, id],
     );
 
@@ -64,7 +63,7 @@ const postEditRoomService = async (req, res) => {
 const getDetailroomPrac = async (req, res) => {
     let id = req.params.id;
 
-    let [roomPrac] = await pool.execute('select * from room_prac where id = ?', [id]);
+    let [roomPrac] = await pool.execute('select * from room where id = ?', [id]);
     //const [rows, fields] = await pool.execute('SELECT * FROM `phongthuchanh` ');
 
     return roomPrac;
@@ -72,7 +71,7 @@ const getDetailroomPrac = async (req, res) => {
 
 const getAllDevice = async (req, res) => {
     let id = req.params.id;
-    let [roomPrac] = await pool.execute('select code from room_prac where id = ?', [id]);
+    let [roomPrac] = await pool.execute('select code from room where id = ?', [id]);
 
     let roomCode = roomPrac[0] && roomPrac[0].code;
 
@@ -84,7 +83,7 @@ const getAllDevice = async (req, res) => {
 const createNewDeviceService = async (req, res) => {
     let { deviceName, description, quantity, id } = req.body;
 
-    let [room, fields] = await pool.execute('select * from room_prac where id = ?', [id]);
+    let [room, fields] = await pool.execute('select * from room where id = ?', [id]);
 
     await pool.execute('insert into device(code, quantity, roomName, deviceName, description) values (?, ?, ?, ?, ?)', [
         room[0].code,
@@ -117,7 +116,7 @@ const editDeviceService = async (req, res) => {
 const postEditDeviceService = async (req, res) => {
     let { quantity, description, deviceName, deviceId, roomId } = req.body;
 
-    let [room, fields] = await pool.execute('select * from room_prac where id = ?', [roomId]);
+    let [room, fields] = await pool.execute('select * from room where id = ?', [roomId]);
 
     await pool.execute(
         'update device set code = ?, quantity = ?, roomName = ?, deviceName = ? , description = ? where id = ?',

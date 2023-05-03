@@ -7,12 +7,12 @@ import adminRoomLabService from '../../service/admin/adminRoomLabService';
 const createNewroomPrac = async (req, res) => {
     let { name, code, roleid, description, specialty, maxStudent, img } = req.body;
 
-    let [room] = await pool.execute('select * from room_prac where code = ?', [code]);
+    let [room] = await pool.execute('select * from room where code = ?', [code]);
     let error = '';
     if (room[0]) {
         error = 'Mã phòng đã tồn tại, vui lòng tạo mã phòng mới';
         let data = { name, code: '', roleid: 'TH', description, specialty, maxStudent, img };
-        return res.render('admin/room/errorRoom.ejs', { data: data, error: error });
+        return res.render('admin/room/errorRoomPrac.ejs', { data: data, error: error });
     } else {
         adminroomPracService.createNewroomPracService(req, res);
         return room;
@@ -32,14 +32,14 @@ const editroomPrac = async (req, res) => {
 
 const postEditRoomPrac = async (req, res) => {
     let { name, code, description, specialty, maxStudent, id } = req.body;
-    let [currentRoom] = await pool.execute('select * from room_prac where id = ?', [id]);
-    let [room] = await pool.execute('select * from room_prac where code = ?', [code]);
+    let [currentRoom] = await pool.execute('select * from room where id = ?', [id]);
+    let [room] = await pool.execute('select * from room where code = ?', [code]);
     let error = '';
 
     if (room[0]) {
         if (currentRoom[0].code !== code) {
             error = 'Mã phòng đã tồn tại, vui lòng tạo mã phòng mới';
-            let data = { name, code: '', description, specialty, max_student: maxStudent, id };
+            let data = { roleid: 'TH', name, code: '', description, specialty, max_student: maxStudent, id };
             return res.render('admin/room/editRoomPrac.ejs', { data: data[0], error: error });
         }
     }
@@ -51,12 +51,12 @@ const postEditRoomPrac = async (req, res) => {
 const createNewroomLab = async (req, res) => {
     let { name, code, description, specialty, maxStudent } = req.body;
 
-    let [room] = await pool.execute('select * from room_lab where code = ?', [code]);
+    let [room] = await pool.execute('select * from room where code = ?', [code]);
     let error = '';
     if (room[0]) {
         error = 'Mã phòng đã tồn tại, vui lòng tạo mã phòng mới';
-        let data = { name, code: '', description, specialty, maxStudent };
-        return res.render('admin/room/errorRoom.ejs', { data: data, error: error });
+        let data = { roleid: 'TN', name, code: '', description, specialty, maxStudent };
+        return res.render('admin/room/errorRoomLab.ejs', { data: data, error: error });
     } else {
         adminRoomLabService.createNewroomLabService(req, res);
     }
@@ -72,8 +72,8 @@ const editroomLab = async (req, res) => {
 
 const postEditRoomLab = async (req, res) => {
     let { name, code, description, specialty, maxStudent, id } = req.body;
-    let [currentRoom] = await pool.execute('select * from room_lab where id = ?', [id]);
-    let [room] = await pool.execute('select * from room_lab where code = ?', [code]);
+    let [currentRoom] = await pool.execute('select * from room where id = ?', [id]);
+    let [room] = await pool.execute('select * from room where code = ?', [code]);
     let error = '';
 
     if (room[0]) {

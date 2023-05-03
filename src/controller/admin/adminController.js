@@ -3,7 +3,7 @@ import manageStudentService from '../../service/admin/manageStudentService';
 import adminroomPracService from '../../service/admin/adminRoomPracService';
 import adminRoomLabService from '../../service/admin/adminRoomLabService';
 import scheduleService from '../../service/admin/scheduleService';
-import { request } from 'express';
+import e, { request } from 'express';
 
 const loginPage = (req, res) => {
     return res.render('admin/login.ejs');
@@ -15,6 +15,7 @@ const submitUser = async (req, res) => {
     let [user] = await pool.execute('select * from student where email = ?', [email]);
 
     if (!user[0]) {
+        3;
         return res.send('Dia chi email khong ton tai');
     } else {
         if (user[0].password !== password) {
