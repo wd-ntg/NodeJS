@@ -59,9 +59,20 @@ const deleteStudent = async (req, res) => {
     manageStudentService.deleteStudent(req, res);
 };
 
+const searchStudent = async (req, res) => {
+    const keyword = req.body.keyword;
+    const code = req.body.code;
+    const [query] = await pool.execute(`SELECT * FROM student WHERE name LIKE '%${keyword}%' and roleid=?`, [code]);
+    //let [room] = await pool.execute('select * from room where code = ?', [code]);
+
+    //console.log('keywơrd: ', query);
+    return res.render('admin/student/manageStudent.ejs', { data: query, roomPrac: false, error: '' });
+};
+
 export default {
     createNewStudent,
     editStudent,
     postEditStudent,
     deleteStudent,
+    searchStudent,
 };

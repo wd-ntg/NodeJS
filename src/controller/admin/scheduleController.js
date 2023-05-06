@@ -49,10 +49,28 @@ const postEditSchedule = (req, res) => {
     scheduleService.postEditSchedule(req, res);
 };
 
+const searchSchedule = async (req, res) => {
+    const keyword = req.body.keyword;
+
+    const [schedule, fields] = await pool.execute(
+        `SELECT schedule.id, schedule.max_student, schedule.current_student, schedule.time, schedule.roomCode, 
+        schedule.timeType, allcode.keyName, room.name 
+        FROM schedule 
+        JOIN allcode ON schedule.timeType=allcode.code 
+        JOIN room ON schedule.roomCode=room.code 
+        WHERE room.name LIKE ?`,
+        [`%${keyword}%`],
+    );
+
+    //console.log('keywơrd: ', query);
+    return res.render('admin/schedule/schedule.ejs', { data: schedule, roomPrac: false, error: '' });
+};
+
 export default {
     viewAddSchedule,
     createNewSchedule,
     deleteSchedule,
     editSchedule,
     postEditSchedule,
+    searchSchedule,
 };

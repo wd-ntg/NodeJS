@@ -26,6 +26,37 @@ html {
 #modal-container {
 }
 
+.slide {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 1256px;
+}
+
+.slide__right {
+    float: right;
+    transform: translateX(156px);
+}
+
+.search {
+    width: 172px;
+    height: 32px;
+    outline: none;
+}
+
+.search__btn {
+    height: 32px;
+    width: 72px;
+    cursor: pointer;
+    outline: none;
+}
+
+.search__btn:hover {
+    color: white;
+    background-color: #00c6d4;
+    border: none;
+}
+
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */

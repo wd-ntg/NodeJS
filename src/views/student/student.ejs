@@ -90,22 +90,26 @@
                     <a href="/form-login" class="nav__page-text">Đăng xuất </a>
                 </div>
             </nav>
+
             <div class="wrap__page-student">
                 <div class="wrap__page-student--left">
                     <main class="content__page-student--left">
                         <div class="content__left">
-                            <a class="content__item" href="/booking">
+                            <form class="content__item" action="/booking" method="GET">
+                                <input type="text" hidden value="<%= data.id %>" name="id" />
                                 <div class="content__item-main">
                                     <div class="content__item-icon">
                                         <img class="content__icon active" src="/image/dangky.jpg" alt="" />
                                     </div>
-                                    <span class="content__item-text">Đăng Lý Lịch Học</span>
+                                    <button type="submit" class="content__item-text content__item-text--btn">
+                                        Đăng ký lịch
+                                    </button>
                                 </div>
-                            </a>
+                            </form>
                             <a class="content__item" href="/news">
                                 <div class="content__item-main">
                                     <div class="content__item-icon">
-                                        <img class="content__icon" src="/image/tin-tuc.jpg" alt="" />
+                                        <img class="content__icon" src="/image/LogoNEWS2.png" alt="" />
                                     </div>
                                     <span class="content__item-text">Trang Tin Tức</span>
                                 </div>

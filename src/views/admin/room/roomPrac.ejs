@@ -21,11 +21,11 @@
     <body>
         <div class="room-container">
             <div class="w3-bar w3-border-bottom w3-light-grey">
-                <a href="/roomPrac" class="w3-bar-item w3-button active">Phong thuc hanh</a>
-                <a href="/roomLab" class="w3-bar-item w3-button">Phong thi nghiem</a>
-                <a href="/history" class="w3-bar-item w3-button">Lich su</a>
-                <a href="/manage-student" class="w3-bar-item w3-button">Quan ly sinh vien</a>
-                <a href="/schedule" class="w3-bar-item w3-button">Quan li lich hoc</a>
+                <a href="/roomPrac" class="w3-bar-item w3-button active">Phòng thực hành</a>
+                <a href="/roomLab" class="w3-bar-item w3-button">Phòng thí nghiệm</a>
+                <a href="/history" class="w3-bar-item w3-button">Lịch sử</a>
+                <a href="/manage-student" class="w3-bar-item w3-button">Quản lý sinh viên</a>
+                <a href="/schedule" class="w3-bar-item w3-button">Quản lý lịch học</a>
             </div>
             <div class="room-header">
                 <h2>QUẢN LÝ PHÒNG THỰC HÀNH</h2>
@@ -36,8 +36,18 @@
 
             <% } %>
             <div class="room-body">
-                <div class="add-room">
-                    <button class="add-room-btn" id="myBtn">Thêm mới phòng THỰC HÀNH</button>
+                <div class="slide">
+                    <div class="add-room">
+                        <button class="add-room-btn" id="myBtn">Thêm mới phòng THỰC HÀNH</button>
+                    </div>
+                    <div class="slide__right">
+                        <form method="POST" action="/search-roomPrac">
+                            <input class="search" type="search" name="keyword" placeholder="Tìm kiếm..." />
+                            <input type="text" name="code" hidden value="TH" />
+
+                            <button class="search__btn" type="submit">Tìm kiếm</button>
+                        </form>
+                    </div>
                 </div>
                 <div class="room-list">
                     <table id="customers">

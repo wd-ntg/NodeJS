@@ -20,20 +20,29 @@
     <body>
         <div class="room-container">
             <div class="w3-bar w3-border-bottom w3-light-grey">
-                <a href="/roomPrac" class="w3-bar-item w3-button">Phong thuc hanh</a>
-                <a href="/roomLab" class="w3-bar-item w3-button">Phong thi nghiem</a>
-                <a href="/history" class="w3-bar-item w3-button">Lich su</a>
-                <a href="/manage-student" class="w3-bar-item w3-button">Quan ly sinh vien</a>
-                <a href="/schedule" class="w3-bar-item w3-button active">Quan li lich hoc</a>
+                <a href="/roomPrac" class="w3-bar-item w3-button">Phòng thực hành</a>
+                <a href="/roomLab" class="w3-bar-item w3-button">Phòng thí nghiệm</a>
+                <a href="/history" class="w3-bar-item w3-button">Lịch sử</a>
+                <a href="/manage-student" class="w3-bar-item w3-button">Quản lý sinh viên</a>
+                <a href="/schedule" class="w3-bar-item w3-button active">Quản lý lịch học</a>
             </div>
             <div class="room-header">
-                <h2>Quan li lich hoc</h2>
+                <h2>Quản lý lịch học</h2>
             </div>
             <div class="room-body">
-                <div class="add-room">
-                    <a href="/views-add/schedule" class="add-room-btn" style="text-decoration: none"
+                <div class="slide">
+                    <div class="add-room">
+                        <a href="/views-add/schedule" class="add-room-btn" style="text-decoration: none"
                         >Thêm mới lich hoc</a
                     >
+                    </div>
+                    <div class="slide__right">
+                        <form method="POST" action="/search-schedule">
+                            <input class="search" type="search" name="keyword" placeholder="Tìm kiếm phòng học..." />
+                            <!-- <input type="text" name="code" hidden value="<%=data.name%>" /> -->
+                            <button class="search__btn" type="submit">Tìm kiếm</button>
+                        </form>
+                    </div>
                 </div>
                 <div class="room-list">
                     <table id="customers">

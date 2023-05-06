@@ -285,8 +285,20 @@ html {
     background-size: contain;
 }
 
+.content__item-icon img:nth-child(2) {
+    scale: 3.6;
+}
+
 .content__item-text {
     color: var(--blue-new);
+}
+
+.content__item-text--btn {
+    border: none;
+    background: none;
+    font-size: 1rem;
+    cursor: pointer;
+    backdrop-filter: blur(50px);
 }
 
 .content__right {

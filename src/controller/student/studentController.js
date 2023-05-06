@@ -7,7 +7,9 @@ const studentPage = (req, res) => {
 const bookingPage = async (req, res) => {
     let schedule = await studentService.getAllSchedule(req, res);
     let timeType = await studentService.getTimeType(req, res);
-    //console.log(schedule);
+
+    // console.log(schedule);
+
     return res.render('student/booking/booking.ejs', {
         data: schedule,
         timeType: timeType,
@@ -25,9 +27,10 @@ const viewDetailRoomForStudent = async (req, res) => {
 
 const bookingConfirm = async (req, res) => {
     let message = await studentService.bookingConfirm(req, res);
+
     let schedule = await studentService.getAllSchedule(req, res);
     let timeType = await studentService.getTimeType(req, res);
-    //console.log(schedule);
+
     return res.render('student/booking/booking.ejs', {
         data: schedule,
         timeType: timeType,

@@ -104,6 +104,25 @@ const postEditDevice = async (req, res) => {
     adminroomPracService.postEditDeviceService(req, res);
 };
 
+const searchRoomPrac = async (req, res) => {
+    const keyword = req.body.keyword;
+    const code = req.body.code;
+    const [query] = await pool.execute(`SELECT * FROM room WHERE name LIKE '%${keyword}%' and roleid=?`, [code]);
+    //let [room] = await pool.execute('select * from room where code = ?', [code]);
+
+    //console.log('keywơrd: ', query);
+    return res.render('admin/room/roomPrac.ejs', { data: query, roomPrac: false, error: '' });
+};
+const searchRoomLab = async (req, res) => {
+    const keyword = req.body.keyword;
+    const code = req.body.code;
+    const [query] = await pool.execute(`SELECT * FROM room WHERE name LIKE '%${keyword}%' and roleid=?`, [code]);
+    //let [room] = await pool.execute('select * from room where code = ?', [code]);
+
+    //console.log('keywơrd: ', query);
+    return res.render('admin/room/roomLab.ejs', { data: query, roomLab: false, error: '' });
+};
+
 export default {
     createNewroomPrac,
     deleteroomPrac,
@@ -117,4 +136,6 @@ export default {
     deleteDevice,
     editDevice,
     postEditDevice,
+    searchRoomPrac,
+    searchRoomLab,
 };

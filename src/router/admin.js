@@ -110,6 +110,15 @@ const initAdminPage = (app) => {
     app.post('/post-edit-schedule', scheduleController.postEditSchedule);
     app.post('/delete-schedule', scheduleController.deleteSchedule);
 
+    // Search
+
+    app.post('/search-roomPrac', roomController.searchRoomPrac);
+    app.post('/search-roomLab', roomController.searchRoomLab);
+
+    app.post('/search-student', manageStudentController.searchStudent);
+
+    app.post('/search-schedule', scheduleController.searchSchedule);
+
     return app.use('/', router);
 };
 
