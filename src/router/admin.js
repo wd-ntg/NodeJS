@@ -10,6 +10,8 @@ import manageStudentController from '../controller/admin/manageStudentController
 import scheduleController from '../controller/admin/scheduleController';
 import pool from '../config/connectDB';
 
+import historyController from '../controller/admin/historyController';
+
 const router = express.Router();
 
 const imageFilter = function (req, file, cb) {
@@ -110,6 +112,11 @@ const initAdminPage = (app) => {
     app.post('/post-edit-schedule', scheduleController.postEditSchedule);
     app.post('/delete-schedule', scheduleController.deleteSchedule);
 
+    // History
+
+    app.get('/get-hitory-roomLab', historyController.historyRoomLab);
+    app.get('/get-hitory-roomPrac', historyController.historyRoomLab);
+
     // Search
 
     app.post('/search-roomPrac', roomController.searchRoomPrac);
@@ -118,6 +125,7 @@ const initAdminPage = (app) => {
     app.post('/search-student', manageStudentController.searchStudent);
 
     app.post('/search-schedule', scheduleController.searchSchedule);
+    app.post('/search-history', historyController.searchHistory);
 
     return app.use('/', router);
 };

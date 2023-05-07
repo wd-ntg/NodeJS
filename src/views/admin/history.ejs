@@ -7,6 +7,7 @@
         <title>Document</title>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
         <link rel="stylesheet" href="/css/history.css" />
+        <link rel="stylesheet" href="/css/roomPrac.css" />
         <style>
             .w3-bar-item {
                 border-right: 1px solid #ccc !important;
@@ -25,6 +26,64 @@
             <a href="/manage-student" class="w3-bar-item w3-button">Quản lý sinh viên</a>
             <a href="/schedule" class="w3-bar-item w3-button">Quản lý lịch học</a>
         </div>
-        <h1>Lich su</h1>
+        <div class="room-header">
+            <h2>Xem lịch sử</h2>
+        </div>
+        <% if (error) { %>
+
+        <h2 style="color: red; text-align: center"><%=error %></h2>
+
+        <% } %>
+        <div class="room-body">
+            <div class="slide">
+                <div class="add-room"></div>
+                <div class="slide__right">
+                    <form method="POST" action="/search-history">
+                        <input class="search" type="search" name="keyword" placeholder="Tìm kiếm..." />
+                        <% for (let i=0; i< data.length; i++) { %>
+                        <input type="text" name="code" hidden value="<%=data[i].code %>" />
+                        <% } %>
+                        <button class="search__btn" type="submit">Tìm kiếm</button>
+                    </form>
+                </div>
+            </div>
+            <div class="room-list">
+                <table id="customers">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Đối tượng</th>
+                            <th>Tên</th>
+                            <th>Mã</th>
+                            <th>Hành động</th>
+                            <th>Thời gian</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (let i=0; i< data.length; i++) { %>
+
+                        <tr>
+                            <td><%= i + 1 %></td>
+                            <td><%=data[i].object %></td>
+                            <td><%=data[i].name %></td>
+                            <td><%=data[i].code %></td>
+                            <td><%=data[i].action %></td>
+                            <td><%=data[i].time%></td>
+
+                            <!-- <td style="display: flex; gap: 15px">
+                                <a href="/detail-roomLab/<%=data[i].id %>" class="room-action"> Xem chi tiết </a>
+                                <form action="/edit-roomLab/<%= data[i].id %>" method="GET">
+                                    <button class="room-action edit editBtn" type="submit">Edit</button>
+                                </form>
+                                <form action="/delete-roomLab/<%= data[i].id %>" method="POST">
+                                    <button class="room-action delete deleteBtn" type="submit">Delete</button>
+                                </form>
+                            </td> -->
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </body>
 </html>

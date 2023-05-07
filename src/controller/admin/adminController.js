@@ -46,8 +46,12 @@ const calendarPage = (req, res) => {
     return res.render('admin/calendar.ejs');
 };
 
-const historyPage = (req, res) => {
-    return res.render('admin/history.ejs');
+const historyPage = async (req, res) => {
+    let [data, fields] = await pool.execute('SELECT * from history');
+
+    let error = '';
+
+    return res.render('admin/history.ejs', { data: data, error: error });
 };
 
 const schedulePage = async (req, res) => {

@@ -240,6 +240,7 @@ html {
     border: 1px solid #ddd;
     padding: 8px;
     font-size: 1.6rem;
+    text-align: center;
 }
 
 #customers tr th {

@@ -21,22 +21,90 @@ const createNewroomPracService = async (req, res) => {
     );
     //}
 
+    let object = 'Phòng thực hành';
+    let action = 'Tạo mới (Thêm)';
+
+    const currentDate = new Date(Date.now());
+
+    // Lấy giá trị của ngày, tháng, năm, giờ, phút, giây
+    const date = currentDate.getDate();
+    const month = currentDate.getMonth() + 1;
+    const year = currentDate.getFullYear();
+    const hours = currentDate.getHours();
+    const minutes = currentDate.getMinutes();
+    const seconds = currentDate.getSeconds();
+
+    // Định dạng lại chuỗi ngày tháng năm
+    const formattedDate = `${date < 10 ? '0' + date : date}/${month < 10 ? '0' + month : month}/${year}`;
+
+    // Định dạng lại chuỗi giờ phút giây
+    const formattedTime = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${
+        seconds < 10 ? '0' + seconds : seconds
+    }`;
+
+    // Kết hợp chuỗi ngày tháng năm và giờ phút giây
+    const dateTime = `${formattedTime}  ${formattedDate}`;
+
+    await pool.execute('insert into history(object, name, code, action, time) values (?, ?, ?, ?, ?)', [
+        object,
+        name,
+        code,
+        action,
+        dateTime,
+    ]);
+
     return res.redirect('/roomPrac');
 };
 
 const deleteroomPracService = async (req, res) => {
     let id = req.params.id;
-    await pool.execute('delete from room where id = ?', [id]);
 
     let [room] = await pool.execute('select * from room where id = ?', [id]);
+
+    console.log(room);
+
     let [schedule] = await pool.execute('select * from schedule where roomCode = ?', [room[0].code]);
     let error = '';
     if (schedule[0]) {
         error = 'Hiện tại phòng đang có lịch học, không thể xóa phòng trong khoảng thời gian này!';
     } else {
+        let [room] = await pool.execute('select * from room where id = ?', [id]);
+
+        let object = 'Phòng thực hành';
+        let action = 'Xóa';
+
+        const currentDate = new Date(Date.now());
+
+        // Lấy giá trị của ngày, tháng, năm, giờ, phút, giây
+        const date = currentDate.getDate();
+        const month = currentDate.getMonth() + 1;
+        const year = currentDate.getFullYear();
+        const hours = currentDate.getHours();
+        const minutes = currentDate.getMinutes();
+        const seconds = currentDate.getSeconds();
+
+        // Định dạng lại chuỗi ngày tháng năm
+        const formattedDate = `${date < 10 ? '0' + date : date}/${month < 10 ? '0' + month : month}/${year}`;
+
+        // Định dạng lại chuỗi giờ phút giây
+        const formattedTime = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${
+            seconds < 10 ? '0' + seconds : seconds
+        }`;
+
+        // Kết hợp chuỗi ngày tháng năm và giờ phút giây
+        const dateTime = `${formattedTime}  ${formattedDate}`;
+
+        await pool.execute('insert into history(object, name, code, action, time) values (?, ?, ?, ?, ?)', [
+            object,
+            room[0].name,
+            room[0].code,
+            action,
+            dateTime,
+        ]);
+
         await pool.execute('delete from room where id = ?', [id]);
     }
-
+    await pool.execute('delete from room where id = ?', [id]);
     return error;
 };
 
@@ -56,6 +124,38 @@ const postEditRoomService = async (req, res) => {
         'update room set roleId = ?,name=?, code=? , description = ?, specialty= ?, max_student=? where id = ?',
         ['TH', name, code, description, specialty, maxStudent, id],
     );
+
+    let object = 'Phòng thực hành';
+    let action = 'Cập nhật';
+
+    const currentDate = new Date(Date.now());
+
+    // Lấy giá trị của ngày, tháng, năm, giờ, phút, giây
+    const date = currentDate.getDate();
+    const month = currentDate.getMonth() + 1;
+    const year = currentDate.getFullYear();
+    const hours = currentDate.getHours();
+    const minutes = currentDate.getMinutes();
+    const seconds = currentDate.getSeconds();
+
+    // Định dạng lại chuỗi ngày tháng năm
+    const formattedDate = `${date < 10 ? '0' + date : date}/${month < 10 ? '0' + month : month}/${year}`;
+
+    // Định dạng lại chuỗi giờ phút giây
+    const formattedTime = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${
+        seconds < 10 ? '0' + seconds : seconds
+    }`;
+
+    // Kết hợp chuỗi ngày tháng năm và giờ phút giây
+    const dateTime = `${formattedTime}  ${formattedDate}`;
+
+    await pool.execute('insert into history(object, name, code, action, time) values (?, ?, ?, ?, ?)', [
+        object,
+        name,
+        code,
+        action,
+        dateTime,
+    ]);
 
     return res.redirect('/roomPrac');
 };

@@ -31,6 +31,7 @@ const getAllSchedule = async () => {
 
 const createNewSchedule = async (req, res) => {
     const { roomCode, timeType, max_student, time } = req.body;
+
     let error = '';
     let [room] = await pool.execute('select * from room where code = ?', [roomCode]);
 
@@ -41,6 +42,38 @@ const createNewSchedule = async (req, res) => {
             'insert into schedule(roomCode, max_student, current_student, time, timeType) values (?, ?, ?, ?, ?)',
             [roomCode, +max_student, 0, time, timeType],
         );
+
+        let object = 'Lịch học';
+        let action = 'Tạo mới (Thêm)';
+
+        const currentDate = new Date(Date.now());
+
+        // Lấy giá trị của ngày, tháng, năm, giờ, phút, giây
+        const date = currentDate.getDate();
+        const month = currentDate.getMonth() + 1;
+        const year = currentDate.getFullYear();
+        const hours = currentDate.getHours();
+        const minutes = currentDate.getMinutes();
+        const seconds = currentDate.getSeconds();
+
+        // Định dạng lại chuỗi ngày tháng năm
+        const formattedDate = `${date < 10 ? '0' + date : date}/${month < 10 ? '0' + month : month}/${year}`;
+
+        // Định dạng lại chuỗi giờ phút giây
+        const formattedTime = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${
+            seconds < 10 ? '0' + seconds : seconds
+        }`;
+
+        // Kết hợp chuỗi ngày tháng năm và giờ phút giây
+        const dateTime = `${formattedTime}  ${formattedDate}`;
+
+        await pool.execute('insert into history(object, name, code, action, time) values (?, ?, ?, ?, ?)', [
+            object,
+            room[0].name,
+            roomCode,
+            action,
+            dateTime,
+        ]);
     }
 
     return error;
@@ -83,6 +116,41 @@ const checkDayDelete = async (req, res) => {
 
 const deleteSchedule = async (req, res) => {
     let id = req.body.id;
+    let roomCode = req.body.roomCode;
+
+    let [room] = await pool.execute('select * from room where code = ?', [roomCode]);
+
+    let object = 'Lịch học';
+    let action = 'Xóa';
+
+    const currentDate = new Date(Date.now());
+
+    // Lấy giá trị của ngày, tháng, năm, giờ, phút, giây
+    const date = currentDate.getDate();
+    const month = currentDate.getMonth() + 1;
+    const year = currentDate.getFullYear();
+    const hours = currentDate.getHours();
+    const minutes = currentDate.getMinutes();
+    const seconds = currentDate.getSeconds();
+
+    // Định dạng lại chuỗi ngày tháng năm
+    const formattedDate = `${date < 10 ? '0' + date : date}/${month < 10 ? '0' + month : month}/${year}`;
+
+    // Định dạng lại chuỗi giờ phút giây
+    const formattedTime = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${
+        seconds < 10 ? '0' + seconds : seconds
+    }`;
+
+    // Kết hợp chuỗi ngày tháng năm và giờ phút giây
+    const dateTime = `${formattedTime}  ${formattedDate}`;
+
+    await pool.execute('insert into history(object, name, code, action, time) values (?, ?, ?, ?, ?)', [
+        object,
+        room[0].name,
+        room[0].code,
+        action,
+        dateTime,
+    ]);
 
     await pool.execute('delete from schedule where id = ?', [id]);
 
@@ -111,6 +179,40 @@ const postEditSchedule = async (req, res) => {
     const { roomCode, timeType, max_student, time, id } = req.body;
 
     let [rows] = await pool.execute('select current_student from schedule where id = ?', [id]);
+
+    let [room] = await pool.execute('select * from room where code = ?', [roomCode]);
+
+    let object = 'Lịch học';
+    let action = 'Cập nhật';
+
+    const currentDate = new Date(Date.now());
+
+    // Lấy giá trị của ngày, tháng, năm, giờ, phút, giây
+    const date = currentDate.getDate();
+    const month = currentDate.getMonth() + 1;
+    const year = currentDate.getFullYear();
+    const hours = currentDate.getHours();
+    const minutes = currentDate.getMinutes();
+    const seconds = currentDate.getSeconds();
+
+    // Định dạng lại chuỗi ngày tháng năm
+    const formattedDate = `${date < 10 ? '0' + date : date}/${month < 10 ? '0' + month : month}/${year}`;
+
+    // Định dạng lại chuỗi giờ phút giây
+    const formattedTime = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${
+        seconds < 10 ? '0' + seconds : seconds
+    }`;
+
+    // Kết hợp chuỗi ngày tháng năm và giờ phút giây
+    const dateTime = `${formattedTime}  ${formattedDate}`;
+
+    await pool.execute('insert into history(object, name, code, action, time) values (?, ?, ?, ?, ?)', [
+        object,
+        room[0].name,
+        roomCode,
+        action,
+        dateTime,
+    ]);
 
     await pool.execute(
         'update schedule set roomCode = ?, max_student = ?, current_student =? , time= ?, timeType = ? where id = ?',

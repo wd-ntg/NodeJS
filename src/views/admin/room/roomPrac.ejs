@@ -71,7 +71,7 @@
                                 <td><%=data[i].specialty %></td>
                                 <td><%=data[i].max_student %></td>
 
-                                <td style="display: flex; gap: 15px">
+                                <td style="display: flex; gap: 15px; justify-content: center; align-items: center">
                                     <a href="/detail-roomPrac/<%=data[i].id %>" class="room-action"> Xem chi tiết </a>
                                     <form action="/edit-roomPrac/<%= data[i].id %>" method="GET">
                                         <button class="room-action edit editBtn" type="submit">Edit</button>

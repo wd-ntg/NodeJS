@@ -68,13 +68,14 @@
                                 <td><%=data[i].current_student %></td>
                                 <td><%=data[i].keyName %> <%=data[i].time %></td>
 
-                                <td style="display: flex; gap: 15px">
+                                <td style="display: flex; gap: 15px; justify-content: center; align-items: center">
                                     <form action="/edit-schedule" method="POST">
                                         <input type="text" hidden value="<%= data[i].id %>" name="id" />
                                         <button class="room-action edit editBtn" type="submit">Edit</button>
                                     </form>
                                     <form action="/delete-schedule" method="POST">
-                                        <input type="text" hidden value="<%= data[i].id %>" name="id" />
+                                        <input type="text" hidden value="<%= data[i].id %>" name="id" /> 
+                                        <input type="text" hidden value="<%= data[i].roomCode %>" name="roomCode" /> 
                                         <button class="room-action delete deleteBtn" type="submit">Delete</button>
                                     </form>
                                 </td>
