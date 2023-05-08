@@ -116,14 +116,25 @@
                             </a>
                         </div>
                         <div class="content__right">
-                            <a class="content__item" href="">
+                            <!-- <a class="content__item" href="/history-student">
                                 <div class="content__item-main">
                                     <div class="content__item-icon">
                                         <img class="content__icon" src="/image/history-6534506.png" alt="" />
                                     </div>
                                     <span class="content__item-text">Lịch Sử Đăng Ký</span>
                                 </div>
-                            </a>
+                            </a> -->
+                            <form class="content__item" action="/history-student" method="GET">
+                                <input type="text" hidden value="<%= data.email %>" name="email" />
+                                <div class="content__item-main">
+                                    <div class="content__item-icon">
+                                        <img class="content__icon active" src="/image/history-6534506.png" alt="" />
+                                    </div>
+                                    <button type="submit" class="content__item-text content__item-text--btn">
+                                        Lịch sử đăng ký
+                                    </button>
+                                </div>
+                            </form>
                             <a class="content__item" href="/contact">
                                 <div class="content__item-main">
                                     <div class="content__item-icon">

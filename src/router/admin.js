@@ -115,7 +115,7 @@ const initAdminPage = (app) => {
     // History
 
     app.get('/get-hitory-roomLab', historyController.historyRoomLab);
-    app.get('/get-hitory-roomPrac', historyController.historyRoomLab);
+    app.get('/get-hitory-roomPrac', historyController.historyRoomPrac);
 
     // Search
 

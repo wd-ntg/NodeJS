@@ -9,7 +9,7 @@
     </head>
     <body>
         <div class="form__wrap">
-            <form class="form form-login" action="/" method="POST">
+            <form class="form form-login" action="/" method="POST" id="register-form">
                 <span class="signup">Log in</span>
                 <input
                     type="email"
@@ -20,8 +20,16 @@
                     oninvalid="this.setCustomValidity('Bạn chưa nhập email hoặc định dạng email chưa đúng xin vui lòng nhập lại!')"
                     oninput="this.setCustomValidity('')"
                     name="email"
+                    id="email"
                 />
-                <input type="password" name="password" placeholder="Password" class="form--input" required />
+                <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    class="form--input"
+                    required
+                />
                 <!-- <div class="form--marketing">
                     <input id="okayToEmail-signup" type="checkbox" />
                     <label for="okayToEmail-signup" class="checkbox"> I agree to all terms </label>
@@ -30,7 +38,33 @@
                 <button class="form--submit" type="submit">Log in</button>
             </form>
         </div>
+        <script>
+            // Lưu trữ dữ liệu trong localStorage khi form được submit
+            document.getElementById('register-form').addEventListener('submit', function (event) {
+                event.preventDefault();
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
 
+                // Lưu trữ thông tin vào localStorage
+                localStorage.setItem('register-form-data', JSON.stringify({ name, email, password }));
+
+                // Submit form để chuyển đến trang kế tiếp
+                this.submit();
+            });
+
+            // Khôi phục dữ liệu trong localStorage khi load lại trang
+            window.addEventListener('load', function () {
+                const formData = localStorage.getItem('register-form-data');
+                if (formData) {
+                    const { name, email, password } = JSON.parse(formData);
+                    document.getElementById('email').value = email;
+                    document.getElementById('password').value = password;
+
+                    // Xóa dữ liệu trong localStorage
+                    localStorage.removeItem('register-form-data');
+                }
+            });
+        </script>
         <script src="/js/login.js"></script>
     </body>
 </html>

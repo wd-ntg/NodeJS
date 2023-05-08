@@ -76,6 +76,34 @@ const bookingConfirm = async (req, res) => {
             timeType,
         ]);
 
+        let [room] = await pool.execute('select * from room where code = ?', [roomCode]);
+
+        const currentDate = new Date(Date.now());
+
+        // Lấy giá trị của ngày, tháng, năm, giờ, phút, giây
+        const date = currentDate.getDate();
+        const month = currentDate.getMonth() + 1;
+        const year = currentDate.getFullYear();
+        const hours = currentDate.getHours();
+        const minutes = currentDate.getMinutes();
+        const seconds = currentDate.getSeconds();
+
+        // Định dạng lại chuỗi ngày tháng năm
+        const formattedDate = `${date < 10 ? '0' + date : date}/${month < 10 ? '0' + month : month}/${year}`;
+
+        // Định dạng lại chuỗi giờ phút giây
+        const formattedTime = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${
+            seconds < 10 ? '0' + seconds : seconds
+        }`;
+
+        // Kết hợp chuỗi ngày tháng năm và giờ phút giây
+        const dateTime = `${formattedTime}  ${formattedDate}`;
+
+        await pool.execute(
+            'insert into historyStudent(studentcode, email, object, name, schedule, timelogin) values (?, ?, ?, ?, ?, ?)',
+            [student[0].mssv, student[0].email, room[0].name, roomCode, timeType, dateTime],
+        );
+
         await pool.execute('update schedule set current_student = ? where roomCode = ? and time = ? and timeType = ?', [
             current_student + 1,
             roomCode,

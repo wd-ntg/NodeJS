@@ -1,3 +1,4 @@
+import pool from '../../config/connectDB';
 import studentService from '../../service/student/studentService';
 
 const studentPage = (req, res) => {
@@ -46,4 +47,22 @@ const newsStudent = async (req, res) => {
     return res.render('student/news/news.ejs');
 };
 
-export default { studentPage, bookingPage, viewDetailRoomForStudent, bookingConfirm, contactStudent, newsStudent };
+const historyStudent = async (req, res) => {
+    let email = req.query.email;
+
+    let [data] = await pool.execute('SELECT * from historyStudent where email = ?', [email]);
+
+    let error = '';
+
+    return res.render('student/history/history.ejs', { data: data, error: error });
+};
+
+export default {
+    studentPage,
+    bookingPage,
+    viewDetailRoomForStudent,
+    bookingConfirm,
+    contactStudent,
+    newsStudent,
+    historyStudent,
+};

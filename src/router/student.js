@@ -10,6 +10,9 @@ const initStudentPage = (app) => {
     app.get('/contact', studentController.contactStudent);
     app.get('/news', studentController.newsStudent);
     app.post('/booking-confirm', studentController.bookingConfirm);
+
+    app.get('/history-student', studentController.historyStudent);
+
     return app.use('/', router);
 };
 
