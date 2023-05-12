@@ -27,23 +27,23 @@ document.addEventListener(
         }
 
         let move__background = function () {};
-        setTimeout(function () {
-            wrap__container.style.display = 'none';
-            wrap.style.display = 'block';
-            video.style.display = 'block';
-        }, 10000);
+        // setTimeout(function () {
+        //     wrap__container.style.display = 'none';
+        //     wrap.style.display = 'block';
+        //     video.style.display = 'block';
+        // }, 10000);
 
-        function randomItems(n) {
-            let index = Math.floor(Math.random() * item.length);
-            for (let i = 0; i < n; i++) {
-                var a = item[index].classList.add('random__zoom-item');
-            }
-            return a;
-        }
+        // function randomItems(n) {
+        //     let index = Math.floor(Math.random() * item.length);
+        //     for (let i = 0; i < n; i++) {
+        //         var a = item[index].classList.add('random__zoom-item');
+        //     }
+        //     return a;
+        // }
 
-        setTimeout(function () {
-            randomItems(3);
-        }, 1000);
+        // setTimeout(function () {
+        //     randomItems(3);
+        // }, 1000);
     },
     false,
 );

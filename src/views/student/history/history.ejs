@@ -6,8 +6,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Document</title>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
-        <link rel="stylesheet" href="/css/history.css" />
         <link rel="stylesheet" href="/css/roomPrac.css" />
+        <link rel="stylesheet" href="/css/history.css" />
+        <link rel="stylesheet" href="/css/btnreturn.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+            integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
         <style>
             .w3-bar-item {
                 border-right: 1px solid #ccc !important;
@@ -20,6 +28,17 @@
     </head>
     <body>
         <div class="room-header">
+            <div class="wrap__header" style="position: absolute; top: 32px; left: 108px">
+                <form class="content__item" action="/student-info" method="POST">
+                    <input type="text" hidden value="<%= studentID %>" name="id" />
+                    <div class="content__item-main">
+                        <button type="submit" class="content__item-text content__item-text--btn">
+                            <i class="fa-solid fa-rotate-left header__link-back--icon"></i>
+                            Quay lại
+                        </button>
+                    </div>
+                </form>
+            </div>
             <h2>Xem lịch sử</h2>
         </div>
         <% if (error) { %>

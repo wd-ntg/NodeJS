@@ -241,7 +241,10 @@ html {
 }
 
 .content__item:hover .content__item-text {
-    color: #0f6292;
+    color: #082d42;
+}
+.content__item:hover .content__item-text--btn {
+    background-color: rgb(38, 155, 239);
 }
 
 .content__left .content__item:nth-child(1) {
@@ -296,9 +299,12 @@ html {
 .content__item-text--btn {
     border: none;
     background: none;
+    margin-top: 8px;
+    padding: 4px 4px;
     font-size: 1rem;
     cursor: pointer;
     backdrop-filter: blur(50px);
+    border-radius: 4px;
 }
 
 .content__right {

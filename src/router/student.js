@@ -13,6 +13,8 @@ const initStudentPage = (app) => {
 
     app.get('/history-student', studentController.historyStudent);
 
+    app.post('/student-info', studentController.studentInfo);
+
     return app.use('/', router);
 };
 

@@ -19,7 +19,7 @@
         />
     </head>
     <body>
-        <div id="wrap__container">
+        <!-- <div id="wrap__container">
             <div class="grid__container">
                 <div class="grid__container-item">
                     <div class="item"><img src="/image/img1.jpeg" alt="" class="item__img" /></div>
@@ -72,9 +72,9 @@
                     <div class="item"><img src="/image/img30.webp" alt="" class="item__img" /></div>
                 </div>
             </div>
-        </div>
-        <video class="video" src="/image/video_tech.mp4" muted loop autoplay></video>
-        <div id="wrap">
+        </div> -->
+        <video class="video" src="/image/video_tech.mp4" muted loop autoplay style="display: block"></video>
+        <div id="wrap" style="display: block">
             <nav class="nav__page-student">
                 <div class="nav__page-student-left">
                     <div class="logo">
@@ -106,14 +106,17 @@
                                     </button>
                                 </div>
                             </form>
-                            <a class="content__item" href="/news">
+                            <form class="content__item" action="/news" method="GET">
+                                <input type="text" hidden value="<%= data.id %>" name="id" />
                                 <div class="content__item-main">
                                     <div class="content__item-icon">
-                                        <img class="content__icon" src="/image/LogoNEWS2.png" alt="" />
+                                        <img class="content__icon active" src="/image/LogoNEWS2.png" alt="" />
                                     </div>
-                                    <span class="content__item-text">Trang Tin Tức</span>
+                                    <button type="submit" class="content__item-text content__item-text--btn">
+                                        Trang tin tức
+                                    </button>
                                 </div>
-                            </a>
+                            </form>
                         </div>
                         <div class="content__right">
                             <!-- <a class="content__item" href="/history-student">
@@ -125,6 +128,7 @@
                                 </div>
                             </a> -->
                             <form class="content__item" action="/history-student" method="GET">
+                                <input type="text" hidden value="<%= data.id %>" name="id" />
                                 <input type="text" hidden value="<%= data.email %>" name="email" />
                                 <div class="content__item-main">
                                     <div class="content__item-icon">
@@ -135,14 +139,21 @@
                                     </button>
                                 </div>
                             </form>
-                            <a class="content__item" href="/contact">
+                            <form class="content__item" action="/contact" method="GET">
+                                <input type="text" hidden value="<%= data.id %>" name="id" />
                                 <div class="content__item-main">
                                     <div class="content__item-icon">
-                                        <img class="content__icon" src="/image/baconcuu-lienhe-scaled.jpg" alt="" />
+                                        <img
+                                            class="content__icon active"
+                                            src="/image/baconcuu-lienhe-scaled.jpg"
+                                            alt=""
+                                        />
                                     </div>
-                                    <span class="content__item-text">Liên Hệ</span>
+                                    <button type="submit" class="content__item-text content__item-text--btn">
+                                        Liên hệ
+                                    </button>
                                 </div>
-                            </a>
+                            </form>
                         </div>
                     </main>
                 </div>
