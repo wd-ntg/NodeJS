@@ -49,10 +49,14 @@ const newsStudent = async (req, res) => {
 
 const historyStudent = async (req, res) => {
     let email = req.query.email;
-    let [data] = await pool.execute('SELECT * from historyStudent where email = ?', [email]);
 
+    let [data] = await pool.execute('SELECT * from historyStudent where email = ?', [email]);
     let error = '';
-    return res.render('student/history/history.ejs', { data: data, error: error, studentID: req.query.id });
+    return res.render('student/history/history.ejs', {
+        data: data,
+        error: error,
+        studentID: req.query.id,
+    });
 };
 
 const studentInfo = async (req, res) => {
@@ -66,14 +70,26 @@ const studentInfo = async (req, res) => {
 const searchStudentHistory = async (req, res) => {
     const keyword = req.body.keyword;
 
+    // let email = req.body.email[0];
+    // console.log('email: ', email);
+    let email = req.body.email;
+
+    console.log('email: ', email);
+    // let [data] = await pool.execute('SELECT * from historyStudent where email = ?', [email]);
+
     const [query] = await pool.execute(
-        `SELECT * FROM historystudent WHERE object LIKE '%${keyword}%' OR name LIKE '%${keyword}%'`,
+        `SELECT * FROM historyStudent WHERE email LIKE '%${email}%' AND object LIKE '%${keyword}%'`,
     );
 
     //let [room] = await pool.execute('select * from room where code = ?', [code]);
 
     //console.log('keywơrd: ', query);
-    return res.render('student/history/history.ejs', { data: query, roomPrac: false, error: '' });
+    return res.render('student/history/history.ejs', {
+        data: query[0],
+        roomPrac: false,
+        error: '',
+        studentID: req.query.id,
+    });
 };
 
 export default {
