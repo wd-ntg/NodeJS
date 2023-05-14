@@ -50,10 +50,11 @@
             <div class="slide">
                 <div class="add-room"></div>
                 <div class="slide__right">
-                    <form method="POST" action="/search-history">
+                    <form method="POST" action="/search-student-history">
                         <input class="search" type="search" name="keyword" placeholder="Tìm kiếm..." />
                         <% for (let i=0; i< data.length; i++) { %>
-                        <input type="text" name="code" hidden value="<%=data[i].code %>" />
+                        <input type="text" name="code" hidden value="<%=data[i].name %>" />
+                        <input type="text" name="code" hidden value="<%=data[i].id %>" />
                         <% } %>
                         <button class="search__btn" type="submit">Tìm kiếm</button>
                     </form>

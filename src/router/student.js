@@ -15,6 +15,10 @@ const initStudentPage = (app) => {
 
     app.post('/student-info', studentController.studentInfo);
 
+    // Search History
+
+    app.post('/search-student-history', studentController.searchStudentHistory);
+
     return app.use('/', router);
 };
 

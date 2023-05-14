@@ -63,6 +63,19 @@ const studentInfo = async (req, res) => {
     return res.render('student/student.ejs', { data: user[0] });
 };
 
+const searchStudentHistory = async (req, res) => {
+    const keyword = req.body.keyword;
+
+    const [query] = await pool.execute(
+        `SELECT * FROM historystudent WHERE object LIKE '%${keyword}%' OR name LIKE '%${keyword}%'`,
+    );
+
+    //let [room] = await pool.execute('select * from room where code = ?', [code]);
+
+    //console.log('keywơrd: ', query);
+    return res.render('student/history/history.ejs', { data: query, roomPrac: false, error: '' });
+};
+
 export default {
     studentPage,
     bookingPage,
@@ -72,4 +85,5 @@ export default {
     newsStudent,
     historyStudent,
     studentInfo,
+    searchStudentHistory,
 };
