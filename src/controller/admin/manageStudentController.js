@@ -60,13 +60,63 @@ const deleteStudent = async (req, res) => {
 };
 
 const searchStudent = async (req, res) => {
+    //console.log(req.body);
+    const sortType = req.body.sortType;
+    const searchType = req.body.searchType;
     const keyword = req.body.keyword;
     const code = req.body.code;
-    const [query] = await pool.execute(`SELECT * FROM student WHERE name LIKE '%${keyword}%' and roleid=?`, [code]);
+    let query;
+    if (searchType === 'gender') {
+        [query] = await pool.execute(
+            `SELECT student.*, allcode.keyName
+            FROM student
+            INNER JOIN allcode ON allcode.code = student.gender
+            WHERE allcode.keyName LIKE '%${keyword}%' AND student.roleid = ?
+            `,
+            [code],
+        );
+    } else {
+        [query] = await pool.execute(
+            `SELECT student.*, allcode.keyName
+            FROM student
+            INNER JOIN allcode ON allcode.code = student.gender
+            WHERE student.${searchType} LIKE '%${keyword}%' AND student.roleid = ?
+            `,
+            [code],
+        );
+    }
+
+    let newArray = [];
+    let resultSort = [];
+
+    if (sortType !== 'none') {
+        for (let i = 0; i < query.length; i++) {
+            newArray.push(query[i][sortType]);
+        }
+        newArray.sort();
+        //console.log(newArray);
+        for (let i = 0; i < newArray.length; i++) {
+            for (let j = 0; j < query.length; j++) {
+                if (newArray[i] === query[j][sortType]) {
+                    resultSort.push(query[j]);
+                    break;
+                }
+            }
+        }
+    } else {
+        resultSort = query;
+    }
+
     //let [room] = await pool.execute('select * from room where code = ?', [code]);
 
     //console.log('keywơrd: ', query);
-    return res.render('admin/student/manageStudent.ejs', { data: query, roomPrac: false, error: '' });
+    return res.render('admin/student/manageStudent.ejs', {
+        sortType: sortType,
+        searchType: searchType,
+        data: resultSort,
+        roomPrac: false,
+        error: '',
+    });
 };
 
 export default {

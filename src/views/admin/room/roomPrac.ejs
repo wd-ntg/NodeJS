@@ -41,7 +41,72 @@
                         <button class="add-room-btn" id="myBtn">Thêm mới phòng THỰC HÀNH</button>
                     </div>
                     <div class="slide__right">
+                        
                         <form method="POST" action="/search-roomPrac">
+                            <select class="sort">
+                                <option value="none" 
+                                <% if (sortType === 'none') { %>
+                                    selected
+                                  <% } %>
+                                />
+                                Không sắp xếp</option>
+                                <option value="name" 
+                                <% if (sortType === 'name') { %>
+                                    selected
+                                  <% } %>
+                                />
+                                Sắp xếp theo tên</option>
+    
+                                <option value="roleid"
+                                <% if (sortType === 'roleid') { %>
+                                    selected
+                                  <% } %>
+                                />
+                                Sắp xếp theo mã phòng</option>
+    
+                                <option value="specialty"
+                                <% if (sortType === 'specialty') { %>
+                                    selected
+                                  <% } %>
+                                />
+                                Sắp xếp theo chuyên khoa</option>
+
+                                <option value="max_student"
+                                <% if (sortType === 'max_student') { %>
+                                    selected
+                                  <% } %>
+                                />
+                                Sắp xếp theo số lượng sinh viên</option>
+                                
+                            </select>
+                            <select class="looking">
+                                <option value="name" 
+                                <% if (searchType === 'name') { %>
+                                    selected
+                                  <% } %>
+                                />
+                                Tìm kiếm theo tên phòng</option>
+    
+                                <option value="roleid"
+                                <% if (searchType === 'roleid') { %>
+                                    selected
+                                  <% } %>
+                                />
+                                Tìm kiếm theo mã phòng</option>
+    
+                                <option value="specialty"
+                                <% if (searchType === 'specialty') { %>
+                                    selected
+                                  <% } %>
+                                />
+                                Tìm kiếm theo chuyên khoa</option>
+    
+    
+                            </select>
+                            <input type="text" value="name" class="searchType" hidden name="searchType" />
+                            <input type="text" value="none" class="sortType" hidden name="sortType" />
+
+
                             <input class="search" type="search" name="keyword" placeholder="Tìm kiếm..." />
                             <input type="text" name="code" hidden value="TH" />
 
@@ -144,6 +209,26 @@
             </div>
         </div>
         <script>
+            let sortBtn = document.querySelector('.sort');
+            let lookingBtn = document.querySelector('.looking');
+            let inputTypeSearch = document.querySelector('.searchType');
+            let inputTypeSort = document.querySelector('.sortType');
+
+
+
+            sortBtn.onchange = () => {
+                inputTypeSort.value = sortBtn.value;
+                // console.log(inputTypeSearch.value);
+            };
+
+            lookingBtn.onchange = () => {
+                inputTypeSearch.value = lookingBtn.value;
+                // console.log(inputTypeSearch.value);
+            };
+
+
+
+
             let deleteBtn = document.querySelectorAll('.deleteBtn');
 
             deleteBtn.forEach((item) => {

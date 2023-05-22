@@ -38,7 +38,92 @@
                         <button class="add-room-btn" id="myBtn">Thêm mới Sinh viên</button>
                     </div>
                     <div class="slide__right">
+                                                                  
+                       
                         <form method="POST" action="/search-student">
+                            <select class="sort">
+                                <option value="none" 
+                                <% if (sortType === 'none') { %>
+                                    selected
+                                  <% } %>
+                                />
+                                Không sắp xếp</option>
+                                <option value="name" 
+                                <% if (sortType === 'name') { %>
+                                    selected
+                                  <% } %>
+                                />
+                                Sắp xếp theo tên</option>
+
+                                <option value="email"
+                                <% if (sortType === 'email') { %>
+                                    selected
+                                  <% } %>
+                                />
+                                Sắp xếp theo email</option>
+
+                                <option value="mssv"
+                                <% if (sortType === 'mssv') { %>
+                                    selected
+                                  <% } %>
+                                />
+                                Sắp xếp theo mssv</option>
+
+                                <option value="className"
+                                <% if (sortType === 'className') { %>
+                                    selected
+                                  <% } %>
+                                />
+                                Sắp xếp theo lớp</option>
+
+                                <option value="gender"
+                                <% if (sortType === 'gender') { %>
+                                    selected
+                                  <% } %>
+                                />
+                                Sắp xếp theo giới tính</option>
+
+                            </select>
+                            <select class="looking">
+                                <option value="name" 
+                                <% if (searchType === 'name') { %>
+                                    selected
+                                  <% } %>
+                                />
+                                Tìm kiếm theo tên</option>
+
+                                <option value="email"
+                                <% if (searchType === 'email') { %>
+                                    selected
+                                  <% } %>
+                                />
+                                Tìm kiếm theo email</option>
+
+                                <option value="mssv"
+                                <% if (searchType === 'mssv') { %>
+                                    selected
+                                  <% } %>
+                                />
+                                Tìm kiếm theo mssv</option>
+
+                                <option value="className"
+                                <% if (searchType === 'className') { %>
+                                    selected
+                                  <% } %>
+                                />
+                                Tìm kiếm theo lớp</option>
+
+                                <option value="gender"
+                                <% if (searchType === 'gender') { %>
+                                    selected
+                                  <% } %>
+                                />
+                                Tìm kiếm theo giới tính</option>
+
+                            </select>
+                            <input type="text" value="name" class="searchType" hidden name="searchType" />
+                            <input type="text" value="none" class="sortType" hidden name="sortType" />
+
                             <input class="search" type="search" name="keyword" placeholder="Tìm kiếm sinh viên..." />
                             <input type="text" name="code" hidden value="R2" />
 
@@ -145,6 +230,23 @@
         </div>
 
         <script>
+            let sortBtn = document.querySelector('.sort');
+            let lookingBtn = document.querySelector('.looking');
+            let inputTypeSearch = document.querySelector('.searchType');
+            let inputTypeSort = document.querySelector('.sortType');
+
+
+
+            sortBtn.onchange = () => {
+                inputTypeSort.value = sortBtn.value;
+                // console.log(inputTypeSearch.value);
+            };
+
+            lookingBtn.onchange = () => {
+                inputTypeSearch.value = lookingBtn.value;
+                // console.log(inputTypeSearch.value);
+            };
+
             let deleteBtn = document.querySelectorAll('.deleteBtn');
             deleteBtn.forEach((item) => {
                 item.onclick = (e) => {

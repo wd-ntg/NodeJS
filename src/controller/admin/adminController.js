@@ -34,7 +34,13 @@ const submitUser = async (req, res) => {
 const roomPracPage = async (req, res) => {
     let data = await adminroomPracService.getAllroomPrac();
 
-    return res.render('admin/room/roomPrac.ejs', { data: data, roomPrac: false, error: '' });
+    return res.render('admin/room/roomPrac.ejs', {
+        sortType: 'none',
+        searchType: 'name',
+        data: data,
+        roomPrac: false,
+        error: '',
+    });
 };
 
 const roomLabPage = async (req, res) => {
@@ -64,7 +70,7 @@ const manageStudentPage = async (req, res) => {
     let data = await manageStudentService.getAllStudent();
     //console.log('check data', data);
 
-    return res.render('admin/student/manageStudent.ejs', { data: data });
+    return res.render('admin/student/manageStudent.ejs', { sortType: 'none', searchType: 'name', data: data });
 };
 
 const detailroomPracPage = async (req, res) => {

@@ -28,7 +28,7 @@ const historyPage = (req, res) => {
 
 const manageStudentPage = async (req, res) => {
     let data = await getAllStudent();
-    return res.render('admin/manageStudent.ejs', { data: data, student: false });
+    return res.render('admin/manageStudent.ejs', { sortType: 'none', searchType: 'name', data: data, student: false });
 };
 
 const detailRoomTH = async (req, res) => {

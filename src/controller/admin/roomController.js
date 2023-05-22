@@ -23,7 +23,7 @@ const deleteroomPrac = async (req, res) => {
     let error = await adminroomPracService.deleteroomPracService(req, res);
     let data = await adminroomPracService.getAllroomPrac();
 
-    return res.render('admin/room/roomPrac.ejs', { data: data, error: error });
+    return res.render('admin/room/roomPrac.ejs', { sortType: 'none', searchType: 'name', data: data, error: error });
 };
 
 const editroomPrac = async (req, res) => {
@@ -105,13 +105,61 @@ const postEditDevice = async (req, res) => {
 };
 
 const searchRoomPrac = async (req, res) => {
+    const sortType = req.body.sortType;
+    const searchType = req.body.searchType;
     const keyword = req.body.keyword;
     const code = req.body.code;
-    const [query] = await pool.execute(`SELECT * FROM room WHERE name LIKE '%${keyword}%' and roleid=?`, [code]);
-    //let [room] = await pool.execute('select * from room where code = ?', [code]);
+    //const [query] = await pool.execute(`SELECT * FROM room WHERE name LIKE '%${keyword}%' and roleid=?`, [code]);
 
-    //console.log('keywơrd: ', query);
-    return res.render('admin/room/roomPrac.ejs', { data: query, roomPrac: false, error: '' });
+    let query;
+    if (searchType === 'roleid') {
+        [query] = await pool.execute(
+            `SELECT room.*, allcode.keyName
+            FROM room
+            INNER JOIN allcode ON allcode.code = room.roleid
+            WHERE allcode.keyName LIKE '%${keyword}%' AND room.roleid = ?
+            `,
+            [code],
+        );
+    } else {
+        [query] = await pool.execute(
+            `SELECT room.*, allcode.keyName
+            FROM room
+            INNER JOIN allcode ON allcode.code = room.roleid
+            WHERE room.${searchType} LIKE '%${keyword}%' AND room.roleid = ?
+            `,
+            [code],
+        );
+    }
+
+    let newArray = [];
+    let resultSort = [];
+
+    if (sortType !== 'none') {
+        for (let i = 0; i < query.length; i++) {
+            newArray.push(query[i][sortType]);
+        }
+        newArray.sort();
+        //console.log(newArray);
+        for (let i = 0; i < newArray.length; i++) {
+            for (let j = 0; j < query.length; j++) {
+                if (newArray[i] === query[j][sortType]) {
+                    resultSort.push(query[j]);
+                    break;
+                }
+            }
+        }
+    } else {
+        resultSort = query;
+    }
+
+    return res.render('admin/room/roomPrac.ejs', {
+        sortType: 'none',
+        searchType: 'name',
+        data: resultSort,
+        roomPrac: false,
+        error: '',
+    });
 };
 const searchRoomLab = async (req, res) => {
     const keyword = req.body.keyword;
