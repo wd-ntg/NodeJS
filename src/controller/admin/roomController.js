@@ -36,14 +36,35 @@ const postEditRoomPrac = async (req, res) => {
     let [room] = await pool.execute('select * from room where code = ?', [code]);
     let error = '';
 
-    if (room[0]) {
+    let [schedule] = await pool.execute(`select * from schedule where roomCode =?`, [currentRoom[0].code]);
+
+    if (room.length > 0) {
         if (currentRoom[0].code !== code) {
             error = 'Mã phòng đã tồn tại, vui lòng tạo mã phòng mới';
             let data = { roleid: 'TH', name, code: '', description, specialty, max_student: maxStudent, id };
-            return res.render('admin/room/editRoomPrac.ejs', { data: data[0], error: error });
+            return res.render('admin/room/editRoomPrac.ejs', { data: data, error: error });
+        } else {
+            for (let i = 0; i < schedule.length; i++) {
+                if (schedule[i].max_student > +maxStudent) {
+                    error =
+                        'Hiện tại đã có lịch học có số lượng sinh viên tối đa của phòng lớn hơn so với sức chứa của phòng, vui lòng kiểm tra lại!';
+                    let data = { roleid: 'TH', name, code, description, specialty, max_student: '', id };
+                    return res.render('admin/room/editRoomPrac.ejs', { data: data, error: error });
+                }
+            }
+            adminroomPracService.postEditRoomService(req, res);
         }
+    } else {
+        for (let i = 0; i < schedule.length; i++) {
+            if (schedule[i].max_student > +maxStudent) {
+                error =
+                    'Hiện tại đã có lịch học có số lượng sinh viên tối đa của phòng lớn hơn so với sức chứa của phòng, vui lòng kiểm tra lại!';
+                let data = { roleid: 'TH', name, code, description, specialty, max_student: '', id };
+                return res.render('admin/room/editRoomPrac.ejs', { data: data[0], error: error });
+            }
+        }
+        adminroomPracService.postEditRoomService(req, res);
     }
-    adminroomPracService.postEditRoomService(req, res);
 };
 
 // Room Lab
@@ -112,51 +133,31 @@ const searchRoomPrac = async (req, res) => {
     //const [query] = await pool.execute(`SELECT * FROM room WHERE name LIKE '%${keyword}%' and roleid=?`, [code]);
 
     let query;
-    if (searchType === 'roleid') {
-        [query] = await pool.execute(
-            `SELECT room.*, allcode.keyName
-            FROM room
-            INNER JOIN allcode ON allcode.code = room.roleid
-            WHERE allcode.keyName LIKE '%${keyword}%' AND room.roleid = ?
-            `,
-            [code],
-        );
-    } else {
-        [query] = await pool.execute(
-            `SELECT room.*, allcode.keyName
-            FROM room
-            INNER JOIN allcode ON allcode.code = room.roleid
-            WHERE room.${searchType} LIKE '%${keyword}%' AND room.roleid = ?
-            `,
-            [code],
-        );
-    }
-
-    let newArray = [];
-    let resultSort = [];
 
     if (sortType !== 'none') {
-        for (let i = 0; i < query.length; i++) {
-            newArray.push(query[i][sortType]);
-        }
-        newArray.sort();
-        //console.log(newArray);
-        for (let i = 0; i < newArray.length; i++) {
-            for (let j = 0; j < query.length; j++) {
-                if (newArray[i] === query[j][sortType]) {
-                    resultSort.push(query[j]);
-                    break;
-                }
-            }
-        }
+        [query] = await pool.execute(
+            `SELECT room.*, allcode.keyName
+                FROM room
+                INNER JOIN allcode ON allcode.code = room.roleid
+                WHERE room.${searchType} LIKE '%${keyword}%' AND room.roleid = ? ORDER BY room.${sortType}
+                `,
+            [code],
+        );
     } else {
-        resultSort = query;
+        [query] = await pool.execute(
+            `SELECT room.*, allcode.keyName
+                FROM room
+                INNER JOIN allcode ON allcode.code = room.roleid
+                WHERE room.${searchType} LIKE '%${keyword}%' AND room.roleid = ? 
+                `,
+            [code],
+        );
     }
 
     return res.render('admin/room/roomPrac.ejs', {
         sortType: 'none',
         searchType: 'name',
-        data: resultSort,
+        data: query,
         roomPrac: false,
         error: '',
     });

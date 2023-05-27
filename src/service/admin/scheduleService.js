@@ -35,7 +35,16 @@ const createNewSchedule = async (req, res) => {
     let error = '';
     let [room] = await pool.execute('select * from room where code = ?', [roomCode]);
 
-    if (room[0].max_student < max_student) {
+    let [existRoom] = await pool.execute('select * from schedule where roomCode = ? and timeType = ? and time = ?', [
+        roomCode,
+        timeType,
+        time,
+    ]);
+
+    //console.log('existRoom', existRoom.length);
+    if (existRoom.length > 0) {
+        error = 'Đã có lịch học của phòng vào khung giờ này, vui lòng kiểm tra lại';
+    } else if (room[0].max_student < max_student) {
         error = `Số lượng sinh viên của phòng ${room[0].name} không được phép quá ${room[0].max_student}, vui lòng chọn lại`;
     } else {
         await pool.execute(
@@ -178,9 +187,30 @@ const editSchedule = async (req, res) => {
 const postEditSchedule = async (req, res) => {
     const { roomCode, timeType, max_student, time, id } = req.body;
 
+    //console.log(req.body);
+
     let [rows] = await pool.execute('select current_student from schedule where id = ?', [id]);
 
     let [room] = await pool.execute('select * from room where code = ?', [roomCode]);
+    let [schedule] = await pool.execute('select * from schedule where roomCode = ? and time = ? and timeType = ?', [
+        roomCode,
+        time,
+        timeType,
+    ]);
+
+    let error = '';
+    if (room.length > 0) {
+        if (room[0].max_student < max_student) {
+            error = `Không được thay đổi số lượng sinh viên của phòng vượt quá giới hạn phòng (tối đa ${room[0].max_student} chỗ)`;
+        } else if (schedule.length > 0) {
+            error = `Phòng đã có lịch học trong khoảng thời gian này, vui lòng kiểm tra lại`;
+        } else {
+            await pool.execute(
+                'update schedule set roomCode = ?, max_student = ?, current_student =? , time= ?, timeType = ? where id = ?',
+                [roomCode, +max_student, rows[0].current_student, time, timeType, id],
+            );
+        }
+    }
 
     let object = 'Lịch học';
     let action = 'Cập nhật';
@@ -214,12 +244,104 @@ const postEditSchedule = async (req, res) => {
         dateTime,
     ]);
 
-    await pool.execute(
-        'update schedule set roomCode = ?, max_student = ?, current_student =? , time= ?, timeType = ? where id = ?',
-        [roomCode, +max_student, rows[0].current_student, time, timeType, id],
-    );
+    return error;
+};
 
-    return res.redirect('/schedule');
+const getDataStatis = async (req, res) => {
+    let roomCode = req.body.room;
+    let dateCode = req.body.date;
+    let timeCode = req.body.time;
+
+    let schedule;
+    let errRoomEmpty;
+    let statis;
+    let resultStatis = [];
+    let roomMaxCount = '';
+    let maxCount;
+
+    if (roomCode === 'all') {
+        if (dateCode === 'all') {
+            [schedule] = await pool.execute('select * from schedule ');
+        } else if (dateCode === 'day') {
+            [schedule] = await pool.execute('select * from schedule where time = ?', [timeCode]);
+        } else if (dateCode === 'month' || dateCode === 'year') {
+            [schedule] = await pool.execute(
+                `SELECT * FROM schedule
+                
+                WHERE schedule.time LIKE '%${timeCode}%' 
+                `,
+            );
+        }
+
+        if (schedule.length === 0) {
+            errRoomEmpty =
+                'Hiện tại vẫn chưa có bất kỳ lịch học nào trong khoảng thời gian này, bạn có thể thêm mới lịch học trong thanh điều hướng';
+        } else {
+            // lấy ra những phòng có số lịch học cao nhất
+            let [allroom] = await pool.execute(`select * from room`);
+            [statis] = await pool.execute(`SELECT schedule.roomCode, room.name, COUNT(*) AS count
+            FROM schedule
+            JOIN room ON schedule.roomCode = room.code
+            WHERE schedule.time LIKE '%${timeCode}%'
+            GROUP BY schedule.roomCode, room.name
+            ORDER BY count DESC;
+                     
+        `);
+
+            maxCount = statis[0].count;
+
+            for (let i = 0; i < allroom.length; i++) {
+                let check = false;
+                for (let j = 0; j < statis.length; j++) {
+                    if (allroom[i].code === statis[j].roomCode) {
+                        check = true;
+                        resultStatis.push(
+                            `${statis[j].roomCode} ${statis[j].name} có "${statis[j].count}" lịch học trong khoảng thời gian này`,
+                        );
+                        if (maxCount == statis[j].count) {
+                            roomMaxCount += `${statis[j].roomCode} ${statis[j].name}; `;
+                        }
+                        break;
+                    }
+                }
+
+                if (!check) {
+                    resultStatis.push(
+                        `${allroom[i].code} ${allroom[i].name} "chưa có" lịch học trong khoảng thời gian này`,
+                    );
+                }
+            }
+        }
+    } else {
+        if (dateCode === 'all') {
+            [schedule] = await pool.execute('select * from schedule where roomCode = ?', [roomCode]);
+        } else if (dateCode === 'day') {
+            [schedule] = await pool.execute('select * from schedule where roomCode = ? and time = ?', [
+                roomCode,
+                timeCode,
+            ]);
+        } else if (dateCode === 'month' || dateCode === 'year') {
+            [schedule] = await pool.execute(
+                `SELECT * FROM schedule
+                
+                WHERE schedule.time LIKE '%${timeCode}%' AND roomCode = ?
+                `,
+                [roomCode],
+            );
+        }
+
+        if (schedule.length === 0) {
+            let [nameRoom] = await pool.execute(`SELECT * FROM room WHERE code = ? `, [roomCode]);
+
+            errRoomEmpty = `Hiện tại phòng ${roomCode} ${nameRoom[0].name} chưa có lịch học trong thời gian này`;
+        }
+    }
+
+    //console.log(resultStatis);
+    //console.log(roomMaxCount);
+    //console.log('data', schedule);
+
+    return { schedule, errRoomEmpty, resultStatis, roomMaxCount, maxCount };
 };
 
 export default {
@@ -231,4 +353,5 @@ export default {
     editSchedule,
     postEditSchedule,
     checkDayDelete,
+    getDataStatis,
 };

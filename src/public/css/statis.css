@@ -284,3 +284,88 @@ html {
 .option-item {
     margin-left: 40px;
 }
+
+/* statis */
+.statis-container {
+    margin: 0 100px;
+}
+
+.statis-body {
+    display: flex;
+
+    align-items: center;
+}
+
+.statis-select {
+    width: 40%;
+}
+
+.list-room {
+    width: 40%;
+}
+
+.submit-statis-container {
+    width: 20%;
+}
+
+.submit-statis {
+    margin-top: 10px;
+    padding: 8px;
+}
+
+.submit-statis:hover {
+    cursor: pointer;
+}
+
+.date {
+    display: flex;
+    margin: 24px 0;
+}
+
+.description-statis {
+    display: block;
+    margin: 20px 0;
+    font-size: 18px;
+    color: orange;
+}
+
+select {
+    font-size: 20px !important;
+    padding: 4px;
+    width: 80%;
+    border-radius: 8px;
+}
+
+.input-statis-container {
+    width: 65%;
+
+    display: flex;
+}
+
+.title-input-statis {
+    display: none;
+
+    font-size: 20px;
+}
+
+.input-time {
+    padding: 6px 8px;
+    margin-left: 12px;
+    width: 80%;
+    border-radius: 10px;
+}
+
+.content__item-text.content__item-text--btn {
+    position: absolute;
+    top: 90px;
+    left: 100px;
+}
+
+.form-sort-container {
+    margin: 20px 100px;
+}
+
+.form-sort-body {
+    display: flex;
+    gap: 20px;
+}

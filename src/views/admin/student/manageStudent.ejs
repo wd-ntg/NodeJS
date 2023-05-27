@@ -21,13 +21,19 @@
         </style>
     </head>
     <body>
-        <div class="w3-bar w3-border-bottom w3-light-grey">
-            <a href="/roomPrac" class="w3-bar-item w3-button">Phòng thực hành</a>
+        <div class="w3-bar w3-border-bottom w3-light-grey" >
+                
+             
+            <a href="/roomPrac" class="w3-bar-item w3-button ">Phòng thực hành</a>
             <a href="/roomLab" class="w3-bar-item w3-button">Phòng thí nghiệm</a>
             <a href="/history" class="w3-bar-item w3-button">Lịch sử</a>
             <a href="/manage-student" class="w3-bar-item w3-button active">Quản lý sinh viên</a>
             <a href="/schedule" class="w3-bar-item w3-button">Quản lý lịch học</a>
-        </div>
+            <a href="/statis" class="w3-bar-item w3-button">Thống kê</a>
+       
+            <a href="/" class="w3-bar-item w3-button log-out">Đăng xuất</a>
+        
+    </div>
         <div class="room-container">
             <div class="room-header">
                 <h2>Quản lí sinh viên</h2>
@@ -235,7 +241,14 @@
             let inputTypeSearch = document.querySelector('.searchType');
             let inputTypeSort = document.querySelector('.sortType');
 
+            let logOut = document.querySelector('.log-out')
 
+            logOut.onclick = (e) => {
+                let check = confirm('Bạn có xác nhận đăng xuất?')
+                if(!check) {
+                    e.preventDefault()
+                }
+            }
 
             sortBtn.onchange = () => {
                 inputTypeSort.value = sortBtn.value;

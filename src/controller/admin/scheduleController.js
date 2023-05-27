@@ -42,11 +42,30 @@ const editSchedule = async (req, res) => {
         return res.render('admin/schedule/schedule.ejs', { data: schedule, error: respon.errMessage });
     }
 
-    return res.render('admin/schedule/editSchedule.ejs', { room: room, timeType: timeType, data: respon.data });
+    return res.render('admin/schedule/editSchedule.ejs', {
+        room: room,
+        timeType: timeType,
+        data: respon.data,
+        error: '',
+    });
 };
 
-const postEditSchedule = (req, res) => {
-    scheduleService.postEditSchedule(req, res);
+const postEditSchedule = async (req, res) => {
+    let room = await scheduleService.getAllRoom(req, res);
+    let error = await scheduleService.postEditSchedule(req, res);
+    let timeType = await scheduleService.getTimeType(req, res);
+    let respon = await scheduleService.editSchedule(req, res);
+
+    if (error) {
+        return res.render('admin/schedule/editSchedule.ejs', {
+            room: room,
+            timeType: timeType,
+            data: respon.data,
+            error,
+        });
+    }
+
+    return res.redirect('/schedule');
 };
 
 const searchSchedule = async (req, res) => {

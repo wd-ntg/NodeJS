@@ -99,6 +99,8 @@ const searchStudent = async (req, res) => {
             for (let j = 0; j < query.length; j++) {
                 if (newArray[i] === query[j][sortType]) {
                     resultSort.push(query[j]);
+                    query.splice(j, 1);
+                    j == 0;
                     break;
                 }
             }

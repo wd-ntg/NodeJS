@@ -20,12 +20,18 @@
     </head>
     <body>
         <div class="room-container">
-            <div class="w3-bar w3-border-bottom w3-light-grey">
-                <a href="/roomPrac" class="w3-bar-item w3-button active">Phòng thực hành</a>
-                <a href="/roomLab" class="w3-bar-item w3-button">Phòng thí nghiệm</a>
-                <a href="/history" class="w3-bar-item w3-button">Lịch sử</a>
-                <a href="/manage-student" class="w3-bar-item w3-button">Quản lý sinh viên</a>
-                <a href="/schedule" class="w3-bar-item w3-button">Quản lý lịch học</a>
+            <div class="w3-bar w3-border-bottom w3-light-grey" >
+                
+             
+                    <a href="/roomPrac" class="w3-bar-item w3-button active">Phòng thực hành</a>
+                    <a href="/roomLab" class="w3-bar-item w3-button">Phòng thí nghiệm</a>
+                    <a href="/history" class="w3-bar-item w3-button">Lịch sử</a>
+                    <a href="/manage-student" class="w3-bar-item w3-button">Quản lý sinh viên</a>
+                    <a href="/schedule" class="w3-bar-item w3-button">Quản lý lịch học</a>
+                    <a href="/statis" class="w3-bar-item w3-button">Thống kê</a>
+               
+                    <a href="/" class="w3-bar-item w3-button log-out">Đăng xuất</a>
+                
             </div>
             <div class="room-header">
                 <h2>QUẢN LÝ PHÒNG THỰC HÀNH</h2>
@@ -87,8 +93,8 @@
                                 />
                                 Tìm kiếm theo tên phòng</option>
     
-                                <option value="roleid"
-                                <% if (searchType === 'roleid') { %>
+                                <option value="code"
+                                <% if (searchType === 'code') { %>
                                     selected
                                   <% } %>
                                 />
@@ -214,6 +220,14 @@
             let inputTypeSearch = document.querySelector('.searchType');
             let inputTypeSort = document.querySelector('.sortType');
 
+            let logOut = document.querySelector('.log-out')
+
+            logOut.onclick = (e) => {
+                let check = confirm('Bạn có xác nhận đăng xuất?')
+                if(!check) {
+                    e.preventDefault()
+                }
+            }
 
 
             sortBtn.onchange = () => {

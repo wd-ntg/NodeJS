@@ -61,11 +61,11 @@ const deleteroomPracService = async (req, res) => {
 
     let [room] = await pool.execute('select * from room where id = ?', [id]);
 
-    console.log(room);
+    //console.log(room);
 
     let [schedule] = await pool.execute('select * from schedule where roomCode = ?', [room[0].code]);
     let error = '';
-    if (schedule[0]) {
+    if (schedule.length > 0) {
         error = 'Hiện tại phòng đang có lịch học, không thể xóa phòng trong khoảng thời gian này!';
     } else {
         let [room] = await pool.execute('select * from room where id = ?', [id]);
@@ -104,7 +104,7 @@ const deleteroomPracService = async (req, res) => {
 
         await pool.execute('delete from room where id = ?', [id]);
     }
-    await pool.execute('delete from room where id = ?', [id]);
+
     return error;
 };
 

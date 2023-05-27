@@ -21,11 +21,14 @@
     </head>
     <body>
         <div class="w3-bar w3-border-bottom w3-light-grey">
-            <a href="/roomPrac" class="w3-bar-item w3-button">Phong thuc hanh</a>
-            <a href="/roomLab" class="w3-bar-item w3-button">Phong thi nghiem</a>
-            <a href="/history" class="w3-bar-item w3-button">Lich su</a>
-            <a href="/manage-student" class="w3-bar-item w3-button">Quan ly sinh vien</a>
-            <a href="/schedule" class="w3-bar-item w3-button active">Quan li lich hoc</a>
+            <a href="/roomPrac" class="w3-bar-item w3-button">Phòng thực hành</a>
+            <a href="/roomLab" class="w3-bar-item w3-button">Phòng thí nghiệm</a>
+            <a href="/history" class="w3-bar-item w3-button">Lịch sử</a>
+            <a href="/manage-student" class="w3-bar-item w3-button">Quản lý sinh viên</a>
+            <a href="/schedule" class="w3-bar-item w3-button active">Quản lý lịch học</a>
+            <a href="/statis" class="w3-bar-item w3-button">Thống kê</a>
+
+            <a href="/" class="w3-bar-item w3-button log-out">Đăng xuất</a>
         </div>
         <div class="schedule-container">
             <div class="schedule-header">
@@ -120,6 +123,15 @@
             let inputs = document.querySelectorAll('.modal__item-input');
             let inputTimeType = document.querySelector('.modal__item-input.timeType');
             let valueDate = document.querySelector('.modal__item-input.date');
+
+            let logOut = document.querySelector('.log-out');
+
+            logOut.onclick = (e) => {
+                let check = confirm('Bạn có xác nhận đăng xuất?');
+                if (!check) {
+                    e.preventDefault();
+                }
+            };
 
             btnSave.onclick = (e) => {
                 let isValid = true;
@@ -291,7 +303,21 @@
                             dayCurrent.style.color = 'white';
                             dayCurrent.classList.remove('o-hover');
                         }
-                        let dayDate = `${i - first_day.getDay() + 1}/${month + 1}/${year}`;
+                        let dayDate;
+                        if (month < 9) {
+                            if (i - first_day.getDay() + 1 < 10) {
+                                dayDate = `0${i - first_day.getDay() + 1}/0${month + 1}/${year}`;
+                            } else {
+                                dayDate = `${i - first_day.getDay() + 1}/0${month + 1}/${year}`;
+                            }
+                        } else {
+                            if (i - first_day.getDay() + 1 < 10) {
+                                dayDate = `0${i - first_day.getDay() + 1}/${month + 1}/${year}`;
+                            } else {
+                                dayDate = `${i - first_day.getDay() + 1}/${month + 1}/${year}`;
+                            }
+                        }
+                        console.log(dayDate);
                         valueDate.value = dayDate;
                     };
                 }

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="/css/statis.css" />
+        <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+        <style>
+            .w3-bar-item {
+                border-right: 1px solid #ccc !important;
+            }
+            .w3-bar-item.active {
+                background-color: #00b158;
+                color: #fff;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="room-container">
+            <div class="w3-bar w3-border-bottom w3-light-grey" >
+                <a href="/roomPrac" class="w3-bar-item w3-button ">Phòng thực hành</a>
+                <a href="/roomLab" class="w3-bar-item w3-button">Phòng thí nghiệm</a>
+                <a href="/history" class="w3-bar-item w3-button">Lịch sử</a>
+                <a href="/manage-student" class="w3-bar-item w3-button">Quản lý sinh viên</a>
+                <a href="/schedule" class="w3-bar-item w3-button">Quản lý lịch học</a>
+                <a href="/statis" class="w3-bar-item w3-button active">Thống kê</a>
+           
+                <a href="/" class="w3-bar-item w3-button log-out">Đăng xuất</a>
+            
+        </div>
+            <div class="room-header">
+                <h1>THỐNG KÊ</h1>
+            </div>
+            <div class="statis-container">
+                <div class="statis-body">
+                    <did class="statis-select">
+                        <h2>Thống kê theo thời gian</h2>
+                        <select class="select-date">
+                           
+                            <option value="all"
+                                <% if (date === 'all') { %>
+                                    selected
+                                  <% } %>
+                                />
+                                Tất cả
+                            </option>
+                            <option value="day"
+                                <% if (date === 'day') { %>
+                                    selected
+                                  <% } %>
+                                />
+                                Ngày
+                            </option>
+                            <option value="week"
+                                <% if (date === 'week') { %>
+                                    selected
+                                  <% } %>
+                                />
+                                Tuần
+                            </option>
+                            <option value="month"
+                                <% if (date === 'month') { %>
+                                    selected
+                                  <% } %>
+                                />
+                                Tháng
+                            </option>
+                            <option value="year"
+                                <% if (date === 'year') { %>
+                                    selected
+                                  <% } %>
+                                />
+                                Năm
+                            </option>
+                            
+                            
+                            
+                        </select>
+                    </did>
+
+                    <div class="list-room">
+                        <h2>Thống kê theo phòng</h2>
+                        <select class="select-room">
+                            <option selected>Tất cả các phòng</option>
+                            <% for (let i=0; i < rooms.length; i++) { %>
+                                <option value="<%=rooms[i].code %>"
+                                  <% if (room === rooms[i].code) { %>
+                                    selected
+                                  <% } %>
+                                >
+                                  <%=rooms[i].name %> MP: <%=rooms[i].code %>
+                                </option>
+                              <% } %>
+                              
+                            <input
+                                type="text"
+                                class="modal__item-input room"
+                                hidden
+                                name="roomCode"
+                                value="<%=rooms[0].code %>"
+                            />
+                        </select>
+                    </div>
+
+                    <div class="submit-statis-container">
+                        <form method="POST" action="/start-statis">
+                            <!-- <input class="search" type="search" name="keyword" placeholder="Tìm kiếm..." /> -->
+                            <input type="text" class="typeDateRes" name="date" value="<%= date ? date : 'all' %>" hidden />
+                            <input type="text" class="typeRoomRes" hidden name="room" value="<%= room ? room : 'all' %>"
+                            
+                            hidden />
+                            <input type="text" class="valueTime" name="time" value="" hidden />
+                           
+
+                            <button class="submit-statis" type="submit">Tìm kiếm</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="date">
+                    <div class="input-statis-container">
+                        <label class="title-input-statis">Nhập thời gian</label>
+                        <input
+                            class="input-time"
+                            value="<%=time %>"
+                            type="text"
+                            style="display: none"
+                            placeholder="Vui lòng nhập thời gian theo định dạng dd-mm-yyyy"
+                        />
+                    </div>
+                </div>
+                <span class="description-statis"></span>
+            </div>
+            <% if (errRoomEmpty) { %>
+            <h2 style="margin: 0 100px; color: red"><%=errRoomEmpty %></h2>
+            <% } %>
+
+            <div>
+                <% if (roomDescription) { %>
+                    <h2 style="margin: 0 100px; color: blue"><%=roomDescription %></h2>
+                <% } %>
+            </div>
+            <div></div>
+            <% if (roomMaxCount && maxCount > 0) { %>
+
+            <h3 style="margin: 0 100px 40px; color: blue">
+                Phòng có số lịch học nhiều nhất là : <%=roomMaxCount %> với tổng cộng <%=maxCount %> lịch học
+            </h3>
+            <% } %>
+            <div></div>
+
+            <% if (resultStatis.length > 0) { %>
+                <% for (let i=0; i< resultStatis.length; i++) { %>
+
+                    <p style="margin: 12px 100px; color: green; font-size: 18px;"><%=resultStatis[i] %></p>
+                <% } %>
+            
+            <% } %>
+            <br></br>
+
+            <% if (data.length > 0) { %>
+                <div style="margin : 20px 100px">
+                    <form method="POST" action="/sort-schedule-statis">
+                        <select class="sort">
+                          
+                        <option value="none"
+                            <% if (sortType === 'none') { %>
+                                selected
+                              <% } %>
+                            />
+                            Không sắp xếp
+                        </option>
+                        <option value="roomCode"
+                            <% if (sortType === 'roomCode') { %>
+                                selected
+                            <% } %>
+                            />
+                            Mã phòng
+                        </option>
+                        <option value="time"
+                            <% if (sortType === 'time') { %>
+                                selected
+                            <% } %>
+                            />
+                            Thời gian học
+                        </option>
+                        <option value="countStudent"
+                            <% if (sortType === 'countStudent') { %>
+                                    selected
+                                <% } %>
+                                />
+                                Số lượng sinh viên đăng ký
+                        </option>
+                            
+
+                        </select>
+                        <input type="text" value="<%= sortType ? sortType : 'none' %>" class="sortType" hidden name="sortType" />
+                        <input type="text" class="typeDateRes" name="date" value="<%= date ? date : 'all' %>" hidden />
+                        <input type="text" class="typeRoomRes" name="room" value="<%= room ? room : 'all' %>" hidden />
+                        <input type="text" name="time" value="<%= time %>" hidden />
+                        <input type="text" name="roomDescription" value="<%=roomDescription %>" hidden />
+
+                       
+
+                        <button style="margin-left :20px" class="search__btn" type="submit">Tìm kiếm</button>
+                    </form>
+                </div>
+
+            <div class="room-list">
+                <table id="customers">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Mã phòng</th>
+                            <th>Thời gian lịch học</th>
+                            <th>Ca học</th>
+                            <th>Số lượng sinh viên đã đăng ký</th>
+
+                            <th>Chi tiết sinh viên đăng ký</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (let i=0; i< data.length; i++) { %>
+
+                        <tr>
+                            <td><%= i + 1 %></td>
+                            <td><%=data[i].roomCode %></td>
+                            <td><%=data[i].time %></td>
+                            <td><%=data[i].keyName %></td>
+                            <td><%=data[i].current_student %></td>
+
+                            <td style="display: flex; gap: 15px; justify-content: center; align-items: center">
+                                <form action="/get-all-student-booking" method="POST">
+                                    <input type="text" hidden value="<%= data[i].roomCode %>" name="roomCode" />
+                                    <input type="text" hidden value="<%= data[i].time %>" name="time" />
+                                    <input type="text" hidden value="<%= data[i].timeType %>" name="timeType" />
+                                  
+                                    
+                                    <button class="room-action editBtn myBtn"  type="submit">Xem</button>
+                                </form>
+                                <!-- <form action="/edit-schedule-statis" method="POST">
+                                    <input type="text" hidden value="<%= data[i].id %>" name="id" />
+                                    <button class="room-action edit editBtn" type="submit">Sửa</button>
+                                </form>
+                                <form action="/delete-schedule" method="POST">
+                                    <input type="text" hidden value="<%= data[i].id %>" name="id" /> 
+                                    <input type="text" hidden value="<%= data[i].roomCode %>" name="roomCode" /> 
+                                    <button class="room-action delete deleteBtn" type="submit">Xóa</button>
+                                </form> -->
+                            </td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+            <% } %>
+  
+        </div>
+        <script>
+            let sortList = document.querySelector('.sort')
+            let sortType = document.querySelector('.sortType')
+
+            
+            //submit
+            let submitBtn = document.querySelector('.submit-statis');
+
+            let valueTime = document.querySelector('.valueTime');
+            
+
+            let selectDateBtn = document.querySelector('.select-date');
+            let selectRoomBtn = document.querySelector('.select-room');
+
+            let inputTypeDate = document.querySelector('.typeDateRes');
+            let inputTypeRoom = document.querySelector('.typeRoomRes');
+
+            let inputTimeBtn = document.querySelector('.input-time');
+            let descriptionBtn = document.querySelector('.description-statis');
+
+            let labelInput = document.querySelector('.title-input-statis');
+
+            let text = '';
+
+            let regex = {
+                all: '',
+                day: /^(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/\d{4}$/,
+                week: /^([1-4])\/(0[1-9]|1[0-2])\/\d{4}$/,
+                month: /^(0[1-9]|1[0-2])\/\d{4}$/,
+                year: /^\d{4}$/,
+            };
+
+
+            let logOut = document.querySelector('.log-out')
+
+           
+
+            logOut.onclick = (e) => {
+                let check = confirm('Bạn có xác nhận đăng xuất?')
+                if(!check) {
+                    e.preventDefault()
+                }
+            }
+
+            if(sortList) {
+                sortList.onchange = () => {
+                sortType.value = sortList.value
+            }
+
+            }
+
+           
+
+            function kiemTraDinhDang(string, typeCheck) {
+                return typeCheck.test(string);
+            }
+
+           if(inputTimeBtn.value.length > 0) {
+                
+                inputTimeBtn.style.display = 'block';
+                labelInput.style.display = 'block';
+                console.log(123)
+            }
+            
+            selectDateBtn.onchange = () => {
+                
+                inputTypeDate.value = selectDateBtn.value;
+                if (selectDateBtn.value === 'all') {
+                    inputTimeBtn.value = '';                                
+                    inputTimeBtn.style.display = 'none';
+                    inputTimeBtn.placeholder = '';
+                    labelInput.style.display = 'none';
+                    text = '';
+                } else if (selectDateBtn.value === 'day') {
+                    inputTimeBtn.value = '';
+                    inputTimeBtn.style.display = 'block';
+                    inputTimeBtn.placeholder = 'Vui lòng nhập đúng định dạng dd/mm/yyyy';
+                    labelInput.style.display = 'block';
+                    text =
+                        'Nếu lựa chọn thống kê theo ngày thì vui lòng nhập đúng định dạng dd/mm/yyyy. VD : 11-06-2023 ';
+                } else if (selectDateBtn.value === 'week') {
+                    inputTimeBtn.value = '';
+                    inputTimeBtn.style.display = 'block';
+                    inputTimeBtn.placeholder = 'Vui lòng nhập đúng định dạng w/mm/yyyy';
+
+                    labelInput.style.display = 'block';
+                    text =
+                        'Nếu lựa chọn thống kê theo tuần thì vui lòng nhập đúng định dạng w/mm/yyyy. Trong đó n (n <= 4) là tuần thứ n của tháng. VD : 1-06-2023 tức là từ ngày 1 -> 7 tháng 6 năm 2023';
+                } else if (selectDateBtn.value === 'month') {
+                    inputTimeBtn.value = '';
+                    inputTimeBtn.style.display = 'block';
+                    inputTimeBtn.placeholder = 'Vui lòng nhập đúng định dạng mm/yyyy';
+
+                    labelInput.style.display = 'block';
+                    text = 'Nếu lựa chọn thống kê theo tháng thì vui lòng nhập đúng định dạng mm/yyyy. VD : 06-2023';
+                } else if (selectDateBtn.value === 'year') {
+                    inputTimeBtn.value = '';
+                    inputTimeBtn.style.display = 'block';
+                    inputTimeBtn.placeholder = 'Vui lòng nhập đúng định dạng yyyy';
+
+                    labelInput.style.display = 'block';
+                    text = 'Nếu lựa chọn thống kê theo tuần thì vui lòng nhập đúng định dạng yyyy. VD : 2023';
+                }
+                //console.log(text);
+                descriptionBtn.innerHTML = text;
+            };
+
+            selectRoomBtn.onchange = () => {
+                inputTypeRoom.value = selectRoomBtn.value;
+                // console.log(inputTypeSearch.value);
+            };
+
+            submitBtn.onclick = (e) => {
+                
+                if (inputTypeDate.value === 'all') {
+                    let isConfirm = confirm('Bạn có xác nhận thống kê không?');
+                    if (!isConfirm) {
+                        e.preventDefault();
+                    }
+                } else {
+                    let isValid = true;
+
+                    let textCheck = inputTimeBtn.value;
+                    let check = kiemTraDinhDang(textCheck, regex[inputTypeDate.value]);
+
+                    if (!textCheck) {
+                        alert('Bạn chưa nhập thời gian thống kê, vui lòng bổ sung');
+                        isValid = false;
+                    } else if (!check) {
+                        alert(
+                            'Bạn chưa nhập chính xác định dạng của thời gian, vui lòng kiểm tra lại theo dòng lưu ý phía dưới',
+                        );
+                        isValid = false;
+                    } else {
+                        valueTime.value = textCheck;
+                       
+                        let isConfirm = confirm('Bạn có xác nhận thống kê không?');
+                        if (!isConfirm) {
+                            e.preventDefault();
+                        }
+                    }
+
+                    if (!isValid) {
+                        e.preventDefault();
+                    }
+                }
+            };
+        </script>
+    </body>
+</html>

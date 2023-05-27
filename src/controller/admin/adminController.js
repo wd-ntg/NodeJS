@@ -95,11 +95,29 @@ const adminPage = async (req, res) => {
     return res.render('admin/admin.ejs');
 };
 
+const statisPage = async (req, res) => {
+    let rooms = await scheduleService.getAllRoom(req, res);
+    return res.render('admin/statis.ejs', {
+        rooms,
+        data: [],
+        errRoomEmpty: '',
+        resultStatis: [],
+        roomMaxCount: '',
+        maxCount: 0,
+        query: [],
+        room: '',
+        time: '',
+        date: '',
+        roomDescription: '',
+    });
+};
+
 export default {
     loginPage,
     roomPracPage,
     roomLabPage,
     calendarPage,
+    statisPage,
     historyPage,
     manageStudentPage,
     detailroomPracPage,

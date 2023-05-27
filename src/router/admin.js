@@ -8,6 +8,7 @@ import adminController from '../controller/admin/adminController';
 import roomController from '../controller/admin/roomController';
 import manageStudentController from '../controller/admin/manageStudentController';
 import scheduleController from '../controller/admin/scheduleController';
+import statisController from '../controller/admin/statisController';
 import pool from '../config/connectDB';
 
 import historyController from '../controller/admin/historyController';
@@ -72,6 +73,7 @@ const initAdminPage = (app) => {
     app.get('/history', adminController.historyPage);
     app.get('/schedule', adminController.schedulePage);
     app.get('/manage-student', adminController.manageStudentPage);
+    app.get('/statis', adminController.statisPage);
 
     // Detail RoomPrac
 
@@ -126,6 +128,16 @@ const initAdminPage = (app) => {
 
     app.post('/search-schedule', scheduleController.searchSchedule);
     app.post('/search-history', historyController.searchHistory);
+
+    // statis
+    app.post('/start-statis', statisController.startStatis);
+    app.post('/get-all-student-booking', statisController.getAllStudentBooking);
+    app.post('/back-statis', statisController.backStatis);
+
+    //sort statis
+    app.post('/sort-schedule-statis', statisController.sortScheduleStatis);
+
+    app.post('/search-student-statis', statisController.searchStudentStatis);
 
     return app.use('/', router);
 };

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="/css/statis.css" />
+
+        <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+
+        <link rel="stylesheet" href="/css/btnreturn.css" />
+
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+            integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <style>
+            .w3-bar-item {
+                border-right: 1px solid #ccc !important;
+            }
+            .w3-bar-item.active {
+                background-color: #00b158;
+                color: #fff;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="room-container">
+            <div class="w3-bar w3-border-bottom w3-light-grey">
+                <a href="/roomPrac" class="w3-bar-item w3-button">Phòng thực hành</a>
+                <a href="/roomLab" class="w3-bar-item w3-button">Phòng thí nghiệm</a>
+                <a href="/history" class="w3-bar-item w3-button">Lịch sử</a>
+                <a href="/manage-student" class="w3-bar-item w3-button">Quản lý sinh viên</a>
+                <a href="/schedule" class="w3-bar-item w3-button">Quản lý lịch học</a>
+                <a href="/statis" class="w3-bar-item w3-button active">Thống kê</a>
+                <a href="/" class="w3-bar-item w3-button log-out">Đăng xuất</a>
+            </div>
+            <div class="content__item-main">
+                <form action="/back-statis" method="POST">
+                    <button type="submit" class="content__item-text content__item-text--btn">
+                        <i class="fa-solid fa-rotate-left header__link-back--icon"></i>
+
+                        Quay lại
+                    </button>
+                </form>
+            </div>
+            <div class="room-header">
+                <h1>THỐNG KÊ SINH VIÊN THEO LỊCH HỌC</h1>
+            </div>
+
+            <% if (text) { %>
+
+            <p style="text-align: center; margin: 40px 0; color: green; font-size: 24px"><%=text %></p>
+
+            <% if (error) { %>
+
+            <p style="text-align: center; margin: 40px 0; color: red; font-size: 24px"><%=error %></p>
+            <div class="form-sort-container">
+                <form method="POST" class="form-sort-body" action="/search-student-statis">
+                    <select class="sort">
+                        <option value="none">Không sắp xếp</option>
+                        <option value="name">Sắp xếp theo tên</option>
+
+                        <option value="email">Sắp xếp theo email</option>
+
+                        <option value="mssv">Sắp xếp theo mssv</option>
+
+                        <option value="className">Sắp xếp theo lớp</option>
+
+                        <option value="gender">Sắp xếp theo giới tính</option>
+                    </select>
+                    <select class="looking">
+                        <option value="name">Tìm kiếm theo tên</option>
+
+                        <option value="email">Tìm kiếm theo email</option>
+
+                        <option value="mssv">Tìm kiếm theo mssv</option>
+
+                        <option value="className">Tìm kiếm theo lớp</option>
+
+                        <option value="gender">Tìm kiếm theo giới tính</option>
+                    </select>
+                    <input type="text" value="name" class="searchType" hidden name="searchType" />
+                    <input type="text" value="none" class="sortType" hidden name="sortType" />
+                    <input type="text" name="roomCode" hidden value="<%=roomCode %>" />
+                    <input type="text" name="time" hidden value="<%=time %>" />
+                    <input type="text" name="timeType" hidden value="<%=timeType %>" />
+                    <input type="text" name="text" hidden value="<%=text %>" />
+
+                    <input
+                        style="min-width: 300px; height: 40px; padding: 0 4px"
+                        class="search"
+                        type="search"
+                        name="keyword"
+                        placeholder="Tìm kiếm sinh viên..."
+                    />
+
+                    <button style="min-width: 70px" class="search__btn" type="submit">Tìm kiếm</button>
+                </form>
+            </div>
+            <div class="room-list">
+                <table id="customers">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên sinh viên</th>
+                            <th>Email</th>
+                            <th>MSSV</th>
+                            <th>Lớp</th>
+                            <th>Giới tính</th>
+                            <!-- <th>Các thao tác</th> -->
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <% } %> <% } %> <% if (data.length > 0) { %>
+            <div class="form-sort-container">
+                <form method="POST" class="form-sort-body" action="/search-student-statis">
+                    <select class="sort">
+                        <option value="none" 
+                        <% if (sortType === 'none') { %>
+                            selected
+                          <% } %>
+                        />
+                        Không sắp xếp</option>
+                        <option value="name" 
+                        <% if (sortType === 'name') { %>
+                            selected
+                          <% } %>
+                        />
+                        Sắp xếp theo tên</option>
+
+                        <option value="email"
+                        <% if (sortType === 'email') { %>
+                            selected
+                          <% } %>
+                        />
+                        Sắp xếp theo email</option>
+
+                        <option value="mssv"
+                        <% if (sortType === 'mssv') { %>
+                            selected
+                          <% } %>
+                        />
+                        Sắp xếp theo mssv</option>
+
+                        <option value="className"
+                        <% if (sortType === 'className') { %>
+                            selected
+                          <% } %>
+                        />
+                        Sắp xếp theo lớp</option>
+
+                        <option value="gender"
+                        <% if (sortType === 'gender') { %>
+                            selected
+                          <% } %>
+                        />
+                        Sắp xếp theo giới tính</option>
+
+                    </select>
+                    <select class="looking">
+                        <option value="name" 
+                        <% if (searchType === 'name') { %>
+                            selected
+                          <% } %>
+                        />
+                        Tìm kiếm theo tên</option>
+
+                        <option value="email"
+                        <% if (searchType === 'email') { %>
+                            selected
+                          <% } %>
+                        />
+                        Tìm kiếm theo email</option>
+
+                        <option value="mssv"
+                        <% if (searchType === 'mssv') { %>
+                            selected
+                          <% } %>
+                        />
+                        Tìm kiếm theo mssv</option>
+
+                        <option value="className"
+                        <% if (searchType === 'className') { %>
+                            selected
+                          <% } %>
+                        />
+                        Tìm kiếm theo lớp</option>
+
+                        <option value="gender"
+                        <% if (searchType === 'gender') { %>
+                            selected
+                          <% } %>
+                        />
+                        Tìm kiếm theo giới tính</option>
+
+                    </select>
+                    
+                    <input type="text" value="<%= searchType ? searchType : 'none' %>" class="searchType" hidden name="searchType" />
+                    <input type="text" value="<%= sortType ? sortType : 'none' %>" class="sortType" hidden name="sortType" />
+                    <input type="text" name="roomCode" hidden value="<%=roomCode %>" />
+                    <input type="text" name="time" hidden value="<%=time %>" />
+                    <input type="text" name="timeType" hidden value="<%=timeType %>" />
+                    <input type="text" name="text" hidden value="<%=text %>" />
+
+                    <input
+                        style="min-width: 300px; height: 40px; padding: 0 4px"
+                        class="search"
+                        type="search"
+                        name="keyword"
+                        placeholder="Tìm kiếm sinh viên..."
+                    />
+
+                    <button style="min-width: 70px" class="search__btn" type="submit">Tìm kiếm</button>
+                </form>
+            </div>
+
+            <div class="room-list">
+                <table id="customers">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên sinh viên</th>
+                            <th>Email</th>
+                            <th>MSSV</th>
+                            <th>Lớp</th>
+                            <th>Giới tính</th>
+                            <!-- <th>Các thao tác</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (let i=0; i< data.length; i++) { %>
+
+                        <tr>
+                            <td><%= i + 1 %></td>
+                            <td><%=data[i].name %></td>
+                            <td><%=data[i].email %></td>
+                            <td><%=data[i].mssv %></td>
+                            <td><%=data[i].className %></td>
+                            <td><%=data[i].keyName %></td>
+
+                            <!-- <td style="display: flex; gap: 15px; justify-content: center; align-items: center">
+                                <form action="/edit-student=statis/<%= data[i].id %>" method="GET">
+                                    <button class="room-action edit editBtn" type="submit">Edit</button>
+                                </form>
+                                <form action="/delete-student/<%= data[i].id %>" method="POST">
+                                    <button class="room-action delete deleteBtn" type="submit">Delete</button>
+                                </form>
+                            </td> -->
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+            <% } %>
+        </div>
+
+        <script>
+            let sortBtn = document.querySelector('.sort');
+            let lookingBtn = document.querySelector('.looking');
+            let inputTypeSearch = document.querySelector('.searchType');
+            let inputTypeSort = document.querySelector('.sortType');
+
+            let logOut = document.querySelector('.log-out');
+
+            logOut.onclick = (e) => {
+                let check = confirm('Bạn có xác nhận đăng xuất?');
+                if (!check) {
+                    e.preventDefault();
+                }
+            };
+
+            sortBtn.onchange = () => {
+                inputTypeSort.value = sortBtn.value;
+                // console.log(inputTypeSearch.value);
+            };
+
+            lookingBtn.onchange = () => {
+                inputTypeSearch.value = lookingBtn.value;
+                // console.log(inputTypeSearch.value);
+            };
+        </script>
+    </body>
+</html>

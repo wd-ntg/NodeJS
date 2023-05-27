@@ -25,6 +25,9 @@
             <a href="/history" class="w3-bar-item w3-button active">Lịch sử</a>
             <a href="/manage-student" class="w3-bar-item w3-button">Quản lý sinh viên</a>
             <a href="/schedule" class="w3-bar-item w3-button">Quản lý lịch học</a>
+            <a href="/statis" class="w3-bar-item w3-button">Thống kê</a>
+
+            <a href="/" class="w3-bar-item w3-button log-out">Đăng xuất</a>
         </div>
         <div class="room-header">
             <h2>Xem lịch sử</h2>
@@ -85,5 +88,15 @@
                 </table>
             </div>
         </div>
+        <script>
+            let logOut = document.querySelector('.log-out');
+
+            logOut.onclick = (e) => {
+                let check = confirm('Bạn có xác nhận đăng xuất?');
+                if (!check) {
+                    e.preventDefault();
+                }
+            };
+        </script>
     </body>
 </html>
