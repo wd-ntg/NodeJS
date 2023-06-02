@@ -60,7 +60,7 @@
                         <button class="search__btn" type="submit">Tìm kiếm</button>
                     </form>
                 </div> -->
-                <div class="slide__right">
+                <!-- <div class="slide__right">
                         
                     <form method="POST" action="/search-student-history">
                         <select class="sort">
@@ -97,7 +97,13 @@
                               <% } %>
                             />
                             Sắp xếp theo ngày học</option>
-            
+                            
+                            <option value="timelogin"
+                            <% if (sortType === 'timelogin') { %>
+                                selected
+                              <% } %>
+                            />
+                            Sắp xếp theo thời gian đăng ký</option>
                         </select>
                         <select class="looking">
                             <option value="object" 
@@ -148,7 +154,7 @@
 
                         <button class="search__btn" type="submit">Tìm kiếm</button>
                     </form>
-                </div>
+                </div> -->
             </div>
             <div class="room-list">
                 <table id="customers">
@@ -203,4 +209,3 @@
         </script>
     </body>
 </html>
-

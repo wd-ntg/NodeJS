@@ -198,7 +198,7 @@ const searchStudentHistory = async (req, res) => {
     const searchType = req.body.searchType;
     const keyword = req.body.keyword;
     const code = req.body.code;
-    console.log(req.body);
+    // console.log(req.body);
     let email = req.body.email;
 
     //const [query] = await pool.execute(`SELECT * FROM room WHERE name LIKE '%${keyword}%' and roleid=?`, [code]);
@@ -210,22 +210,61 @@ const searchStudentHistory = async (req, res) => {
             [query] = await pool.execute(
                 `SELECT *
             FROM historystudent
-            JOIN allcode ON allcode.code = historystudent.schedule WHERE historystudent.email = ? AND allcode.keyName LIKE '%${keyword}%' OR historystudent.${searchType} LIKE '%${keyword}%'
+            JOIN allcode ON allcode.code = historystudent.schedule WHERE historystudent.email = ? AND historystudent.${searchType} LIKE '%${keyword}%' 
             ORDER BY STR_TO_DATE(historystudent.timestudy, '%d/%m/%Y') DESC 
             `,
                 [email],
             );
-            //console.log('asdasdasdasd');
+        } else if (sortType === 'timelogin') {
+            [query] = await pool.execute(
+                `SELECT *
+                FROM historystudent
+                JOIN allcode ON allcode.code = historystudent.schedule
+                WHERE historystudent.email = ? 
+                  AND historystudent.${searchType} LIKE '%${keyword}%' 
+                ORDER BY STR_TO_DATE(historystudent.timelogin, '%H:%i:%s %d/%m/%Y') DESC;                
+            `,
+                [email],
+            );
         } else if (searchType === 'timelogin') {
             [query] = await pool.execute(
                 `
             SELECT *
-            FROM historyStudent
-            JOIN allcode ON allcode.code = historyStudent.schedule
-    WHERE DATE_FORMAT(STR_TO_DATE(SUBSTRING_INDEX(historystudent.timestudy, ' ', -1), '%d/%m/%Y'), '%d/%m/%Y') LIKE '%${keyword}%' AND historystudent.email = ?
+            FROM historystudent
+            JOIN allcode ON allcode.code = historystudent.schedule
+    WHERE DATE_FORMAT(STR_TO_DATE(SUBSTRING_INDEX(historystudent.timelogin, ' ', -1), '%d/%m/%Y'), '%d/%m/%Y') LIKE '%${keyword}%' AND historystudent.email = ? ORDER BY historystudent.${sortType}
 `,
                 [email],
             );
+        } else if (searchType === 'schedule') {
+            [query] = await pool.execute(
+                `SELECT *
+                FROM historyStudent
+                JOIN allcode ON allcode.code = historyStudent.schedule
+                    WHERE historystudent.${searchType} LIKE '%${keyword}%' OR allcode.keyName LIKE '%${keyword}%' AND historystudent.email = ? ORDER BY historystudent.${sortType}
+                    `,
+                [email],
+            );
+        } else if (sortType === 'schedule' && searchType === 'schedule') {
+            if (keyword === '') {
+                [query] = await pool.execute(
+                    `SELECT *
+                    FROM historyStudent
+                    JOIN allcode ON allcode.code = historyStudent.schedule
+                        WHERE historystudent.${searchType} LIKE '%${keyword}%' AND historystudent.email = ? ORDER BY historystudent.${sortType}
+                        `,
+                    [email],
+                );
+            } else {
+                [query] = await pool.execute(
+                    `SELECT *
+                    FROM historyStudent
+                    JOIN allcode ON allcode.code = historyStudent.schedule
+                        WHERE historystudent.${searchType} LIKE '%${keyword}%' OR allcode.keyName LIKE '%${keyword}%' AND historystudent.email = ? ORDER BY historystudent.${sortType}
+                        `,
+                    [email],
+                );
+            }
         } else {
             // Xử lý tìm kiếm và sắp xếp theo các trường khác
             [query] = await pool.execute(
@@ -236,6 +275,7 @@ const searchStudentHistory = async (req, res) => {
                     `,
                 [email],
             );
+            console.log(searchType);
         }
     } else {
         if (searchType === 'timestudy') {
@@ -251,13 +291,14 @@ const searchStudentHistory = async (req, res) => {
         } else if (searchType === 'timelogin') {
             [query] = await pool.execute(
                 `
-            SELECT *, IF(allcode.code = historyStudent.schedule, allcode.keyName, historyStudent.schedule) AS modifiedSchedule
+            SELECT *
             FROM historyStudent
             JOIN allcode ON allcode.code = historyStudent.schedule
-    WHERE DATE_FORMAT(STR_TO_DATE(SUBSTRING_INDEX(historystudent.timestudy, ' ', -1), '%d/%m/%Y'), '%d/%m/%Y') LIKE '%${keyword}%' AND historystudent.email = ?
+    WHERE DATE_FORMAT(STR_TO_DATE(SUBSTRING_INDEX(historystudent.timelogin, ' ', -1), '%d/%m/%Y'), '%d/%m/%Y') LIKE '%${keyword}%' AND historystudent.email = ?
 `,
                 [email],
             );
+            console.log(searchType);
         } else if (searchType === 'schedule') {
             [query] = await pool.execute(
                 `SELECT *, IF(allcode.code = historyStudent.schedule, allcode.keyName, historyStudent.schedule) AS modifiedSchedule

@@ -54,7 +54,12 @@ const initAdminPage = (app) => {
             // res.send(
             //     `You have uploaded this image: <hr/><img src="/img/${req.file.filename}" width="500"><hr /><a href="./">Upload another image</a>`,
             // );
-            return res.redirect(`/detail-roomPrac/${id}`);
+            let [room] = await pool.execute('select * from room where room.id = ? ', [id]);
+            if (room[0].roleid === 'TH') {
+                return res.redirect(`/detail-roomPrac/${id}`);
+            } else {
+                return res.redirect(`/detail-roomLab/${id}`);
+            }
         });
     });
 
@@ -66,8 +71,8 @@ const initAdminPage = (app) => {
 
     app.post('/', adminController.submitUser);
 
-    app.get('/update__page', adminController.updatePage);
-    app.post('/update__acc', adminController.updateAcc);
+    // app.get('/update__page', adminController.updatePage);
+    // app.post('/update__acc', adminController.updateAcc);
 
     app.get('/admin', adminController.adminPage);
     app.get('/roomPrac', adminController.roomPracPage);
