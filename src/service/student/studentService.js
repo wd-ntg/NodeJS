@@ -100,8 +100,8 @@ const bookingConfirm = async (req, res) => {
         const dateTime = `${formattedTime}  ${formattedDate}`;
 
         await pool.execute(
-            'insert into historyStudent(studentcode, email, object, name, schedule, timelogin) values (?, ?, ?, ?, ?, ?)',
-            [student[0].mssv, student[0].email, room[0].name, roomCode, timeType, dateTime],
+            'insert into historyStudent(studentcode, email, object, name, schedule, timestudy, timelogin) values (?, ?, ?, ?, ?, ?, ?)',
+            [student[0].mssv, student[0].email, room[0].name, roomCode, timeType, time, dateTime],
         );
 
         await pool.execute('update schedule set current_student = ? where roomCode = ? and time = ? and timeType = ?', [

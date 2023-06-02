@@ -66,6 +66,9 @@ const initAdminPage = (app) => {
 
     app.post('/', adminController.submitUser);
 
+    app.get('/update__page', adminController.updatePage);
+    app.post('/update__acc', adminController.updateAcc);
+
     app.get('/admin', adminController.adminPage);
     app.get('/roomPrac', adminController.roomPracPage);
     app.get('/roomLab', adminController.roomLabPage);
@@ -103,6 +106,7 @@ const initAdminPage = (app) => {
 
     //CRUD device
     app.post('/create-newTB', roomController.createNewDevice);
+    // app.post('/create-newTB-Lab', roomController.createNewDeviceLab);
     app.post('/delete-device', roomController.deleteDevice);
     app.post('/edit-device', roomController.editDevice);
     app.post('/post-edit-device', roomController.postEditDevice);

@@ -118,3 +118,33 @@ input[type='checkbox'] {
     color: rgb(250, 0, 0, 0.7);
     font-size: 14px;
 }
+
+.wrap__icon-eye {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 8px 0 16px 0;
+}
+
+.icon__item {
+    margin: 8px 0 16px 0;
+}
+
+.icon__item {
+    margin-left: 4px;
+    cursor: pointer;
+}
+
+.noty__warning {
+    color: red;
+    font-size: 15px;
+    border-bottom: 1px solid red;
+}
+
+.wrap__noty-warning {
+    margin-bottom: 12px;
+}
+
+.hidden__warning {
+    display: none;
+}

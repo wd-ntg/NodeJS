@@ -119,8 +119,7 @@ const editroomLabService = async (req, res) => {
 
 const postEditRoomService = async (req, res) => {
     let { name, code, description, specialty, maxStudent, id } = req.body;
-
-    await pool.execute(
+    let [data] = await pool.execute(
         'update room set roleId = ?,name=?, code=? , description = ?, specialty= ?, max_student=? where id = ?',
         ['TN', name, code, description, specialty, maxStudent, id],
     );
@@ -156,8 +155,10 @@ const postEditRoomService = async (req, res) => {
         action,
         dateTime,
     ]);
-
+    // return res.render('admin/room/roomLab.ejs', { sortType: 'none', searchType: 'name', data: data, error: '' });
     return res.redirect('/roomLab');
+
+    // return res.redirect('/roomLab');
 };
 
 const getDetailroomLab = async (req, res) => {
@@ -181,17 +182,41 @@ const getAllDevice = async (req, res) => {
 };
 
 const createNewDeviceService = async (req, res) => {
+    // let { deviceName, description, quantity, id } = req.body;
+
+    // let [room, fields] = await pool.execute('select * from room where id = ?', [id]);
+
+    // await pool.execute('insert into device(code, quantity, roomName, deviceName, description) values (?, ?, ?, ?, ?)', [
+    //     room[0].code,
+    //     quantity,
+    //     room[0].name,
+    //     deviceName,
+    //     description,
+    // ]);
+
+    // return res.redirect(`/detail-roomLab/${id}`);
     let { deviceName, description, quantity, id } = req.body;
 
     let [room, fields] = await pool.execute('select * from room where id = ?', [id]);
 
-    await pool.execute('insert into device(code, quantity, roomName, deviceName, description) values (?, ?, ?, ?, ?)', [
-        room[0].code,
-        quantity,
-        room[0].name,
+    let [device] = await pool.execute('select * from device where deviceName = ? and code = ?', [
         deviceName,
-        description,
+        room[0].code,
     ]);
+
+    if (device.length > 0) {
+        await pool.execute('update device set quantity = ?, description = ? where deviceName = ? and code = ? ', [
+            +device[0].quantity + +quantity,
+            description,
+            deviceName,
+            room[0].code,
+        ]);
+    } else {
+        await pool.execute(
+            'insert into device(code, quantity, roomName, deviceName, description) values (?, ?, ?, ?, ?)',
+            [room[0].code, quantity, room[0].name, deviceName, description],
+        );
+    }
 
     return res.redirect(`/detail-roomLab/${id}`);
 };

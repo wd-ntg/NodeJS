@@ -185,23 +185,43 @@ const createNewDeviceService = async (req, res) => {
 
     let [room, fields] = await pool.execute('select * from room where id = ?', [id]);
 
-    await pool.execute('insert into device(code, quantity, roomName, deviceName, description) values (?, ?, ?, ?, ?)', [
-        room[0].code,
-        quantity,
-        room[0].name,
+    let [device] = await pool.execute('select * from device where deviceName = ? and code = ?', [
         deviceName,
-        description,
+        room[0].code,
     ]);
 
-    return res.redirect(`/detail-roomPrac/${id}`);
+    if (device.length > 0) {
+        await pool.execute('update device set quantity = ?, description = ? where deviceName = ? and code = ? ', [
+            +device[0].quantity + +quantity,
+            description,
+            deviceName,
+            room[0].code,
+        ]);
+    } else {
+        await pool.execute(
+            'insert into device(code, quantity, roomName, deviceName, description) values (?, ?, ?, ?, ?)',
+            [room[0].code, quantity, room[0].name, deviceName, description],
+        );
+    }
+
+    if (room[0].roleid === 'TH') {
+        return res.redirect(`/detail-roomPrac/${id}`);
+    } else {
+        return res.redirect(`/detail-roomLab/${id}`);
+    }
 };
 
 const deleteDeviceService = async (req, res) => {
     let { roomId, deviceId } = req.body;
 
-    await pool.execute('delete from device where id = ?', [deviceId]);
-
-    return res.redirect(`/detail-roomPrac/${roomId}`);
+    let [room] = await pool.execute('select * from room where room.id = ?', [roomId]);
+    if (room.roleid === 'TH') {
+        await pool.execute('delete from device where id = ?', [deviceId]);
+        return res.redirect(`/detail-roomPrac/${roomId}`);
+    } else {
+        await pool.execute('delete from device where id = ?', [deviceId]);
+        return res.redirect(`/detail-roomLab/${roomId}`);
+    }
 };
 
 const editDeviceService = async (req, res) => {
@@ -209,21 +229,33 @@ const editDeviceService = async (req, res) => {
     let { roomId, deviceId } = req.body;
     let [device] = await pool.execute('select * from device where id = ?', [deviceId]);
     //const [rows, fields] = await pool.execute('SELECT * FROM `student` ');
-
-    return res.render('admin/device/editDevice.ejs', { data: device[0], roomId: roomId });
+    let [room] = await pool.execute('select * from room where room.id = ?', [roomId]);
+    if (room.roleid === 'TH') {
+        return res.render('admin/device/editDevice.ejs', { data: device[0], roomId: roomId });
+    } else {
+        return res.render('admin/device/editDeviceLab.ejs', { data: device[0], roomId: roomId });
+    }
 };
 
 const postEditDeviceService = async (req, res) => {
     let { quantity, description, deviceName, deviceId, roomId } = req.body;
 
     let [room, fields] = await pool.execute('select * from room where id = ?', [roomId]);
+    if (room.roleid === 'TH') {
+        await pool.execute(
+            'update device set code = ?, quantity = ?, roomName = ?, deviceName = ? , description = ? where id = ?',
+            [room[0].code, quantity, room[0].name, deviceName, description, deviceId],
+        );
 
-    await pool.execute(
-        'update device set code = ?, quantity = ?, roomName = ?, deviceName = ? , description = ? where id = ?',
-        [room[0].code, quantity, room[0].name, deviceName, description, deviceId],
-    );
+        return res.redirect(`/detail-roomPrac/${roomId}`);
+    } else {
+        await pool.execute(
+            'update device set code = ?, quantity = ?, roomName = ?, deviceName = ? , description = ? where id = ?',
+            [room[0].code, quantity, room[0].name, deviceName, description, deviceId],
+        );
 
-    return res.redirect(`/detail-roomPrac/${roomId}`);
+        return res.redirect(`/detail-roomLab/${roomId}`);
+    }
 };
 
 export default {

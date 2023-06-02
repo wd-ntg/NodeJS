@@ -37,6 +37,7 @@ const getAllStudentBooking = async (req, res) => {
 
     let data = await statisService.getAllStudentBooking(req, res);
     let [room] = await pool.execute(`select * from room where code = ?`, [roomCode]);
+    console.log(roomCode);
     let text;
     if (data.length > 0) {
         text = `Hiện tại phòng ${roomCode} ${room[0].name} có tất cả ${data.length} sinh viên đăng ký`;
@@ -173,7 +174,7 @@ const searchStudentStatis = async (req, res) => {
                 INNER JOIN allcode ON allcode.code = student.gender
                 JOIN booking on booking.mssv = student.mssv
                 WHERE allcode.keyName LIKE '%${keyword}%' AND student.roleId = ? AND booking.roomCode = ? and booking.time = ? and booking.timeType = ?  ORDER BY student.${sortType}
-                `,
+`,
                 ['R2', roomCode, time, timeType],
             );
         } else {

@@ -97,6 +97,7 @@
                         <div class="content__left">
                             <form class="content__item" action="/booking" method="GET">
                                 <input type="text" hidden value="<%= data.id %>" name="id" />
+                                <input type="text" hidden value="<%= data.mssv %>" name="mssv" />
                                 <div class="content__item-main">
                                     <div class="content__item-icon">
                                         <img class="content__icon active" src="/image/dangky.jpg" alt="" />
@@ -130,6 +131,7 @@
                             <form class="content__item" action="/history-student" method="GET">
                                 <input type="text" hidden value="<%= data.id %>" name="id" />
                                 <input type="text" hidden value="<%= data.email %>" name="email" />
+                                <input type="text" hidden value="<%= data.mssv %>" name="mssv" />
                                 <div class="content__item-main">
                                     <div class="content__item-icon">
                                         <img class="content__icon active" src="/image/history-6534506.png" alt="" />
@@ -157,6 +159,7 @@
                         </div>
                     </main>
                 </div>
+
                 <div class="wrap__page-student--right">
                     <main class="content__page-student--right">
                         <div class="content__item-img active">
@@ -244,6 +247,9 @@
                     </main>
                 </div>
             </div>
+            <form class="" action="/update__page" method="GET">
+                <button type="submit" class="content__item-text content__item-text--btn">Thay đổi mật khẩu</button>
+            </form>
         </div>
 
         <script src="/js/student.js"></script>

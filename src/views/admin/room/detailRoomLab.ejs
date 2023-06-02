@@ -5,9 +5,37 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="/css/detailRoom.css" />
+        <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+
         <title>Document</title>
+        <style>
+            .w3-bar-item {
+                border-right: 1px solid #ccc !important;
+            }
+            .w3-bar-item.active {
+                background-color: #00b158;
+                color: #fff;
+            }
+            h2 {
+                margin: 10px;
+                text-align: center;
+                color: red;
+            }
+        </style>
     </head>
     <body>
+        <div class="w3-bar w3-border-bottom w3-light-grey">
+            <a href="/admin" class="w3-bar-item w3-button">ADMIN</a>
+            <a href="/roomPrac" class="w3-bar-item w3-button">Phòng thực hành</a>
+            <a href="/roomLab" class="w3-bar-item w3-button active">Phòng thí nghiệm</a>
+            <a href="/history" class="w3-bar-item w3-button">Lịch sử</a>
+            <a href="/manage-student" class="w3-bar-item w3-button">Quản lý sinh viên</a>
+            <a href="/schedule" class="w3-bar-item w3-button">Quản lý lịch học</a>
+            <a href="/statis" class="w3-bar-item w3-button">Thống kê</a>
+
+            <a href="/" class="w3-bar-item w3-button log-out">Đăng xuất</a>
+        </div>
         <div class="detail-room-container">
             <h1 class="title">Quản lí phòng thí nghiệm</h1>
             <div class="dr-body">

@@ -163,13 +163,41 @@ const searchRoomPrac = async (req, res) => {
     });
 };
 const searchRoomLab = async (req, res) => {
+    const sortType = req.body.sortType;
+    const searchType = req.body.searchType;
     const keyword = req.body.keyword;
     const code = req.body.code;
-    const [query] = await pool.execute(`SELECT * FROM room WHERE name LIKE '%${keyword}%' and roleid=?`, [code]);
-    //let [room] = await pool.execute('select * from room where code = ?', [code]);
+    //const [query] = await pool.execute(`SELECT * FROM room WHERE name LIKE '%${keyword}%' and roleid=?`, [code]);
 
-    //console.log('keywơrd: ', query);
-    return res.render('admin/room/roomLab.ejs', { data: query, roomLab: false, error: '' });
+    let query;
+
+    if (sortType !== 'none') {
+        [query] = await pool.execute(
+            `SELECT room.*, allcode.keyName
+                FROM room
+                INNER JOIN allcode ON allcode.code = room.roleid
+                WHERE room.${searchType} LIKE '%${keyword}%' AND room.roleid = ? ORDER BY room.${sortType}
+                `,
+            [code],
+        );
+    } else {
+        [query] = await pool.execute(
+            `SELECT room.*, allcode.keyName
+                FROM room
+                INNER JOIN allcode ON allcode.code = room.roleid
+                WHERE room.${searchType} LIKE '%${keyword}%' AND room.roleid = ? 
+                `,
+            [code],
+        );
+    }
+
+    return res.render('admin/room/roomLab.ejs', {
+        sortType: 'none',
+        searchType: 'name',
+        data: query,
+        roomPrac: false,
+        error: '',
+    });
 };
 
 export default {

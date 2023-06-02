@@ -16,9 +16,10 @@
     </head>
     <body>
         <div class="form__wrap">
-            <form class="form form-login" action="/" method="POST" id="register-form">
-                <span class="signup">Log in</span>
+            <form class="form form-login" action="/update__acc" method="POST" id="register-form">
+                <span class="signup">Đổi mật khẩu</span>
                 <input
+                    oninput="clearErrorMessage()"
                     type="email"
                     placeholder="Nhập địa chỉ email"
                     class="form--input"
@@ -29,28 +30,41 @@
                 <div class="wrap__noty-warning">
                     <span id="error-message" class="noty__warning"><%=err%></span>
                 </div>
-
                 <input
                     id="password"
                     type="password"
                     name="password"
-                    placeholder="Password"
+                    placeholder="Nhập mật khẩu cũ"
                     class="form--input input-password"
                     required
                 />
                 <div class="wrap__noty-warning">
                     <span id="error-message" class="noty__warning"><%=errpass%></span>
                 </div>
-                <!-- <div class="form--marketing">
-                    <input id="okayToEmail-signup" type="checkbox" />
-                    <label for="okayToEmail-signup" class="checkbox"> I agree to all terms </label>
-                    <span class="notify"></span>
-                </div> -->
+                <input
+                    id="password-new"
+                    type="password"
+                    name="password_new"
+                    placeholder="Nhập mật khẩu mới"
+                    class="form--input input-password form--password"
+                    required
+                />
+                <input
+                    id="password-confirm"
+                    name="password_confirm"
+                    type="password"
+                    placeholder="Xác nhận mật khẩu"
+                    class="form--input form--password-confirm input-password"
+                    required
+                />
+                <div class="wrap__noty-warning">
+                    <span id="error-message" class="noty__warning"><%=errconfirm%></span>
+                </div>
                 <div class="icon__item">
                     Hiển thị nội dung mật khẩu
                     <i class="fa-solid fa-eye icon__item-eye"></i>
                 </div>
-                <button class="form--submit" type="submit">Log in</button>
+                <button class="form--submit" type="submit">Submit</button>
             </form>
         </div>
         <script>
@@ -73,7 +87,7 @@
                 if (formData) {
                     const { name, email, password } = JSON.parse(formData);
                     document.getElementById('email').value = email;
-                    document.getElementById('password').value = password;
+                    // document.getElementById('password').value = password;
 
                     // Xóa dữ liệu trong localStorage
                     localStorage.removeItem('register-form-data');
@@ -111,16 +125,16 @@
                 icon__item.onmouseup = function () {
                     password_change.type = 'password';
                 };
-                let wrap__noty_warning = document.querySelectorAll('.noty__warning');
-                let hidden__warning = document.querySelectorAll('.form--input');
-                console.log(hidden__warning);
-                for (let i = 0; i < hidden__warning.length; i++) {
-                    hidden__warning[i].onclick = function () {
-                        wrap__noty_warning[i].classList.add('hidden__warning');
-                    };
-                }
             });
+            let wrap__noty_warning = document.querySelectorAll('.noty__warning');
+            let hidden__warning = document.querySelectorAll('.form--input');
+            console.log(hidden__warning);
+            for (let i = 0; i < hidden__warning.length; i++) {
+                hidden__warning[i].onclick = function () {
+                    wrap__noty_warning[i].classList.add('hidden__warning');
+                };
+            }
         </script>
-        <script src="/js/login.js"></script>
+        <script src="/js/changepass.js"></script>
     </body>
 </html>

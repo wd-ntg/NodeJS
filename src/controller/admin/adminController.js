@@ -16,19 +16,58 @@ const submitUser = async (req, res) => {
 
     if (!user[0]) {
         3;
-        return res.send('Dia chi email khong ton tai');
+        return res.render('login.ejs', { err: 'Địa chỉ email không tồn tại. Vui lòng nhập lại!', errpass: '' });
     } else {
         if (user[0].password !== password) {
-            return res.send('Mat khau khong chinh xac, vui long nhap lai');
+            return res.render('login.ejs', { err: '', errpass: 'Mật khẩu không chính xác. Vui lòng nhập lại!' });
         } else {
             if (user[0].roleId === 'R1') {
                 // return res.render('admin/history.ejs');
-                return res.render('admin/admin.ejs', { data: user[0] });
+                return res.render('admin/admin.ejs', { data: user[0], err: '', errpass: '' });
             } else {
-                return res.render('student/student.ejs', { data: user[0] });
+                return res.render('student/student.ejs', { data: user[0], err: '', errpass: '' });
             }
         }
     }
+};
+const updateAcc = async (req, res) => {
+    let { email, password, password_new, password_confirm } = req.body;
+
+    let [user] = await pool.execute('select * from student where email = ?', [email]);
+
+    if (!user[0]) {
+        3;
+        return res.render('changepass.ejs', {
+            err: 'Địa chỉ email không tồn tại. Vui lòng nhập lại!',
+            errpass: '',
+            errconfirm: '',
+        });
+    } else {
+        if (user[0].password !== password) {
+            return res.render('changepass.ejs', {
+                err: '',
+                errpass: 'Mật khẩu không chính xác. Vui lòng nhập lại!',
+                errconfirm: '',
+            });
+        } else {
+            if (password_new !== password_confirm) {
+                // return res.render('admin/history.ejs');
+                return res.render('changepass.ejs', {
+                    data: user[0],
+                    err: '',
+                    errpass: '',
+                    errconfirm: 'Mật khẩu xác nhận không chính xác. Vui lòng nhập lại!',
+                });
+            } else {
+                await pool.execute('update student set  password=? where email = ?', [password_new, email]);
+                return res.render('login.ejs', { data: user[0], err: '', errpass: '', errconfirm: '' });
+            }
+        }
+    }
+};
+
+const updatePage = async (req, res) => {
+    res.render('changepass.ejs', { err: '', errpass: '', errconfirm: '' });
 };
 
 const roomPracPage = async (req, res) => {
@@ -45,7 +84,13 @@ const roomPracPage = async (req, res) => {
 
 const roomLabPage = async (req, res) => {
     let data = await adminRoomLabService.getAllroomLab();
-    return res.render('admin/room/roomLab.ejs', { data: data, roomLab: false, error: '' });
+    return res.render('admin/room/roomLab.ejs', {
+        sortType: 'none',
+        searchType: 'name',
+        data: data,
+        roomPrac: false,
+        error: '',
+    });
 };
 
 const calendarPage = (req, res) => {
@@ -57,7 +102,13 @@ const historyPage = async (req, res) => {
 
     let error = '';
 
-    return res.render('admin/history.ejs', { data: data, error: error });
+    return res.render('admin/history.ejs', {
+        sortType: 'none',
+        searchType: 'name',
+        data: data,
+        roomPrac: false,
+        error: '',
+    });
 };
 
 const schedulePage = async (req, res) => {
@@ -88,7 +139,7 @@ const detailroomLabPage = async (req, res) => {
 };
 
 const formLogin = async (req, res) => {
-    return res.render('login.ejs');
+    return res.render('login.ejs', { err: '', errpass: '', errconfirm: '' });
 };
 
 const adminPage = async (req, res) => {
@@ -126,4 +177,6 @@ export default {
     formLogin,
     submitUser,
     adminPage,
+    updateAcc,
+    updatePage,
 };

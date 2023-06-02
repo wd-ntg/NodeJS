@@ -12,8 +12,8 @@ const getDataStatis = async (req, res) => {
     let roomMaxCount = '';
     let roomDescription = '';
     let maxCount;
-
-    if (roomCode === 'all') {
+    console.log(roomCode);
+    if (roomCode === 'all' || roomCode === 'Tất cả các phòng') {
         if (dateCode === 'all') {
             [schedule] = await pool.execute(
                 `select schedule.*, allcode.keyName from schedule inner join allcode on allcode.code = schedule.timeType`,
@@ -108,9 +108,13 @@ const getDataStatis = async (req, res) => {
 
         let [nameRoom] = await pool.execute(`SELECT * FROM room WHERE code = ? `, [roomCode]);
         if (schedule.length === 0) {
-            errRoomEmpty = `Hiện tại phòng ${roomCode} ${nameRoom[0].name} chưa có lịch học trong thời gian này`;
+            errRoomEmpty = `Hiện tại phòng ${roomCode} ${
+                nameRoom[0] && nameRoom[0].name
+            } chưa có lịch học trong thời gian này`;
         } else {
-            roomDescription = `Phòng ${roomCode} ${nameRoom[0].name} đang có tất cả ${schedule.length} lịch học trong khoảng thời gian được chọn`;
+            roomDescription = `Phòng ${roomCode} ${nameRoom[0] && nameRoom[0].name} đang có tất cả ${
+                schedule.length
+            } lịch học trong khoảng thời gian được chọn`;
         }
     }
 

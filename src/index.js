@@ -15,7 +15,7 @@ initAdminPage(app);
 initStudentPage(app);
 
 app.get('/', (req, res) => {
-    res.render('login.ejs');
+    res.render('login.ejs', { err: '', errpass: '', errconfirm: '' });
 });
 
 app.listen(port, () => {

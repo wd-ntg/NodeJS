@@ -20,6 +20,7 @@
     </head>
     <body>
         <div class="w3-bar w3-border-bottom w3-light-grey">
+            <a href="/admin" class="w3-bar-item w3-button">ADMIN</a>
             <a href="/roomPrac" class="w3-bar-item w3-button">Phòng thực hành</a>
             <a href="/roomLab" class="w3-bar-item w3-button">Phòng thí nghiệm</a>
             <a href="/history" class="w3-bar-item w3-button active">Lịch sử</a>
@@ -41,11 +42,98 @@
             <div class="slide">
                 <div class="add-room"></div>
                 <div class="slide__right">
-                    <form method="POST" action="/search-history">
+                    <!-- <form method="POST" action="/search-history">
                         <input class="search" type="search" name="keyword" placeholder="Tìm kiếm..." />
                         <% for (let i=0; i< data.length; i++) { %>
                         <input type="text" name="code" hidden value="<%=data[i].code %>" />
                         <% } %>
+                        <button class="search__btn" type="submit">Tìm kiếm</button>
+                    </form> -->
+                </div>
+                <div class="slide__right">
+                        
+                    <form method="POST" action="/search-history">
+                        <select class="sort">
+                            <option value="none" 
+                            <% if (sortType === 'none') { %>
+                                selected
+                              <% } %>
+                            />
+                            Không sắp xếp</option>
+                            <option value="object" 
+                            <% if (sortType === 'object') { %>
+                                selected
+                              <% } %>
+                            />
+                            Sắp xếp theo đối tượng</option>
+
+                            <option value="name"
+                            <% if (sortType === 'name') { %>
+                                selected
+                              <% } %>
+                            />
+                            Sắp xếp theo tên</option>
+
+                            <option value="code"
+                            <% if (sortType === 'code') { %>
+                                selected
+                              <% } %>
+                            />
+                            Sắp xếp theo mã</option>
+
+                            <option value="action"
+                            <% if (sortType === 'action') { %>
+                                selected
+                              <% } %>
+                            />
+                            Sắp xếp theo hành động</option>
+            
+                        </select>
+                        <select class="looking">
+                            <option value="object" 
+                            <% if (searchType === 'object') { %>
+                                selected
+                              <% } %>
+                            />
+                            Tìm kiếm theo đối tượng</option>
+
+                            <option value="name"
+                            <% if (searchType === 'name') { %>
+                                selected
+                              <% } %>
+                            />
+                            Tìm kiếm theo tên</option>
+
+                            <option value="code"
+                            <% if (searchType === 'code') { %>
+                                selected
+                              <% } %>
+                            />
+                            Tìm kiếm theo mã</option>
+                            <option value="action"
+                            <% if (searchType === 'action') { %>
+                                selected
+                              <% } %>
+                            />
+                            Tìm kiếm theo hành động</option>
+                            <option value="time"
+                            <% if (searchType === 'time') { %>
+                                selected
+                              <% } %>
+                            />
+                            Tìm kiếm theo thời gian thực hiện (Ví dụ: 08/08/2023)</option>
+
+
+                        </select>
+                        <input type="text" value="name" class="searchType" hidden name="searchType" />
+                        <input type="text" value="none" class="sortType" hidden name="sortType" />
+
+
+                        <input class="search" type="search" name="keyword" placeholder="Tìm kiếm..." />
+                        <% for (let i=0; i< data.length; i++) { %>
+                            <input type="text" name="code" hidden value="<%=data[i].code %>" />
+                            <% } %>
+
                         <button class="search__btn" type="submit">Tìm kiếm</button>
                     </form>
                 </div>
@@ -97,6 +185,28 @@
                     e.preventDefault();
                 }
             };
+
+            let sortBtn = document.querySelector('.sort');
+            let lookingBtn = document.querySelector('.looking');
+            let inputTypeSearch = document.querySelector('.searchType');
+            let inputTypeSort = document.querySelector('.sortType');
+            sortBtn.onchange = () => {
+                inputTypeSort.value = sortBtn.value;
+                // console.log(inputTypeSearch.value);
+            };
+            lookingBtn.onchange = () => {
+                inputTypeSearch.value = lookingBtn.value;
+                // console.log(inputTypeSearch.value);
+            };
         </script>
     </body>
 </html>
+
+
+<!-- <option value="time"
+                            <% if (sortType === 'time') { %>
+                                selected
+                              <% } %>
+                            />
+                            Sắp xếp theo thời gian</option>
+                             -->
